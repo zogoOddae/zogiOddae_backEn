@@ -2,6 +2,7 @@ package com.zerobase.zogi_o_ddae.domain.entity.coupon;
 
 import com.zerobase.zogi_o_ddae.domain.entity.common.BaseEntity;
 import com.zerobase.zogi_o_ddae.domain.type.CouponTarget;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.Audited;
 
 @Entity
 @Getter
@@ -29,4 +29,6 @@ public class CouponGroup extends BaseEntity{
 	private Long salePrice;
 	private CouponTarget couponTarget;
 	private Integer count;
+
+	private LocalDateTime endTime;
 }

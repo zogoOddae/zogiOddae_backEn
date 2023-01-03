@@ -1,11 +1,11 @@
-package com.zerobase.zogi_o_ddae.domain.entity.coupon;
+package com.zerobase.leisure.domain.entity.order;
 
-import com.zerobase.zogi_o_ddae.domain.entity.common.BaseEntity;
-import java.time.LocalDateTime;
+import com.zerobase.leisure.domain.entity.common.BaseEntity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,16 +20,18 @@ import org.hibernate.envers.AuditOverride;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class Coupon extends BaseEntity{
+public class OrderItem extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@ManyToOne
+	private Order order;
+
 	private Long customerId;
-	private Long couponGroupId;
+	private Long sellerId;
 
-	private boolean used;
+	private Long leisureId;
 
-	private LocalDateTime usedTime;
-
-	private LocalDateTime endTime;
+	private Integer price;
 }

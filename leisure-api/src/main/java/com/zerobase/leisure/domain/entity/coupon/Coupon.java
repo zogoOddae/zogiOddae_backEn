@@ -1,6 +1,6 @@
-package com.zerobase.zogi_o_ddae.domain.entity.coupon;
+package com.zerobase.leisure.domain.entity.coupon;
 
-import com.zerobase.zogi_o_ddae.domain.entity.common.BaseEntity;
+import com.zerobase.leisure.domain.entity.common.BaseEntity;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

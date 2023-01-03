@@ -1,6 +1,7 @@
-package com.zerobase.zogi_o_ddae.domain.entity.coupon;
+package com.zerobase.leisure.domain.entity.coupon;
 
-import com.zerobase.zogi_o_ddae.domain.entity.common.BaseEntity;
+import com.zerobase.leisure.domain.entity.common.BaseEntity;
+import com.zerobase.leisure.domain.type.CouponTarget;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,16 +21,14 @@ import org.hibernate.envers.AuditOverride;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class Coupon extends BaseEntity{
+public class CouponGroup extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long customerId;
-	private Long couponGroupId;
 
-	private boolean used;
-
-	private LocalDateTime usedTime;
+	private Long salePrice;
+	private CouponTarget couponTarget;
+	private Integer count;
 
 	private LocalDateTime endTime;
 }
