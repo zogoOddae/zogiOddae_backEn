@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/seller/leisure")
@@ -20,12 +21,11 @@ public class SellerLeisureController {
 	private final SellerLeisureService sellerLeisureService;
 
 	@PostMapping("/register")
-	public WebResponseData<LeisureDto> addLeisure(@RequestHeader(name = "X-AUTH-TOKEN") String token,
+	public WebResponseData<LeisureDto> addLeisure(@RequestParam Long sellerId,
 											@RequestBody AddLeisureForm form) {
-		//임시 코딩
-		Long sellerId = 1L;
 
-		//token값으로 sellerId 받아올것
+		// token값으로 sellerId 받아올것
+		// 지금은 임시 코딩
 		// 요런 식으로??? Long slellerId = UserVo.getUser(token).getId();
 
 		return WebResponseData.ok(LeisureDto.from(sellerLeisureService.AddLeisure(sellerId, form)));
