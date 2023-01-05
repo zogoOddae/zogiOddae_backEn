@@ -20,13 +20,13 @@ import org.hibernate.envers.AuditOverride;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class OrderItem extends BaseEntity {
+public class LeisureOrderItem extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@ManyToOne
-	private Order order;
+	private LeisureOrder leisureOrder;
 
 	private Long customerId;
 	private Long sellerId;

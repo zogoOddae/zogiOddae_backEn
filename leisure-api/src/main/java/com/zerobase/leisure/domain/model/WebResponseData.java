@@ -11,15 +11,15 @@ import lombok.ToString;
 @Getter
 @ToString
 public class WebResponseData<T> {
-
 	private ErrorCode code;
+	private String description;
 	private T data;
 
 	public static <T> WebResponseData<T> ok(T data) {
-		return new WebResponseData<T>(ErrorCode.SAMPLE_SUCCESS_CODE, data);
+		return new WebResponseData<T>(ErrorCode.SAMPLE_SUCCESS_CODE, ErrorCode.SAMPLE_SUCCESS_CODE.getDescription(), data);
 	}
 
 	public static <T> WebResponseData<T> error(ErrorCode errorCode, T data) {
-		return new WebResponseData<T>(errorCode, data);
+		return new WebResponseData<T>(errorCode, errorCode.getDescription(), data);
 	}
 }
