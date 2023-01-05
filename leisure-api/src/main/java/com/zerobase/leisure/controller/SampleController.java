@@ -19,6 +19,6 @@ public class SampleController {
 
 	@GetMapping("/error")
 	public WebResponseData<Object> sampleErrorApi() {
-		return WebResponseData.error(SAMPLE_ERROR_CODE,SAMPLE_ERROR_CODE.getDescription());
+		return WebResponseData.error(SAMPLE_ERROR_CODE);
 	}
 }
