@@ -19,7 +19,7 @@ public class WebResponseData<T> {
 		return new WebResponseData<T>(ErrorCode.SAMPLE_SUCCESS_CODE, ErrorCode.SAMPLE_SUCCESS_CODE.getDescription(), data);
 	}
 
-	public static <T> WebResponseData<T> error(ErrorCode errorCode, T data) {
-		return new WebResponseData<T>(errorCode, errorCode.getDescription(), data);
+	public static <T> WebResponseData<T> error(ErrorCode errorCode) {
+		return new WebResponseData<T>(errorCode, errorCode.getDescription(), null);
 	}
 }
