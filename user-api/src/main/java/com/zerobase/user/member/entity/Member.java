@@ -1,9 +1,5 @@
 package com.zerobase.user.member.entity;
 
-import com.zerobase.user.base.entity.BaseEntity;
-import com.zerobase.user.member.type.MemberRole;
-import com.zerobase.user.member.type.MemberStatus;
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +7,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.zerobase.user.base.entity.BaseEntity;
+import com.zerobase.user.member.type.MemberPlatform;
+import com.zerobase.user.member.type.MemberRole;
+import com.zerobase.user.member.type.MemberStatus;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,28 +28,26 @@ public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-
-
     private Long id;
-    private String username;
-    private String password;
+
+    @Column(name = "platform", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MemberPlatform platform;
+
+    @Column(name = "email", unique = true, nullable = false, length = 64)
     private String email;
 
-    private boolean emailAuth;
+    @Column(name = "username", nullable = false, length = 32)
+    private String username;
 
-    private String emailAuthKey;
+    @Column(name = "password", nullable = false, length = 16)
+    private String password;
 
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
-
+    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private MemberRole roles;
-
-    private LocalDateTime deletedAt;
-
-
-
-
-
+    private MemberRole role;
 }

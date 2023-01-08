@@ -1,0 +1,26 @@
+# server
+server.port: 80
+server.host: localhost
+
+# database
+spring.datasource.driver-class-name: org.mariadb.jdbc.Driver
+spring.datasource.url: jdbc:mariadb://localhost:3306/zogioddae
+spring.datasource.username: root
+spring.datasource.password: root
+
+# jpa
+spring.jpa.hibernate.ddl-auto: create
+spring.jpa.show-sql: true
+
+
+# redis
+spring.redis.host: localhost
+spring.redis.port: 6379 
+
+# JavaMailSender
+spring.mail.host: smtp.gmail.com
+spring.mail.port: 587
+spring.mail.username: ${mail.username}
+spring.mail.password: ${mail.password}
+#spring.mail.properties.mail.smtp.auth: true
+spring.mail.properties.mail.smtp.starttls.enable: true

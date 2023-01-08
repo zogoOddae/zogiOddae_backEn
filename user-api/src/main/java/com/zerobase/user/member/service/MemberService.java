@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
 
-
     private final MemberRepository memberRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -29,7 +28,7 @@ public class MemberService {
                 .email(requestDto.getEmail())
                 .password(bCryptPasswordEncoder.encode(requestDto.getPassword()))
                 .status(MemberStatus.ACTIVE)
-                .roles(MemberRole.ROLE_USER)
+                .role(MemberRole.ROLE_USER)
                 .build();
 
         memberRepository.save(newMember);
@@ -42,9 +41,6 @@ public class MemberService {
         Member loginMember = memberRepository.findByEmail(requestDto.getEmail())
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 
-        return jwtTokenProvider.createToken(loginMember.getEmail(), loginMember.getRoles());
+        return jwtTokenProvider.createToken(loginMember.getEmail(), loginMember.getRole());
     }
 }
-
-
-
