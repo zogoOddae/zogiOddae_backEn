@@ -1,4 +1,4 @@
-package com.zerobase.user.member.type;
+package com.zerobase.type;
 
 public enum MemberPlatform {
     ZOGIODDAE,

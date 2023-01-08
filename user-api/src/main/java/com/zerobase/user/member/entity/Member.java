@@ -8,10 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.zerobase.type.MemberPlatform;
+import com.zerobase.type.MemberRole;
+import com.zerobase.type.MemberStatus;
 import com.zerobase.user.base.entity.BaseEntity;
-import com.zerobase.user.member.type.MemberPlatform;
-import com.zerobase.user.member.type.MemberRole;
-import com.zerobase.user.member.type.MemberStatus;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,7 +40,7 @@ public class Member extends BaseEntity {
     @Column(name = "username", nullable = false, length = 32)
     private String username;
 
-    @Column(name = "password", nullable = false, length = 16)
+    @Column(name = "password", nullable = false, length = 1024)
     private String password;
 
     @Column(name = "status", nullable = false)

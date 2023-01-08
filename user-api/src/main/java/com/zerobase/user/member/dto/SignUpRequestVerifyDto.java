@@ -1,7 +1,7 @@
 package com.zerobase.user.member.dto;
 
-import com.zerobase.user.member.type.MemberPlatform;
-import com.zerobase.user.member.type.MemberRole;
+import com.zerobase.type.MemberPlatform;
+import com.zerobase.type.MemberRole;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

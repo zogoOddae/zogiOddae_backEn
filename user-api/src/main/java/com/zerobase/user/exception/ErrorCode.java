@@ -23,6 +23,9 @@ public enum ErrorCode {
     // SignUp
     SIGNUP_REQUEST_ALREADY_EXIST("이미 회원가입 신청이 진행중인 상태입니다."),
     SIGNUP_VERIFY_REQUEST_NOT_EXIST("회원가입 신청 정보가 존재하지 않습니다."),
+
+    // Login
+    PASSWORD_MISMATCH("비밀번호가 일치하지 않습니다."),
     
     ;
     private final String description;

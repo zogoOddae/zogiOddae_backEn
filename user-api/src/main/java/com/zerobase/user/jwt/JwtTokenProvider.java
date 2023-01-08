@@ -1,7 +1,6 @@
 package com.zerobase.user.jwt;
 
 
-import com.zerobase.user.member.type.MemberRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -17,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+
+import com.zerobase.type.MemberRole;
 
 @Component
 @RequiredArgsConstructor

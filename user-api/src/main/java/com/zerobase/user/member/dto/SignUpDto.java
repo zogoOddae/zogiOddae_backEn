@@ -1,10 +1,12 @@
 package com.zerobase.user.member.dto;
 
 
-import com.zerobase.user.member.type.MemberRole;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+
+import com.zerobase.type.MemberRole;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

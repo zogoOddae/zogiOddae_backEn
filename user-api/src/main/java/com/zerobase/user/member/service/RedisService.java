@@ -56,7 +56,7 @@ public class RedisService {
         }
     }
 
-    public void putRedis(String key, Object classType, TimeUnit expireTimeUnit, int expireTime) {
+    public void putRedis(String key, Object classType, TimeUnit expireTimeUnit, Long expireTime) {
         if (StringUtil.isNullOrEmpty(key)) {
             throw new CustomException(ErrorCode.REDIS_PUT_EMPTY_KEY);
         }
