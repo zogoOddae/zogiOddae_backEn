@@ -26,6 +26,10 @@ public enum ErrorCode {
 
     // Login
     PASSWORD_MISMATCH("비밀번호가 일치하지 않습니다."),
+
+    // Token
+    EXPIRED_TOKEN("기간이 만료된 토큰입니다."),
+    INVALID_TOKEN("토큰 정보가 올바르지 않습니다."),
     
     ;
     private final String description;

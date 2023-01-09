@@ -70,7 +70,7 @@ public class MailService {
             reader.close();
 
             html = html.replace("${username}", userName);
-            html = html.replace("${validateUrl}", serverHost + "/api/sign-up-verify?verifycode=" + uuid);
+            html = html.replace("${validateUrl}", serverHost + "/api/auth/sign-up-verify?verifycode=" + uuid);
 
             this.sendMail(email, "회원 인증 메일", html);
         } catch (IOException ex) {
