@@ -1,4 +1,4 @@
-package com.zerobase.accomodation.domain.entity.leisure;
+package com.zerobase.accomodation.domain.entity.accomodation;
 
 import com.zerobase.accomodation.domain.entity.common.BaseEntity;
 import javax.persistence.Entity;
@@ -25,5 +25,5 @@ public class AccomodationWishList extends BaseEntity {
 	private Long id;
 
 	private Long memberId;
-	private Long leisureId;
+	private Long accomodationId;
 }
