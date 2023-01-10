@@ -1,11 +1,9 @@
 package com.zerobase.accomodation.domain.entity.common;
 
-import com.zerobase.accomodation.domain.entity.leisure.Accomodation;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,13 +18,12 @@ import org.hibernate.envers.AuditOverride;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class BlackList extends BaseEntity{
+public class AccomodationBlackList extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
-	private Accomodation accomodation;
+	private Long accomodationId;
 
 	private Long customerId;
 	private String description;
