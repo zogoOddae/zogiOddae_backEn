@@ -1,6 +1,8 @@
 package com.zerobase.accomodation.domain.entity.coupon;
 
 import com.zerobase.accomodation.domain.entity.common.BaseEntity;
+import com.zerobase.accomodation.domain.form.AddAccomodationCouponGroupForm;
+import com.zerobase.accomodation.domain.type.CouponTarget;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,16 +22,25 @@ import org.hibernate.envers.AuditOverride;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class Coupon extends BaseEntity{
+public class AccomodationCouponGroup extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long customerId;
-	private Long couponGroupId;
 
-	private boolean used;
-
-	private LocalDateTime usedTime;
+	private Long salePrice;
+	private CouponTarget couponTarget;
+	private Integer issusedcount;
 
 	private LocalDateTime endTime;
+
+	public static AccomodationCouponGroup of(AddAccomodationCouponGroupForm form){
+		return AccomodationCouponGroup.builder()
+			.id(form.getAccomodationCouponGroupid())
+			.salePrice(form.getSalePrice())
+			.couponTarget(form.getCouponTarget())
+			.issusedcount(form.getIssusedcount())
+			.endTime(form.getEndTime())
+			.build();
+	}
+
 }
