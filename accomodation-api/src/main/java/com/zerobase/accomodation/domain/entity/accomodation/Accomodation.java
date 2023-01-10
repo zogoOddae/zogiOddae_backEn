@@ -1,8 +1,8 @@
-package com.zerobase.accomodation.domain.entity.leisure;
+package com.zerobase.accomodation.domain.entity.accomodation;
 
 import com.zerobase.accomodation.domain.entity.common.BaseEntity;
-import com.zerobase.accomodation.domain.entity.common.BlackList;
 import com.zerobase.accomodation.domain.form.AddAccomodationForm;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.ElementCollection;
@@ -10,14 +10,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.AuditOverride;
-import org.joda.time.LocalDate;
 
 @Entity
 @Getter
@@ -34,10 +32,17 @@ public class Accomodation extends BaseEntity {
 
 	private Long sellerId;
 
-	@OneToMany
-	private List<BlackList> blackListId = new ArrayList<>();
+	private Long categoryId;
 
-	private String name;
+	// ERD 관계 시 오류 발생 -> 외래키 삭제 오류
+	/*
+	@OneToMany(mappedBy="accomodation_black_list", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<AccomodationBlackList> AccomodationBlackList = new ArrayList<>();
+	*/
+	@ElementCollection
+	private List<Long> AccomodationBlackList = new ArrayList<>();
+
+	private String accomodationName;
 	private String addr;
 	private Integer price;
 	private String pictureUrl;
@@ -55,8 +60,9 @@ public class Accomodation extends BaseEntity {
 
 	public static Accomodation of(Long sellerId, AddAccomodationForm form) {
 		return Accomodation.builder()
+			.accomodationName(form.getAccomodationName())
 			.sellerId(sellerId)
-			.name(form.getName())
+			.accomodationName(form.getAccomodationName())
 			.addr(form.getAddr())
 			.price(form.getPrice())
 			.description(form.getDescription())
