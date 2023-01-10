@@ -1,12 +1,8 @@
 package com.zerobase.user.config;
 
-import com.zerobase.user.jwt.JwtAuthenticationFilter;
-import com.zerobase.user.jwt.JwtTokenProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,54 +11,42 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableWebSecurity
+import com.zerobase.user.jwt.JwtAuthenticationFilter;
+
+import lombok.RequiredArgsConstructor;
+
 @Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtAuthenticationFilter authendicationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
-
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .httpBasic().disable()
-                .csrf()
-                .ignoringAntMatchers("/h2-console/**")
-                .disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/api/user/**")
-                .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/api/manager/**")
-                .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/api/admin/**").access("hasRole('ROLE_ADMIN')")
-                .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().permitAll()
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);
+        
+        // RestController
+        http.httpBasic().disable();
+        http.csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);        
 
-        http.headers().frameOptions().sameOrigin(); //h2 database가 iframe 사용하여 발생하는 오류 해결
+        // 로그인 필요없는 항목 설정.
+        //http.authorizeRequests().antMatchers("/auth/ping").permitAll();
+        //http.authorizeRequests().antMatchers("/auth/pong").permitAll();
+        http.authorizeRequests().antMatchers("/api/auth/sign-up/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/auth/sign-up-verify").permitAll();
+        http.authorizeRequests().antMatchers("/api/auth/login").permitAll();
 
+        // 로그인을 하지 않으면 "403 fobiden" 에러
+        http.authorizeRequests().anyRequest().authenticated();        
+        
+        http.addFilterBefore(authendicationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-
-
-
 }
