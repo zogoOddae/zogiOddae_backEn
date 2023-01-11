@@ -1,11 +1,11 @@
-package com.zerobase.leisure.domain.entity.coupon;
+package com.zerobase.leisure.domain.entity.common;
 
-import com.zerobase.leisure.domain.entity.common.BaseEntity;
-import java.time.LocalDateTime;
+import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,16 +20,14 @@ import org.hibernate.envers.AuditOverride;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class Coupon extends BaseEntity{
+public class LeisureBlackList extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@ManyToOne
+	private Leisure leisure;
+
 	private Long customerId;
-	private Long couponGroupId;
-
-	private boolean used;
-
-	private LocalDateTime usedTime;
-
-	private LocalDateTime endTime;
+	private String description;
 }

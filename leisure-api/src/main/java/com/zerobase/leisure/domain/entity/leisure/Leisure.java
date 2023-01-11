@@ -1,7 +1,7 @@
 package com.zerobase.leisure.domain.entity.leisure;
 
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
-import com.zerobase.leisure.domain.entity.common.BlackList;
+import com.zerobase.leisure.domain.entity.common.LeisureBlackList;
 import com.zerobase.leisure.domain.form.AddLeisureForm;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +35,9 @@ public class Leisure extends BaseEntity {
 	private Long sellerId;
 
 	@OneToMany
-	private List<BlackList> blackListId = new ArrayList<>();
+	private List<LeisureBlackList> leisureBlackListId = new ArrayList<>();
 
-	private String name;
+	private String leisureName;
 	private String addr;
 	private Integer price;
 	private String pictureUrl;
@@ -56,7 +56,7 @@ public class Leisure extends BaseEntity {
 	public static Leisure of(Long sellerId, AddLeisureForm form) {
 		return Leisure.builder()
 			.sellerId(sellerId)
-			.name(form.getName())
+			.leisureName(form.getName())
 			.addr(form.getAddr())
 			.price(form.getPrice())
 			.description(form.getDescription())

@@ -1,6 +1,8 @@
 package com.zerobase.leisure.domain.dto;
 
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +30,7 @@ public class LeisureDto {
 		return LeisureDto.builder()
 			.id(leisure.getId())
 			.sellerId(leisure.getSellerId())
-			.name(leisure.getName())
+			.name(leisure.getLeisureName())
 			.addr(leisure.getAddr())
 			.price(leisure.getPrice())
 			.maxPerson(leisure.getMaxPerson())
@@ -36,5 +38,11 @@ public class LeisureDto {
 			.lat(leisure.getLat())
 			.lon(leisure.getLon())
 			.build();
+	}
+
+	public static List<LeisureDto> fromList(List<Leisure> leisureList) {
+		return leisureList.stream()
+			.map(LeisureDto::from)
+			.collect(Collectors.toList());
 	}
 }
