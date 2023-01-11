@@ -1,6 +1,9 @@
 package com.zerobase.accomodation.domain.dto;
 
-import com.zerobase.accomodation.domain.entity.leisure.Accomodation;
+import com.zerobase.accomodation.domain.entity.accomodation.Accomodation;
+import com.zerobase.accomodation.domain.entity.common.AccomodationBlackList;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +17,11 @@ public class AccomodationDto {
 	private Long id;
 	private Long sellerId;
 
-	private String name;
+	private String accomodationName;
 	private String addr;
 	private Integer price;
+
+	private List<Long> AccomodationBlackList = new ArrayList<>();
 
 	private Integer minPerson;
 	private Integer maxPerson;
@@ -28,7 +33,8 @@ public class AccomodationDto {
 		return AccomodationDto.builder()
 			.id(accomodation.getId())
 			.sellerId(accomodation.getSellerId())
-			.name(accomodation.getName())
+			.accomodationName(accomodation.getAccomodationName())
+			.AccomodationBlackList(accomodation.getAccomodationBlackList())
 			.addr(accomodation.getAddr())
 			.price(accomodation.getPrice())
 			.maxPerson(accomodation.getMaxPerson())

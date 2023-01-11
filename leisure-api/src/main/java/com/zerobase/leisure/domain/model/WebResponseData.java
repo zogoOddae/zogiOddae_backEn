@@ -16,7 +16,7 @@ public class WebResponseData<T> {
 	private T data;
 
 	public static <T> WebResponseData<T> ok(T data) {
-		return new WebResponseData<T>(ErrorCode.SAMPLE_SUCCESS_CODE, ErrorCode.SAMPLE_SUCCESS_CODE.getDescription(), data);
+		return new WebResponseData<T>(ErrorCode.SUCCESS_CODE, ErrorCode.SUCCESS_CODE.getDescription(), data);
 	}
 
 	public static <T> WebResponseData<T> error(ErrorCode errorCode) {
