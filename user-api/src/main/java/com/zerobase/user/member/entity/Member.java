@@ -50,4 +50,10 @@ public class Member extends BaseEntity {
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberRole role;
+
+    private String zipcode;
+    private String address;
+    private String addressDetail;
+
+
 }
