@@ -1,6 +1,8 @@
 package com.zerobase.leisure.domain.entity.leisure;
 
+import com.zerobase.leisure.domain.dto.LeisureReviewDto;
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
+import com.zerobase.leisure.domain.form.AddLeisureReviewForm;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,4 +35,15 @@ public class LeisureReview extends BaseEntity {
 	private double description;
 
 	private String reply;
+
+	public static LeisureReview of(AddLeisureReviewForm form) {
+		return LeisureReview.builder()
+			.customerId(form.getCustomerId())
+			.sellerId(form.getSellerId())
+			.leisureId(form.getLeisureId())
+			.rating(form.getRating())
+			.description(form.getDescription())
+			.reply(form.getReply())
+			.build();
+	}
 }
