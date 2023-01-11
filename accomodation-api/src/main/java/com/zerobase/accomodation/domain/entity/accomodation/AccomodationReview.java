@@ -1,6 +1,7 @@
-package com.zerobase.accomodation.domain.entity.leisure;
+package com.zerobase.accomodation.domain.entity.accomodation;
 
 import com.zerobase.accomodation.domain.entity.common.BaseEntity;
+import com.zerobase.accomodation.domain.form.AddAccomodationForm;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,11 +27,12 @@ public class AccomodationReview extends BaseEntity {
 
 	private Long customerId;
 	private Long sellerId;
-
-	private Long leisureId;
+	private Long accomodationId;
 
 	private double rating;
 	private double description;
 
 	private String reply;
+
+
 }
