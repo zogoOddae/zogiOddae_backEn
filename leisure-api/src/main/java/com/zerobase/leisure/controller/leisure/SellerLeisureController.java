@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/seller/leisure")
@@ -23,31 +24,31 @@ public class SellerLeisureController {
 
 	private final SellerLeisureService sellerLeisureService;
 	@PostMapping
-	public WebResponseData<LeisureDto> addLeisure(@RequestParam Long sellerId,
+	public @ResponseBody WebResponseData<LeisureDto> addLeisure(@RequestParam Long sellerId,
 											@RequestBody AddLeisureForm form) {
 		return WebResponseData.ok(LeisureDto.from(sellerLeisureService.AddLeisure(sellerId, form)));
 	}
 
 	@GetMapping
-	public WebResponseData<List<LeisureDto>> getLeisure(@RequestParam Long sellerId) { //셀러 상품 전체 조회
+	public @ResponseBody WebResponseData<List<LeisureDto>> getLeisure(@RequestParam Long sellerId) { //셀러 상품 전체 조회
 		return WebResponseData.ok(LeisureDto.fromList(sellerLeisureService.getAllLeisure(sellerId)));
 	}
 
 	@GetMapping("/detail")
-	public WebResponseData<LeisureDto> getDetailLeisure(@RequestParam Long LeisureId, @RequestParam Long sellerId) {
+	public @ResponseBody WebResponseData<LeisureDto> getDetailLeisure(@RequestParam Long leisureId, @RequestParam Long sellerId) {
 		return WebResponseData.ok(
-			LeisureDto.from(sellerLeisureService.getDetailLeisure(LeisureId, sellerId)));
+			LeisureDto.from(sellerLeisureService.getDetailLeisure(leisureId, sellerId)));
 	}
 
 	@PutMapping
-	public WebResponseData<LeisureDto> updateLeisure(@RequestParam Long LeisureId, @RequestBody AddLeisureForm form) {
+	public @ResponseBody WebResponseData<LeisureDto> updateLeisure(@RequestParam Long leisureId, @RequestBody AddLeisureForm form) {
 		return WebResponseData.ok(
-			LeisureDto.from(sellerLeisureService.updateLeisure(LeisureId, form)));
+			LeisureDto.from(sellerLeisureService.updateLeisure(leisureId, form)));
 	}
 
 	@DeleteMapping
-	public WebResponseData<String> deleteLeisure(@RequestParam Long LeisureId, Long sellerId) {
-		sellerLeisureService.deleteLeisure(LeisureId, sellerId);
+	public @ResponseBody WebResponseData<String> deleteLeisure(@RequestParam Long leisureId, Long sellerId) {
+		sellerLeisureService.deleteLeisure(leisureId, sellerId);
 		return WebResponseData.ok("성공적으로 삭제 되었습니다.");
 	}
 

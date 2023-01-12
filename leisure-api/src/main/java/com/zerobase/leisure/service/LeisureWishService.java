@@ -22,6 +22,7 @@ public class LeisureWishService {
     private final LeisureRepository leisureRepository;
 
     public void addLeisureWish(Long memberId, Long leisureId) {
+        leisureRepository.findById(leisureId).orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
        Optional<LeisureWishList> optionalLeisureWishList =  leisureWishListRepository.findByMemberId(memberId);
        if(optionalLeisureWishList.isPresent()){
            LeisureWishList wishList = optionalLeisureWishList.get();
@@ -47,12 +48,8 @@ public class LeisureWishService {
 
         List<Long> list = leisureWishList.getLeisureId();
         list.remove(leisureId);
-        if (list.isEmpty()) {
-            leisureWishListRepository.deleteByMemberId(memberId);
-        } else {
-            leisureWishList.setLeisureId(list);
-            leisureWishListRepository.save(leisureWishList);
-        }
+        leisureWishList.setLeisureId(list);
+        leisureWishListRepository.save(leisureWishList);
     }
 
     public LeisureWishListDto getLeisureWishList(Long memberId) {
