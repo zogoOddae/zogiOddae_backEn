@@ -1,4 +1,4 @@
-package com.zerobase.accomodation.domain.dto;
+package com.zerobase.accomodation.domain.dto.coupon;
 
 import com.zerobase.accomodation.domain.entity.coupon.AccomodationCoupon;
 import java.time.LocalDateTime;

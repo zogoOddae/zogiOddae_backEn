@@ -1,6 +1,6 @@
 package com.zerobase.accomodation.domain.repository.accomodation;
 
-import com.zerobase.accomodation.domain.entity.common.AccomodationBlackList;
+import com.zerobase.accomodation.domain.entity.accomodation.AccomodationBlackList;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

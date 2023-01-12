@@ -1,6 +1,6 @@
 package com.zerobase.accomodation.controller.accomodation;
 
-import com.zerobase.accomodation.domain.dto.AccomodationReviewDto;
+import com.zerobase.accomodation.domain.dto.accomodation.AccomodationReviewDto;
 import com.zerobase.accomodation.domain.entity.accomodation.AccomodationReview;
 import com.zerobase.accomodation.domain.form.AddAccomodationReviewForm;
 import com.zerobase.accomodation.domain.model.WebResponseData;

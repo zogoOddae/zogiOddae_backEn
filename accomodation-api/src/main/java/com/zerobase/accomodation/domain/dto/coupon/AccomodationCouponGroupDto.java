@@ -1,4 +1,4 @@
-package com.zerobase.accomodation.domain.dto;
+package com.zerobase.accomodation.domain.dto.coupon;
 
 import com.zerobase.accomodation.domain.entity.coupon.AccomodationCouponGroup;
 import com.zerobase.accomodation.domain.type.CouponTarget;

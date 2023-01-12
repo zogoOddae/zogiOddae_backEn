@@ -1,6 +1,6 @@
 package com.zerobase.accomodation.controller.accomodation;
 
-import com.zerobase.accomodation.domain.dto.AccomodationBlackListDto;
+import com.zerobase.accomodation.domain.dto.accomodation.AccomodationBlackListDto;
 import com.zerobase.accomodation.domain.form.AddAccomodationBlackListForm;
 import com.zerobase.accomodation.domain.model.WebResponseData;
 import com.zerobase.accomodation.service.accomodation.AccomodationBlackListService;

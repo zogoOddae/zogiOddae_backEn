@@ -1,9 +1,9 @@
 package com.zerobase.accomodation.controller.accomodation;
 
 
-import com.zerobase.accomodation.domain.dto.AccomodationDto;
-import com.zerobase.accomodation.domain.entity.accomodation.Accomodation;
-import com.zerobase.accomodation.domain.form.AddAccomodationForm;
+import com.zerobase.accomodation.domain.dto.accomodation.AccomodationDto;
+import com.zerobase.accomodation.domain.dto.accomodation.AccomodationListDto;
+import com.zerobase.accomodation.domain.form.AccomodationForm;
 import com.zerobase.accomodation.domain.model.WebResponseData;
 import com.zerobase.accomodation.service.accomodation.SellerAccomodationService;
 import java.util.List;
@@ -24,14 +24,14 @@ public class SellerAccomodationController {
 
 	private final SellerAccomodationService sellerAccomodationService;
 
-	@PostMapping("/register")
-	public WebResponseData<AccomodationDto> addAccomodation(@RequestParam Long sellerId, @RequestBody AddAccomodationForm form) {
+	@PostMapping
+	public WebResponseData<AccomodationDto> addAccomodation(@RequestParam Long sellerId, @RequestBody AccomodationForm form) {
 		return WebResponseData.ok(
 			AccomodationDto.from(sellerAccomodationService.addAccomodation(sellerId, form)));
 	}
 
 	@GetMapping
-	public WebResponseData<List<Accomodation>> getAccomodation(@RequestParam Long sellerId) { //셀러 상품 전체 조회
+	public WebResponseData<List<AccomodationListDto>> getAccomodation(@RequestParam Long sellerId) { //셀러 상품 전체 조회
 		return WebResponseData.ok(sellerAccomodationService.getAllAccomodation(sellerId));
 	}
 
@@ -42,9 +42,9 @@ public class SellerAccomodationController {
 	}
 
 	@PutMapping
-	public WebResponseData<AccomodationDto> updateAccomodation(@RequestParam Long accomodationId, @RequestParam Long sellerId, @RequestBody AddAccomodationForm form) { //form에서 기존 정보와 수정 정보를 같이 주어야함
+	public WebResponseData<AccomodationDto> updateAccomodation(@RequestParam Long accomodationId, @RequestBody AccomodationForm form) { //form에서 기존 정보와 수정 정보를 같이 주어야함
 		return WebResponseData.ok(
-			AccomodationDto.from(sellerAccomodationService.updateAccomodation(sellerId, form)));
+			AccomodationDto.from(sellerAccomodationService.updateAccomodation(accomodationId, form)));
 	}
 
 	@DeleteMapping

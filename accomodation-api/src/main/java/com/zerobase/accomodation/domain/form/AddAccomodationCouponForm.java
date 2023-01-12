@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @Getter
 public class AddAccomodationCouponForm {
-    private Long id;
     private Long customerId;
     private Long couponGroupId;
 

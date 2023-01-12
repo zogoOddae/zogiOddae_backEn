@@ -35,15 +35,4 @@ public class AccomodationCoupon extends BaseEntity{
 
 	private LocalDateTime endTime;
 
-	public static AccomodationCoupon of(AddAccomodationCouponForm form){
-		return AccomodationCoupon.builder()
-			.id(form.getId())
-			.customerId(form.getCustomerId())
-			.couponGroupId(form.getCouponGroupId())
-			.usedYN(form.isUsedYN())
-			.usedTime(form.getUsedTime())
-			.endTime(form.getEndTime())
-			.build();
-	}
-
 }

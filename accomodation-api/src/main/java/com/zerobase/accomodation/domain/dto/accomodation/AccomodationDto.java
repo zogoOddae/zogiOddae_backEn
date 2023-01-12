@@ -1,7 +1,6 @@
-package com.zerobase.accomodation.domain.dto;
+package com.zerobase.accomodation.domain.dto.accomodation;
 
 import com.zerobase.accomodation.domain.entity.accomodation.Accomodation;
-import com.zerobase.accomodation.domain.entity.common.AccomodationBlackList;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;

@@ -3,6 +3,8 @@ package com.zerobase.accomodation.service.accomodation;
 import com.zerobase.accomodation.domain.entity.accomodation.AccomodationReview;
 import com.zerobase.accomodation.domain.form.AddAccomodationReviewForm;
 import com.zerobase.accomodation.domain.repository.accomodation.AccomodationReviewRepository;
+import com.zerobase.accomodation.domain.type.ErrorCode;
+import com.zerobase.accomodation.exception.AccomodationException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ public class AccomodationReviewService {
     public AccomodationReview addAccomodationReview(AddAccomodationReviewForm form) {
         if(accomodationReviewRepository
             .existsByCustomerIdAndAccomodationId(form.getCustomerId(),form.getAccomodationId())){
-            throw new RuntimeException("이미 등록된 리뷰가 있습니다.");
+            throw new AccomodationException(ErrorCode.ALREADY_REGISTERED_REVIEW);
         }
 
         return AccomodationReview.builder()
@@ -31,7 +33,7 @@ public class AccomodationReviewService {
         AccomodationReview accomodationReview = getRiewInfo(reviewId);
 
         if(accomodationReview.getCustomerId() != form.getCustomerId()){
-            throw new RuntimeException("내가 작성한 댓글이 아닙니다.");
+            throw new AccomodationException(ErrorCode.NOT_MY_REVIEW);
         }
 
         accomodationReview.setAccomodationId(form.getAccomodationId());
@@ -61,7 +63,7 @@ public class AccomodationReviewService {
     }
 
     private AccomodationReview getRiewInfo(Long reviewId){
-        return accomodationReviewRepository.findById(reviewId).orElseThrow(() -> new RuntimeException("작성한 댓글이 없습니다."));
+        return accomodationReviewRepository.findById(reviewId).orElseThrow(() -> new AccomodationException(ErrorCode.NOT_HAD_REVIEW));
     }
 
     public List<AccomodationReview> getAllAccomodationReview(Long accomodationId) {

@@ -1,5 +1,6 @@
-package com.zerobase.accomodation.domain.entity.common;
+package com.zerobase.accomodation.domain.entity.accomodation;
 
+import com.zerobase.accomodation.domain.entity.common.BaseEntity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

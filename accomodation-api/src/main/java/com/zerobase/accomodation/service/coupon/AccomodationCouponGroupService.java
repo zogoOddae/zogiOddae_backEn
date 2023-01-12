@@ -3,6 +3,8 @@ package com.zerobase.accomodation.service.coupon;
 import com.zerobase.accomodation.domain.entity.coupon.AccomodationCouponGroup;
 import com.zerobase.accomodation.domain.form.AddAccomodationCouponGroupForm;
 import com.zerobase.accomodation.domain.repository.coupon.AccomodationCouponGroupRepository;
+import com.zerobase.accomodation.domain.type.ErrorCode;
+import com.zerobase.accomodation.exception.AccomodationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,7 @@ public class AccomodationCouponGroupService {
 
     private AccomodationCouponGroup findCouponGroup(Long accomodationCouponGroupId){
         return accomodationCouponGroupRepository.findById(accomodationCouponGroupId)
-            .orElseThrow(() -> new RuntimeException("등록된 쿠폰이 아닙니다."));
+            .orElseThrow(() -> new AccomodationException(ErrorCode.NOT_REGISTERED_COUPONGROUP));
     }
 
 }

@@ -1,6 +1,6 @@
-package com.zerobase.accomodation.domain.dto;
+package com.zerobase.accomodation.domain.dto.accomodation;
 
-import com.zerobase.accomodation.domain.entity.common.AccomodationBlackList;
+import com.zerobase.accomodation.domain.entity.accomodation.AccomodationBlackList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
