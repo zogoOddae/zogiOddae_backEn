@@ -1,6 +1,8 @@
 package com.zerobase.leisure.domain.entity.leisure;
 
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
+import java.util.List;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,5 +27,6 @@ public class LeisureWishList extends BaseEntity {
 	private Long id;
 
 	private Long memberId;
-	private Long leisureId;
+	@ElementCollection
+	private List<Long> leisureId;
 }

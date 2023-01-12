@@ -11,9 +11,10 @@ public enum ErrorCode {
 
 	SERVER_INTERVAL_ERROR("서버 내부적 오류입니다."),
 	NOT_HAD_REVIEW("등록된 리뷰가 없습니다."),
-	REVIEW_NOT_FOUND("리뷰를 찾을 수 없습니다.")
+	REVIEW_NOT_FOUND("리뷰를 찾을 수 없습니다."),
 	NOT_HAVE_LEISURE("등록된 레저 시설이 없습니다."),
-	NOT_FOUND_LEISURE("레저 시설을 찾을 수 없습니다.")
+	NOT_FOUND_LEISURE("레저 시설을 찾을 수 없습니다."),
+	NOT_HAD_WISHLIST("찜한 상품이 없습니다.")
 	;
 
 
