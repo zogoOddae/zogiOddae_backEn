@@ -14,16 +14,10 @@ public enum ErrorCode {
 	REVIEW_NOT_FOUND("리뷰를 찾을 수 없습니다."),
 	NOT_HAVE_LEISURE("등록된 레저 시설이 없습니다."),
 	NOT_FOUND_LEISURE("레저 시설을 찾을 수 없습니다."),
-
-
-
-
-
-
-
 	ALREADY_DENIED_USER("이미 사용이 거부된 유저입니다."),
 	NOT_FOUND_USER("회원을 찾을 수 없습니다."),
-	NOT_HAD_BLACKLIST("블랙리스트가 없습니다.")
+	NOT_HAD_BLACKLIST("블랙리스트가 없습니다."),
+	NOT_HAD_WISHLIST("찜한 상품이 없습니다.")
 	;
 
 
