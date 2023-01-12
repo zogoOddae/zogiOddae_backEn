@@ -1,11 +1,10 @@
-package com.zerobase.leisure.domain.entity.common;
+package com.zerobase.leisure.domain.entity.leisure;
 
-import com.zerobase.leisure.domain.entity.leisure.Leisure;
+import com.zerobase.leisure.domain.entity.common.BaseEntity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,9 +24,7 @@ public class LeisureBlackList extends BaseEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
-	private Leisure leisure;
-
+	private Long leisureId;
 	private Long customerId;
 	private String description;
 }
