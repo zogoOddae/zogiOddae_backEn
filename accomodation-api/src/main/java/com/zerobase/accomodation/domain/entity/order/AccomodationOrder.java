@@ -35,7 +35,7 @@ public class AccomodationOrder extends BaseEntity {
 	@OneToMany
 	private List<AccomodationOrderItem> items;
 
-	private Long leisureId;
+	private Long accomodationId;
 
 	private Long couponId;
 

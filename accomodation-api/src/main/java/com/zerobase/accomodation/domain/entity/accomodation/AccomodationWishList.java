@@ -1,6 +1,8 @@
 package com.zerobase.accomodation.domain.entity.accomodation;
 
 import com.zerobase.accomodation.domain.entity.common.BaseEntity;
+import java.util.List;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,5 +27,7 @@ public class AccomodationWishList extends BaseEntity {
 	private Long id;
 
 	private Long memberId;
-	private Long accomodationId;
+
+	@ElementCollection
+	private List<Long> accomodationId;
 }

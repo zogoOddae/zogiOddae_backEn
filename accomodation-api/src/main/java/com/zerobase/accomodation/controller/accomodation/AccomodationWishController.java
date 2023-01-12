@@ -1,11 +1,15 @@
 package com.zerobase.accomodation.controller.accomodation;
 
+import com.zerobase.accomodation.domain.dto.accomodation.AccomodationWishListDto;
+import com.zerobase.accomodation.domain.entity.accomodation.Accomodation;
 import com.zerobase.accomodation.domain.entity.accomodation.AccomodationWishList;
 import com.zerobase.accomodation.domain.model.WebResponseData;
 import com.zerobase.accomodation.service.accomodation.AccomodationWishService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,16 +21,22 @@ public class AccomodationWishController {
 
     private final AccomodationWishService accomodationWishService;
 
-    //리턴시 방식?을 얘기해봐야할것 같아요. 그냥 클릭하면 등록되고 체크 되어있는걸 다시 클릭하면 삭제되는 식으로 생각해서 로직을 짰는데
-    // 음.. 그러면 굳이 메세지 리턴을 안해도 될것 같기도 해서 관련해서 한번 말해보면 될것 같습니다!
+    //찜 버튼 클릭시 작동
+    @PostMapping
+    public WebResponseData<AccomodationWishListDto> makeAccomodationWish(@RequestParam Long memberId, @RequestParam Long accomodationId) {
+        AccomodationWishList accomodationWishList = accomodationWishService.makeAccomodationwish(memberId, accomodationId);
+        Accomodation accomodation = accomodationWishService.getAccomodationInfo(accomodationId);
+        return WebResponseData.ok(AccomodationWishListDto.from(accomodationWishList,accomodation));
+    }
 
+    //찜 목록 리스트
     @GetMapping
-    public WebResponseData<AccomodationWishList> addAccomodationWish(@RequestParam Long memberId, @RequestParam Long accomodationId) {
-        return WebResponseData.ok(accomodationWishService.addAccomodationwish(memberId, accomodationId));
+    public WebResponseData<List<AccomodationWishListDto>> getAllAccomodationWish(@RequestParam Long memberId) {
+        return WebResponseData.ok(accomodationWishService.getAllAccomodationWish(memberId));
     }
 
 
-
+    //찜 목록 리스트에서 삭제
     @DeleteMapping
     public WebResponseData<String> deleteAccomodationWish(@RequestParam Long memberId, @RequestParam Long accomodationId) {
         accomodationWishService.deleteAccomodationwish(memberId,accomodationId);

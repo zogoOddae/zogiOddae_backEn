@@ -31,7 +31,7 @@ public class AccomodationOrderItem extends BaseEntity {
 	private Long customerId;
 	private Long sellerId;
 
-	private Long leisureId;
+	private Long accomodationId;
 
 	private Integer price;
 }

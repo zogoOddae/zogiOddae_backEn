@@ -1,6 +1,6 @@
 package com.zerobase.accomodation.controller.coupon;
 
-import com.zerobase.accomodation.domain.dto.AccomodationCouponDto;
+import com.zerobase.accomodation.domain.dto.coupon.AccomodationCouponDto;
 import com.zerobase.accomodation.domain.form.AddAccomodationCouponForm;
 import com.zerobase.accomodation.domain.model.WebResponseData;
 import com.zerobase.accomodation.service.coupon.AccomodationCouponService;

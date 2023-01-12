@@ -1,8 +1,12 @@
 package com.zerobase.accomodation.service.accomodation;
 
+import com.zerobase.accomodation.domain.dto.accomodation.AccomodationListDto;
 import com.zerobase.accomodation.domain.entity.accomodation.Accomodation;
-import com.zerobase.accomodation.domain.form.AddAccomodationForm;
+import com.zerobase.accomodation.domain.form.AccomodationForm;
 import com.zerobase.accomodation.domain.repository.accomodation.AccomodationRepository;
+import com.zerobase.accomodation.domain.type.ErrorCode;
+import com.zerobase.accomodation.exception.AccomodationException;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,24 +16,31 @@ import org.springframework.stereotype.Service;
 public class SellerAccomodationService {
 	private final AccomodationRepository accomodationRepository;
 
-	public Accomodation addAccomodation(Long sellerId, AddAccomodationForm form) {
+	public Accomodation addAccomodation(Long sellerId, AccomodationForm form) {
 		Accomodation accomodation = Accomodation.of(sellerId, form);
 		accomodationRepository.save(accomodation);
 
 		return accomodation;
 	}
 
-	public List<Accomodation> getAllAccomodation(Long sellerId) {
-		return accomodationRepository.findAllBySellerId(sellerId)
-			.orElseThrow(() -> new RuntimeException("등록된 숙박시설이 없습니다."));
+	public List<AccomodationListDto> getAllAccomodation(Long sellerId) {
+		 List<Accomodation> accomodationList = accomodationRepository.findAllBySellerId(sellerId)
+			.orElseThrow(() -> new AccomodationException(ErrorCode.NOT_FOUND_ACCOMODATION));
+
+		List<AccomodationListDto> dtoList = new ArrayList<>();
+
+		for(Accomodation accomodation : accomodationList){
+			dtoList.add(AccomodationListDto.from(accomodation));
+		}
+		return dtoList;
 	}
 
-	public Accomodation updateAccomodation(Long sellerId, AddAccomodationForm form) {
-		Accomodation accomodation = accomodationRepository.getFirstBySellerId(sellerId)
-			.orElseThrow(() -> new RuntimeException("등록된 숙박시설이 없습니다."));
+	public Accomodation updateAccomodation(Long accomodationId, AccomodationForm form) {
+		Accomodation accomodation = accomodationRepository.findById(accomodationId)
+			.orElseThrow(() -> new AccomodationException(ErrorCode.NOT_FOUND_ACCOMODATION));
 
 		accomodation.setAccomodationName(form.getAccomodationName());
-		accomodation.setSellerId(sellerId);
+		accomodation.setSellerId(accomodation.getSellerId());
 		accomodation.setAddr(form.getAddr());
 		accomodation.setDescription(form.getDescription());
 		accomodation.setPrice(form.getPrice());
@@ -38,20 +49,19 @@ public class SellerAccomodationService {
 		accomodation.setMinPerson(form.getMinPerson());
 		accomodation.setLat(form.getLat());
 		accomodation.setLon(form.getLon());
-		//맞나 모르겠네요
-		accomodation.setAccomodationBlackList(accomodation.getAccomodationBlackList());
 
+		accomodation.setAccomodationBlackList(accomodation.getAccomodationBlackList());
 
 		return accomodation;
 	}
 
 	public Accomodation getDetailAccomodation(Long accomodationId, Long sellerId) {
 		return accomodationRepository.getFirstByIdAndSellerId(accomodationId,sellerId)
-			.orElseThrow(() -> new RuntimeException("등록된 숙박시설이 없습니다."));
+			.orElseThrow(() -> new AccomodationException(ErrorCode.NOT_FOUND_ACCOMODATION));
 	}
 
 	public void deleteAccomodation(Long accomodationId, Long sellerId) {
-		accomodationRepository.getFirstByIdAndSellerId(accomodationId,sellerId).orElseThrow(() -> new RuntimeException("등록된 숙박시설이 없습니다."));
+		accomodationRepository.getFirstByIdAndSellerId(accomodationId,sellerId).orElseThrow(() -> new AccomodationException(ErrorCode.NOT_FOUND_ACCOMODATION));
 
 		accomodationRepository.deleteById(accomodationId);
 	}

@@ -3,7 +3,7 @@ package com.zerobase.accomodation.domain.form;
 import lombok.Getter;
 
 @Getter
-public class AddAccomodationForm {
+public class AccomodationForm {
 	private String accomodationName;
 	private String addr;
 	private Integer price;

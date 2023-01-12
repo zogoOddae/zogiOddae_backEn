@@ -1,7 +1,7 @@
 package com.zerobase.accomodation.domain.entity.accomodation;
 
 import com.zerobase.accomodation.domain.entity.common.BaseEntity;
-import com.zerobase.accomodation.domain.form.AddAccomodationForm;
+import com.zerobase.accomodation.domain.form.AccomodationForm;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class Accomodation extends BaseEntity {
 	private double lat;
 	private double lon;
 
-	public static Accomodation of(Long sellerId, AddAccomodationForm form) {
+	public static Accomodation of(Long sellerId, AccomodationForm form) {
 		return Accomodation.builder()
 			.accomodationName(form.getAccomodationName())
 			.sellerId(sellerId)

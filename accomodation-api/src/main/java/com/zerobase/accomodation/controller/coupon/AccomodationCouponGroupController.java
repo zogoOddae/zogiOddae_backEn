@@ -1,6 +1,6 @@
 package com.zerobase.accomodation.controller.coupon;
 
-import com.zerobase.accomodation.domain.dto.AccomodationCouponGroupDto;
+import com.zerobase.accomodation.domain.dto.coupon.AccomodationCouponGroupDto;
 import com.zerobase.accomodation.domain.form.AddAccomodationCouponGroupForm;
 import com.zerobase.accomodation.domain.model.WebResponseData;
 import com.zerobase.accomodation.service.coupon.AccomodationCouponGroupService;
@@ -34,6 +34,8 @@ public class AccomodationCouponGroupController {
 
     @DeleteMapping
     public WebResponseData<String> deleteAccomodationCouponGroup(@RequestParam Long accomodationCouponGroupId) {
+        accomodationCouponGroupService.deleteAccomodationCouponGroup(accomodationCouponGroupId);
+
         return WebResponseData.ok("성공적으로 삭제되었습니다.");
     }
 }

@@ -1,4 +1,4 @@
-package com.zerobase.accomodation.domain.dto;
+package com.zerobase.accomodation.domain.dto.accomodation;
 
 import com.zerobase.accomodation.domain.entity.accomodation.AccomodationReview;
 import lombok.AllArgsConstructor;
