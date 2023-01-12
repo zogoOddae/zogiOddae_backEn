@@ -1,7 +1,7 @@
 package com.zerobase.user.exception;
 
 import java.time.LocalDateTime;
-import lombok.Builder;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +33,9 @@ public enum ErrorCode {
     EXPIRED_TOKEN("기간이 만료된 토큰입니다.",LocalDateTime.now()),
     INVALID_TOKEN("토큰 정보가 올바르지 않습니다.",LocalDateTime.now()),
 
-    DUPLICATE_MEMBER_ID("이미 중복된 아이디가 존재합니다.",LocalDateTime.now())
+    DUPLICATE_MEMBER_ID("이미 중복된 아이디가 존재합니다.",LocalDateTime.now()),
+    NOT_AUTHROIZED("인증 되지 않은 상태입니다.", LocalDateTime.now()),
+    
     ;
     private final String description;
     private final LocalDateTime getTimeStamp;

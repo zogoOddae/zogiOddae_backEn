@@ -1,20 +1,22 @@
-package com.zerobase.user.jwt;
+package com.zerobase.common.auth;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.zerobase.type.MemberRole;
+import com.zerobase.common.type.MemberRole;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class MemberDetails implements UserDetails {
+public class MemberDetails implements UserDetails, OAuth2User {
     
     private Long id;
     private String email;
@@ -50,5 +52,15 @@ public class MemberDetails implements UserDetails {
     @Override
     public String getPassword() {
         return null;
-    }    
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
 }

@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.zerobase.common.auth.JWTTokenProvider;
 import com.zerobase.common.auth.MemberDetails;
@@ -25,7 +26,6 @@ import com.zerobase.user.member.entity.Member;
 import com.zerobase.user.member.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -60,8 +60,8 @@ public class AuthService {
     public void signUp(SignUpRequestDto request, MemberPlatform platform, MemberRole role) {
         String emailKey = this.getMemberVerifyEmailKey(request.getEmail());
         if (redisService.hasKey(emailKey)) {
-            redisService.delRedis(emailKey);
-            //throw new CustomException(ErrorCode.SIGNUP_REQUEST_ALREADY_EXIST);
+            //redisService.delRedis(emailKey);
+            throw new CustomException(ErrorCode.SIGNUP_REQUEST_ALREADY_EXIST);
         }
 
         String uuid = "";

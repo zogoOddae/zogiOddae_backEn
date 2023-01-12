@@ -1,4 +1,4 @@
-package com.zerobase.user.config;
+package com.zerobase.common.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

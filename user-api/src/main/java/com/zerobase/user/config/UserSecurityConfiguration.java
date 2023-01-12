@@ -11,7 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.zerobase.user.jwt.JwtAuthenticationFilter;
+import com.zerobase.common.auth.JwtAuthenticationFilter;
+import com.zerobase.user.member.component.OAuth2SuccessHandler;
+import com.zerobase.user.member.service.OAuth2UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,9 +21,11 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @RequiredArgsConstructor
-public class SecurityConfiguration {
+public class UserSecurityConfiguration {
 
     private final JwtAuthenticationFilter authendicationFilter;
+    private final OAuth2UserService oauth2UserService;
+    //private final OAuth2SuccessHandler successHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -39,14 +43,22 @@ public class SecurityConfiguration {
         // 로그인 필요없는 항목 설정.
         //http.authorizeRequests().antMatchers("/auth/ping").permitAll();
         //http.authorizeRequests().antMatchers("/auth/pong").permitAll();
-        http.authorizeRequests().antMatchers("/api/auth/sign-up/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/auth/sign-up-verify").permitAll();
-        http.authorizeRequests().antMatchers("/api/auth/login").permitAll();
+        //http.authorizeRequests().antMatchers("/api/auth/sign-up/**").permitAll();
+        //http.authorizeRequests().antMatchers("/api/auth/sign-up-verify").permitAll();
+        //http.authorizeRequests().antMatchers("/api/auth/login").permitAll();
 
         // 로그인을 하지 않으면 "403 fobiden" 에러
-        http.authorizeRequests().anyRequest().authenticated();        
+        //http.authorizeRequests().anyRequest().authenticated();        
         
         http.addFilterBefore(authendicationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        // OAuth2
+        http
+            .oauth2Login()
+                //.oauth2Login().loginPage("/token/expired")
+                //.successHandler(successHandler)
+                .userInfoEndpoint().userService(oauth2UserService);
+
         return http.build();
     }
 }
