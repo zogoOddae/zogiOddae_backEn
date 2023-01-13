@@ -1,4 +1,4 @@
-package com.zerobase.user.jwt;
+package com.zerobase.common.auth;
 
 import java.io.IOException;
 
@@ -10,11 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.mysql.cj.util.StringUtils;
-import com.zerobase.auth.JWTTokenProvider;
-import com.zerobase.type.MemberRole;
+import com.zerobase.common.type.MemberRole;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,9 +31,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String header = request.getHeader(TOKEN_HEADER);
-        if (!StringUtils.isNullOrEmpty(header) && header.startsWith(TOKEN_PREFIX)) {
+        if (StringUtils.hasText(header) && header.startsWith(TOKEN_PREFIX)) {
             String token = header.substring(TOKEN_PREFIX.length());
-            if (!StringUtils.isNullOrEmpty(token) && !tokenProvider.isExpiredToken(token)) {
+            if (StringUtils.hasText(token) && !tokenProvider.isExpiredToken(token)) {
                 MemberDetails memberDetails = MemberDetails.builder()
                                                         .id(tokenProvider.getUserId(token))
                                                         .email(tokenProvider.getEmail(token))

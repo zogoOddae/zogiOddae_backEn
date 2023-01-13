@@ -3,16 +3,17 @@ package com.zerobase.user.member.service;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import javax.validation.Valid;
+import javax.transaction.Transactional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import com.mysql.cj.util.StringUtils;
-import com.zerobase.auth.JWTTokenProvider;
-import com.zerobase.type.MemberPlatform;
-import com.zerobase.type.MemberRole;
-import com.zerobase.type.MemberStatus;
+import com.zerobase.common.auth.JWTTokenProvider;
+import com.zerobase.common.auth.MemberDetails;
+import com.zerobase.common.type.MemberPlatform;
+import com.zerobase.common.type.MemberRole;
+import com.zerobase.common.type.MemberStatus;
 import com.zerobase.user.exception.CustomException;
 import com.zerobase.user.exception.ErrorCode;
 import com.zerobase.user.member.dto.LoginRequestDto;
@@ -33,6 +34,7 @@ public class AuthService {
     private static final String REDIS_KEY_UUID = "MEMBER::VERIFIY::KEY::%s";
     private static final String REDIS_KEY_EMAIL = "MEMBER::VERIFIY::EMAIL::%s";
     private static final String REDIS_KEY_REFRESHTOKEN = "MEMBER::REFRESHTOKEN::%d";
+    
     private static final Long SIGNUP_VERIFY_EXPIRE_DAYS = 7L;
     private static final Long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 60L * 60L * 2L;                // 2시간
     private static final Long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 60L * 60L * 24L * 60L;        // 60일
@@ -86,6 +88,7 @@ public class AuthService {
         mailService.sendSignUpVerify(request.getEmail(), request.getUsername(), uuid);
     }
 
+    @Transactional
     public void signUpVerify(String verifycode) {
         String uuidKey = this.getMemberVerifyUUIDKey(verifycode);
         String email = redisService.getRedis(uuidKey, String.class);
@@ -149,9 +152,39 @@ public class AuthService {
                 .build();
     }
 
+    public LoginResponseDto login(MemberDetails memberDetails) {        
+
+        String accessToken = tokenProvider.generateToken(
+            memberDetails.getId(),
+            memberDetails.getUsername(),
+            memberDetails.getEmail(),
+            memberDetails.getRole(),
+            ACCESS_TOKEN_EXPIRE_TIME );
+
+        String refreshToken = tokenProvider.generateToken(
+            memberDetails.getId(),
+            memberDetails.getUsername(),
+            memberDetails.getEmail(),
+            memberDetails.getRole(),
+            REFRESH_TOKEN_EXPIRE_TIME );
+
+        String refreshTokenKey = this.getRefreshTokenKey(memberDetails.getId());
+        if(redisService.hasKey(refreshTokenKey)) {
+            redisService.delRedis(refreshTokenKey);
+        }
+        redisService.putRedis(refreshTokenKey, refreshToken, TimeUnit.MILLISECONDS, REFRESH_TOKEN_EXPIRE_TIME);
+        
+        return LoginResponseDto.builder()
+                .id(memberDetails.getId())
+                .username(memberDetails.getUsername())
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
     public RefreshTokenResponseDto refreshToken(RefreshTokenRequestDto request) {
         String refreshToken = request.getRefreshToken();
-        if(StringUtils.isNullOrEmpty(refreshToken)) {
+        if(!StringUtils.hasText(refreshToken)) {
             throw new CustomException(ErrorCode.INVALID_TOKEN);
         }
 
@@ -162,7 +195,7 @@ public class AuthService {
         Long userId = tokenProvider.getUserId(request.getRefreshToken());
         String refreshTokenKey = this.getRefreshTokenKey(userId);
         String savedRefreshToken = redisService.getRedis(refreshTokenKey, String.class);
-        if(StringUtils.isNullOrEmpty(savedRefreshToken)) {
+        if(!StringUtils.hasText(savedRefreshToken)) {
             throw new CustomException(ErrorCode.EXPIRED_TOKEN);
         }
 

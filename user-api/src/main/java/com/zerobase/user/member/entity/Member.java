@@ -8,9 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.zerobase.type.MemberPlatform;
-import com.zerobase.type.MemberRole;
-import com.zerobase.type.MemberStatus;
+import com.zerobase.common.type.MemberPlatform;
+import com.zerobase.common.type.MemberRole;
+import com.zerobase.common.type.MemberStatus;
 import com.zerobase.user.base.entity.BaseEntity;
 
 import lombok.AccessLevel;
@@ -33,6 +33,10 @@ public class Member extends BaseEntity {
     @Column(name = "platform", nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberPlatform platform;
+
+    // kakao id. platform이 zogioddae인 경우엔 null
+    @Column(name = "platformId", unique = false, nullable = true, length = 256)
+    private String platformId;
 
     @Column(name = "email", unique = true, nullable = false, length = 64)
     private String email;

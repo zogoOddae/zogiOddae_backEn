@@ -1,9 +1,13 @@
 package com.zerobase.user.member.controller;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zerobase.type.MemberPlatform;
-import com.zerobase.type.MemberRole;
-import com.zerobase.user.jwt.MemberDetails;
+import com.zerobase.common.auth.MemberDetails;
+import com.zerobase.common.type.MemberPlatform;
+import com.zerobase.common.type.MemberRole;
+import com.zerobase.user.exception.CustomException;
+import com.zerobase.user.exception.ErrorCode;
 import com.zerobase.user.member.dto.LoginRequestDto;
 import com.zerobase.user.member.dto.RefreshTokenRequestDto;
 import com.zerobase.user.member.dto.SignUpRequestDto;
@@ -30,7 +36,6 @@ public class AuthController {
 
     private final AuthService authService;
     
-    /*
     @GetMapping("/auth/ping")
     public String ping() {
         return "ping";
@@ -44,7 +49,6 @@ public class AuthController {
         return memberDetails.getEmail();
         //return "pong";
     }
-    */
 
     @PostMapping("/api/auth/sign-up/user")
     public WebResponse userSignUp(@RequestBody @Valid SignUpRequestDto request) {
@@ -75,10 +79,12 @@ public class AuthController {
     }
 
     @GetMapping("/api/auth/logout")
-    public WebResponse logout() {
-        MemberDetails memberDetails = (MemberDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public WebResponse logout(@AuthenticationPrincipal MemberDetails memberDetails) {
+        if(memberDetails == null) {
+            throw new CustomException(ErrorCode.NOT_AUTHROIZED);
+        }
+        
         authService.logout(memberDetails.getId());
-
         return WebResponse.ok();
     }
 }
