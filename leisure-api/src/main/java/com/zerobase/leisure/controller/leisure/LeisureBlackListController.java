@@ -1,9 +1,9 @@
 package com.zerobase.leisure.controller.leisure;
 
-import com.zerobase.leisure.domain.dto.LeisureBlackListDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureBlackListDto;
 import com.zerobase.leisure.domain.form.AddLeisureBlackListForm;
 import com.zerobase.leisure.domain.model.WebResponseData;
-import com.zerobase.leisure.service.LeisureBlackListService;
+import com.zerobase.leisure.service.leisure.LeisureBlackListService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;

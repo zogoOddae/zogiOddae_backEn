@@ -1,10 +1,8 @@
-package com.zerobase.leisure.service;
+package com.zerobase.leisure.service.leisure;
 
-import com.zerobase.leisure.domain.dto.LeisureReviewDto;
-import com.zerobase.leisure.domain.entity.leisure.Leisure;
+import com.zerobase.leisure.domain.dto.leisure.LeisureReviewDto;
 import com.zerobase.leisure.domain.entity.leisure.LeisureReview;
 import com.zerobase.leisure.domain.form.AddLeisureReviewForm;
-import com.zerobase.leisure.domain.repository.leisure.LeisureRepository;
 import com.zerobase.leisure.domain.repository.leisure.LeisureReviewRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.exception.LeisureException;

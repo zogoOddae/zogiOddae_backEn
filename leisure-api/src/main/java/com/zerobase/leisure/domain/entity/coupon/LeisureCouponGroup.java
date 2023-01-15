@@ -28,7 +28,7 @@ public class LeisureCouponGroup extends BaseEntity {
 
 	private Long salePrice;
 	private CouponTarget couponTarget;
-	private Integer count;
+	private Integer issuedCount;
 
 	private LocalDateTime endTime;
 }

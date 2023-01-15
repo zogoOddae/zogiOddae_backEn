@@ -1,4 +1,4 @@
-package com.zerobase.leisure.domain.dto;
+package com.zerobase.leisure.domain.dto.leisure;
 
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import java.util.List;
@@ -16,9 +16,11 @@ public class LeisureDto {
 	private Long id;
 	private Long sellerId;
 
-	private String name;
+	private String leisureName;
 	private String addr;
 	private Integer price;
+
+	private String pictureUrl;
 
 	private Integer minPerson;
 	private Integer maxPerson;
@@ -30,8 +32,9 @@ public class LeisureDto {
 		return LeisureDto.builder()
 			.id(leisure.getId())
 			.sellerId(leisure.getSellerId())
-			.name(leisure.getLeisureName())
+			.leisureName(leisure.getLeisureName())
 			.addr(leisure.getAddr())
+			.pictureUrl(leisure.getPictureUrl())
 			.price(leisure.getPrice())
 			.maxPerson(leisure.getMaxPerson())
 			.minPerson(leisure.getMinPerson())

@@ -1,8 +1,8 @@
 package com.zerobase.leisure.controller.leisure;
 
-import com.zerobase.leisure.domain.dto.LeisureWishListDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureWishListDto;
 import com.zerobase.leisure.domain.model.WebResponseData;
-import com.zerobase.leisure.service.LeisureWishService;
+import com.zerobase.leisure.service.leisure.LeisureWishService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

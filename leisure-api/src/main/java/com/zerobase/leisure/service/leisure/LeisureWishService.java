@@ -1,7 +1,7 @@
-package com.zerobase.leisure.service;
+package com.zerobase.leisure.service.leisure;
 
-import com.zerobase.leisure.domain.dto.LeisureDto;
-import com.zerobase.leisure.domain.dto.LeisureWishListDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureWishListDto;
 import com.zerobase.leisure.domain.entity.leisure.LeisureWishList;
 import com.zerobase.leisure.domain.repository.leisure.LeisureRepository;
 import com.zerobase.leisure.domain.repository.leisure.LeisureWishListRepository;
