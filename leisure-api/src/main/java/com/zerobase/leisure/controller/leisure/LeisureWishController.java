@@ -3,6 +3,7 @@ package com.zerobase.leisure.controller.leisure;
 import com.zerobase.leisure.domain.dto.leisure.LeisureWishListDto;
 import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.service.leisure.LeisureWishService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class LeisureWishController {
     }
 
     @GetMapping
-    public @ResponseBody WebResponseData<LeisureWishListDto> getLeisureWishList(@RequestParam Long memberId) {
+    public @ResponseBody WebResponseData<List<LeisureWishListDto>> getLeisureWishList(@RequestParam Long memberId) {
         return WebResponseData.ok(leisureWishService.getLeisureWishList(memberId));
     }
 }

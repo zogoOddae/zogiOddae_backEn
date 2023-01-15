@@ -1,8 +1,11 @@
 package com.zerobase.leisure.controller.leisure;
 
 
+import com.zerobase.leisure.domain.dto.leisure.LeisureDayOffDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureDto;
-import com.zerobase.leisure.domain.form.AddLeisureForm;
+import com.zerobase.leisure.domain.entity.leisure.LeisureDayOff;
+import com.zerobase.leisure.domain.form.LeisureDayOffForm;
+import com.zerobase.leisure.domain.form.LeisureForm;
 import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.service.leisure.SellerLeisureService;
 import java.util.List;
@@ -25,7 +28,7 @@ public class SellerLeisureController {
 	private final SellerLeisureService sellerLeisureService;
 	@PostMapping
 	public @ResponseBody WebResponseData<LeisureDto> addLeisure(@RequestParam Long sellerId,
-											@RequestBody AddLeisureForm form) {
+											@RequestBody LeisureForm form) {
 		return WebResponseData.ok(LeisureDto.from(sellerLeisureService.AddLeisure(sellerId, form)));
 	}
 
@@ -41,7 +44,7 @@ public class SellerLeisureController {
 	}
 
 	@PutMapping
-	public @ResponseBody WebResponseData<LeisureDto> updateLeisure(@RequestParam Long leisureId, @RequestBody AddLeisureForm form) {
+	public @ResponseBody WebResponseData<LeisureDto> updateLeisure(@RequestParam Long leisureId, @RequestBody LeisureForm form) {
 		return WebResponseData.ok(
 			LeisureDto.from(sellerLeisureService.updateLeisure(leisureId, form)));
 	}
@@ -52,4 +55,29 @@ public class SellerLeisureController {
 		return WebResponseData.ok("성공적으로 삭제 되었습니다.");
 	}
 
+
+	//휴일 관련
+	@PostMapping("/dayOff")
+	public @ResponseBody WebResponseData<String> addLeisureDayOff(@RequestParam Long leisureId, @RequestBody LeisureDayOffForm form) {
+		sellerLeisureService.addLeisureDayOff(leisureId, form);
+		return WebResponseData.ok("성공적으로 등록 되었습니다.");
+	}
+
+	@DeleteMapping("/dayOff")
+	public @ResponseBody WebResponseData<String> deleteLeisureDayOff(@RequestParam Long leisureDayOffId) {
+		sellerLeisureService.deleteLeisureDayOff(leisureDayOffId);
+		return WebResponseData.ok("성공적으로 삭제 되었습니다.");
+	}
+
+	@GetMapping("/dayOff")
+	public @ResponseBody WebResponseData<List<LeisureDayOffDto>> getLeisureDayOff(@RequestParam Long leisureId) {
+		return WebResponseData.ok(LeisureDayOffDto.fromList(sellerLeisureService.getLeisureDayOff(leisureId)));
+	}
+
+	@PutMapping("/dayOff")
+	public @ResponseBody WebResponseData<String> updateLeisureDayOff(@RequestParam Long leisureDayOffId,
+		@RequestBody LeisureDayOffForm form) {
+		sellerLeisureService.updateLeisureDayOff(leisureDayOffId, form);
+		return WebResponseData.ok("성공적으로 수정되었습니다.");
+	}
 }

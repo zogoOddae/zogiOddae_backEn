@@ -1,8 +1,7 @@
 package com.zerobase.leisure.domain.entity.leisure;
 
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
-import java.util.List;
-import javax.persistence.ElementCollection;
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,18 +14,19 @@ import lombok.Setter;
 import org.hibernate.envers.AuditOverride;
 
 @Entity
-@Getter
-@Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class LeisureWishList extends BaseEntity {
+@Builder
+@Setter
+@Getter
+public class LeisureDayOff extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private Long memberId;
-
 	private Long leisureId;
+
+	private String year;
+	private LocalDate startDate;
+	private LocalDate endDate;
 }

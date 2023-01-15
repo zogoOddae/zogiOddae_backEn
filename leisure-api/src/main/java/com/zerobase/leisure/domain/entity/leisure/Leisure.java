@@ -1,22 +1,17 @@
 package com.zerobase.leisure.domain.entity.leisure;
 
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
-import com.zerobase.leisure.domain.form.AddLeisureForm;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.ElementCollection;
+import com.zerobase.leisure.domain.form.LeisureForm;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.AuditOverride;
-import org.joda.time.LocalDate;
 
 @Entity
 @Getter
@@ -33,9 +28,6 @@ public class Leisure extends BaseEntity {
 
 	private Long sellerId;
 
-	@ElementCollection
-	private List<Long> leisureBlackListId = new ArrayList<>();
-
 	private String leisureName;
 	private String addr;
 	private Integer price;
@@ -43,19 +35,16 @@ public class Leisure extends BaseEntity {
 
 	private String description;
 
-	@ElementCollection
-	private List<LocalDate> dayOff = new ArrayList<>();
-
 	private Integer minPerson;
 	private Integer maxPerson;
 
 	private double lat;
 	private double lon;
 
-	public static Leisure of(Long sellerId, AddLeisureForm form) {
+	public static Leisure of(Long sellerId, LeisureForm form) {
 		return Leisure.builder()
 			.sellerId(sellerId)
-			.leisureName(form.getName())
+			.leisureName(form.getLeisureName())
 			.addr(form.getAddr())
 			.price(form.getPrice())
 			.description(form.getDescription())

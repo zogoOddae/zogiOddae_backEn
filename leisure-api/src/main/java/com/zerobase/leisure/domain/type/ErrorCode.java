@@ -21,7 +21,9 @@ public enum ErrorCode {
 	ALREADY_ISSUED_COUPON("이미 발급받은 쿠폰입니다"),
 	EXPIRED_COUPON("기한 만료된 쿠폰입니다."),
 	EXCEEDED_COUNT_COUPON("남은 쿠폰이 없습니다."),
-	NOT_REGISTERED_COUPON_GROUP("등록되지 않은 쿠폰입니다.")
+	NOT_REGISTERED_COUPON_GROUP("등록되지 않은 쿠폰입니다."),
+	NOT_HAD_DAY_OFF("등록된 휴일이 없습니다."),
+	NOT_FOUND_DAY_OFF("등록된 휴일이 없습니다.")
 	;
 
 

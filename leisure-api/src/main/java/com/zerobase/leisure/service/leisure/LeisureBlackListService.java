@@ -28,24 +28,13 @@ public class LeisureBlackListService {
             throw new LeisureException(ErrorCode.ALREADY_DENIED_USER);
         }
 
-        //숙박 정보 가져오기
-        Leisure leisure = leisureRepository.findById(form.getLeisureId())
-            .orElseThrow(() -> new RuntimeException("등록된 숙박 시설이 아닙니다."));
-
-        if(leisure.getLeisureBlackListId().contains(form.getCustomerId())){
-            throw new LeisureException(ErrorCode.ALREADY_DENIED_USER);
-        }
-
         LeisureBlackList leisureBlackList = LeisureBlackList.builder()
             .leisureId(form.getLeisureId())
             .customerId(form.getCustomerId())
             .description(form.getDescription())
             .build();
 
-        leisure.getLeisureBlackListId().add(leisureBlackList.getCustomerId());
-
         leisureBlackListRepository.save(leisureBlackList);
-        leisureRepository.save(leisure);
         return leisureBlackList;
     }
 
@@ -53,11 +42,8 @@ public class LeisureBlackListService {
         LeisureBlackList leisureBlackList = leisureBlackListRepository.findById(leisureBackListId)
             .orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_USER));
 
-        Leisure leisure = leisureRepository.findById(leisureBlackList.getLeisureId())
+        leisureRepository.findById(leisureBlackList.getLeisureId())
             .orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
-
-        leisure.getLeisureBlackListId().remove(leisureBlackList.getCustomerId());
-        leisureRepository.save(leisure);
 
         leisureBlackListRepository.deleteById(leisureBackListId);
     }
