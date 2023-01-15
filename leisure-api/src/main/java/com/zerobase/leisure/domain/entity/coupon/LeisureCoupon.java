@@ -27,7 +27,7 @@ public class LeisureCoupon extends BaseEntity{
 	private Long customerId;
 	private Long couponGroupId;
 
-	private boolean used;
+	private boolean usedYN;
 
 	private LocalDateTime usedTime;
 

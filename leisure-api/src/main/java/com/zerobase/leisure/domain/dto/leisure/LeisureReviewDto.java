@@ -1,4 +1,4 @@
-package com.zerobase.leisure.domain.dto;
+package com.zerobase.leisure.domain.dto.leisure;
 
 import com.zerobase.leisure.domain.entity.leisure.LeisureReview;
 import java.util.List;
@@ -20,7 +20,7 @@ public class LeisureReviewDto {
 	private Long leisureId;
 
 	private double rating;
-	private double description;
+	private String description;
 
 	private String reply;
 

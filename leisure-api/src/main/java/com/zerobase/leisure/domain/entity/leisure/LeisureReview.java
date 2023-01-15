@@ -1,6 +1,5 @@
 package com.zerobase.leisure.domain.entity.leisure;
 
-import com.zerobase.leisure.domain.dto.LeisureReviewDto;
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
 import com.zerobase.leisure.domain.form.AddLeisureReviewForm;
 import javax.persistence.Entity;
@@ -30,9 +29,9 @@ public class LeisureReview extends BaseEntity {
 	private Long sellerId;
 
 	private Long leisureId;
+	private String description;
 
 	private double rating;
-	private double description;
 
 	private String reply;
 

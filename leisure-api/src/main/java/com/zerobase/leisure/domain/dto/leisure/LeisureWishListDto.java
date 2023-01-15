@@ -1,4 +1,4 @@
-package com.zerobase.leisure.domain.dto;
+package com.zerobase.leisure.domain.dto.leisure;
 
 import java.util.ArrayList;
 import java.util.List;

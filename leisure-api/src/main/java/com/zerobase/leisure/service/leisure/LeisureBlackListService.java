@@ -1,6 +1,6 @@
-package com.zerobase.leisure.service;
+package com.zerobase.leisure.service.leisure;
 
-import com.zerobase.leisure.domain.dto.LeisureBlackListDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureBlackListDto;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.entity.leisure.LeisureBlackList;
 import com.zerobase.leisure.domain.form.AddLeisureBlackListForm;

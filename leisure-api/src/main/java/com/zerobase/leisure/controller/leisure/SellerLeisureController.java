@@ -1,10 +1,10 @@
 package com.zerobase.leisure.controller.leisure;
 
 
-import com.zerobase.leisure.domain.dto.LeisureDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureDto;
 import com.zerobase.leisure.domain.form.AddLeisureForm;
 import com.zerobase.leisure.domain.model.WebResponseData;
-import com.zerobase.leisure.service.SellerLeisureService;
+import com.zerobase.leisure.service.leisure.SellerLeisureService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

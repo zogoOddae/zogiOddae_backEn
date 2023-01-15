@@ -1,4 +1,4 @@
-package com.zerobase.leisure.domain.dto;
+package com.zerobase.leisure.domain.dto.leisure;
 
 import com.zerobase.leisure.domain.entity.leisure.LeisureBlackList;
 import java.util.List;

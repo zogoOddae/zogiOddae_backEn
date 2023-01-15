@@ -1,4 +1,4 @@
-package com.zerobase.leisure.service;
+package com.zerobase.leisure.service.leisure;
 
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.form.AddLeisureForm;

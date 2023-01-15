@@ -9,7 +9,7 @@ public class AddLeisureReviewForm {
 	private Long leisureId;
 
 	private double rating;
-	private double description;
+	private String description;
 
 	private String reply;
 }

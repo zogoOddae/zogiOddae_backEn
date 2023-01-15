@@ -17,7 +17,11 @@ public enum ErrorCode {
 	ALREADY_DENIED_USER("이미 사용이 거부된 유저입니다."),
 	NOT_FOUND_USER("회원을 찾을 수 없습니다."),
 	NOT_HAD_BLACKLIST("블랙리스트가 없습니다."),
-	NOT_HAD_WISHLIST("찜한 상품이 없습니다.")
+	NOT_HAD_WISHLIST("찜한 상품이 없습니다."),
+	ALREADY_ISSUED_COUPON("이미 발급받은 쿠폰입니다"),
+	EXPIRED_COUPON("기한 만료된 쿠폰입니다."),
+	EXCEEDED_COUNT_COUPON("남은 쿠폰이 없습니다."),
+	NOT_REGISTERED_COUPON_GROUP("등록되지 않은 쿠폰입니다.")
 	;
 
 

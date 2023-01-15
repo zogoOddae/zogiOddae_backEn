@@ -1,6 +1,7 @@
 package com.zerobase.leisure.domain.entity.coupon;
 
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
+import com.zerobase.leisure.domain.form.AddLeisureCouponGroupForm;
 import com.zerobase.leisure.domain.type.CouponTarget;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
@@ -28,7 +29,17 @@ public class LeisureCouponGroup extends BaseEntity {
 
 	private Long salePrice;
 	private CouponTarget couponTarget;
-	private Integer count;
+	private Integer issuedCount;
 
 	private LocalDateTime endTime;
+
+	public static LeisureCouponGroup of(AddLeisureCouponGroupForm form) {
+		return LeisureCouponGroup.builder()
+			.id(form.getLeisureCouponGroupId())
+			.salePrice(form.getSalePrice())
+			.couponTarget(form.getCouponTarget())
+			.issuedCount(form.getIssuedCount())
+			.endTime(form.getEndTime())
+			.build();
+	}
 }
