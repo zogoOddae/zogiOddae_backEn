@@ -2,6 +2,6 @@ package com.zerobase.type;
 
 public enum MemberStatus {
 
-    ACTIVE, DORMANT, INACTIVE
+    ACTIVE, DORMANT, INACTIVE, DELETED
 
 }
