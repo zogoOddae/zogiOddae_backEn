@@ -25,7 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @RequiredArgsConstructor
-class SellerLeisureApplicationTests {
+class SellerLeisureServiceTest {
 
 	@Autowired
 	private SellerLeisureService sellerLeisureService;
@@ -56,7 +56,7 @@ class SellerLeisureApplicationTests {
 	@Transactional
 	@DisplayName("보유 시설 불러오기")
 	void getAllLeisureTest() {
-	    //given
+		//given
 		for (int i=0; i<3; i++){
 			sellerLeisureService.AddLeisure(1L, LeisureForm.builder()
 				.addr("허리도 가늘군 만지면 부러지리")
@@ -70,7 +70,7 @@ class SellerLeisureApplicationTests {
 				.lon(127.11132)
 				.build());
 		}
-	    //when
+		//when
 		List<Leisure> leisureList = sellerLeisureService.getAllLeisure(1L);
 		//then
 		assertEquals(leisureList.get(0).getSellerId(),1L);
@@ -146,9 +146,9 @@ class SellerLeisureApplicationTests {
 	@Transactional
 	@DisplayName("휴일 지정")
 	void addLeisureDayOffTest() {
-	    //given
+		//given
 		addLeisure();
-	    //when
+		//when
 		LeisureDayOff leisureDayOff = addLeisureDayOff();
 		//then
 		assertNotNull(leisureDayOff);
@@ -161,13 +161,13 @@ class SellerLeisureApplicationTests {
 	@Transactional
 	@DisplayName("휴일 삭제")
 	void deleteLeisureDayOffTest() {
-	    //given
+		//given
 		addLeisure();
 		LeisureDayOff leisureDayOff = addLeisureDayOff();
 		sellerLeisureService.deleteLeisureDayOff(leisureDayOff.getId());
-	    //when
+		//when
 		Optional<LeisureDayOff> leisureDayOff1 = leisureDayOffRepository.findById(leisureDayOff.getId());
-	    //then
+		//then
 		assertFalse(leisureDayOff1.isPresent());
 	}
 
@@ -175,7 +175,7 @@ class SellerLeisureApplicationTests {
 	@Transactional
 	@DisplayName("휴일 불러오기")
 	void getLeisureDayOffTest() {
-	    //given
+		//given
 		addLeisure();
 		sellerLeisureService.addLeisureDayOff(1L, LeisureDayOffForm.builder()
 			.startDay(LocalDate.of(2023,1,1))
@@ -189,9 +189,9 @@ class SellerLeisureApplicationTests {
 			.startDay(LocalDate.of(2023,1,3))
 			.endDay(LocalDate.of(2023,1,4))
 			.build());
-	    //when
+		//when
 		List<LeisureDayOff> leisureDayOffList = sellerLeisureService.getLeisureDayOff(1L);
-	    //then
+		//then
 		assertEquals(leisureDayOffList.get(0).getYear(), "2023");
 		assertEquals(leisureDayOffList.get(1).getYear(), "2023");
 		assertEquals(leisureDayOffList.get(2).getYear(), "2023");
@@ -207,7 +207,7 @@ class SellerLeisureApplicationTests {
 	@Transactional
 	@DisplayName("휴일 수정하기")
 	void updateLeisureDayOffTest() {
-	    //given
+		//given
 		addLeisure();
 		LeisureDayOff leisureDayOff = addLeisureDayOff();
 		sellerLeisureService.updateLeisureDayOff(leisureDayOff.getId(),
@@ -215,9 +215,9 @@ class SellerLeisureApplicationTests {
 				.startDay(LocalDate.of(2024,2,4))
 				.endDay(LocalDate.of(2024,2,5))
 				.build());
-	    //when
+		//when
 		LeisureDayOff leisureDayOff1 = leisureDayOffRepository.findById(leisureDayOff.getId()).get();
-	    //then
+		//then
 		assertEquals(leisureDayOff1.getYear(), "2024");
 		assertEquals(leisureDayOff1.getStartDate(), LocalDate.of(2024,2,4));
 		assertEquals(leisureDayOff1.getEndDate(), LocalDate.of(2024,2,5));
