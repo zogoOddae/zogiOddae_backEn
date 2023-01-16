@@ -2,6 +2,7 @@ package com.zerobase.leisure.service.leisure;
 
 import com.zerobase.leisure.domain.dto.leisure.LeisureDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureWishListDto;
+import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.entity.leisure.LeisureWishList;
 import com.zerobase.leisure.domain.repository.leisure.LeisureRepository;
 import com.zerobase.leisure.domain.repository.leisure.LeisureWishListRepository;
@@ -9,6 +10,7 @@ import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.exception.LeisureException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -18,48 +20,47 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LeisureWishService {
 
-    private final LeisureWishListRepository leisureWishListRepository;
-    private final LeisureRepository leisureRepository;
+	private final LeisureWishListRepository leisureWishListRepository;
+	private final LeisureRepository leisureRepository;
 
-    public void addLeisureWish(Long memberId, Long leisureId) {
-        leisureRepository.findById(leisureId).orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
-       Optional<LeisureWishList> optionalLeisureWishList =  leisureWishListRepository.findByMemberId(memberId);
-       if(optionalLeisureWishList.isPresent()){
-           LeisureWishList wishList = optionalLeisureWishList.get();
-           List<Long> list = wishList.getLeisureId();
-           if (list.contains(leisureId)){
-               list.remove(leisureId);
-           } else {
-               list.add(leisureId);
-           }
-           wishList.setLeisureId(list);
-           leisureWishListRepository.save(wishList);
-       } else {
-           leisureWishListRepository.save(LeisureWishList.builder()
-               .memberId(memberId)
-               .leisureId(new ArrayList<>(Arrays.asList(leisureId)))
-               .build());
-       }
-    }
+	public LeisureWishList addLeisureWish(Long memberId, Long leisureId) {
+		leisureRepository.findById(leisureId)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
 
-    public void deleteLeisureWish(Long memberId, Long leisureId) {
-        LeisureWishList leisureWishList = leisureWishListRepository.findByMemberId(memberId)
-            .orElseThrow(() -> new LeisureException(ErrorCode.NOT_HAD_WISHLIST));
+		return leisureWishListRepository.save(LeisureWishList.builder()
+			.memberId(memberId)
+			.leisureId(leisureId)
+			.build());
+	}
 
-        List<Long> list = leisureWishList.getLeisureId();
-        list.remove(leisureId);
-        leisureWishList.setLeisureId(list);
-        leisureWishListRepository.save(leisureWishList);
-    }
+	public void deleteLeisureWish(Long memberId, Long leisureId) {
+		leisureWishListRepository.deleteByMemberIdAndLeisureId(memberId, leisureId);
+	}
 
-    public LeisureWishListDto getLeisureWishList(Long memberId) {
-        LeisureWishList leisureWishList = leisureWishListRepository.findByMemberId(memberId)
-            .orElseThrow(() -> new LeisureException(ErrorCode.NOT_HAD_WISHLIST));
+	public List<LeisureWishListDto> getLeisureWishList(Long memberId) {
+		Optional<List<LeisureWishList>> optionalLeisureWishList = leisureWishListRepository.findAllByMemberId(
+			memberId);
+		List<LeisureWishListDto> leisureWishListDtoList = new ArrayList<>();
+		if (!optionalLeisureWishList.isPresent()) {
+			return leisureWishListDtoList;
+		}
 
-        return LeisureWishListDto.builder()
-            .id(leisureWishList.getId())
-            .memberId(memberId)
-            .wishList(LeisureDto.fromList(leisureRepository.findAllById(leisureWishList.getLeisureId())))
-            .build();
-    }
+		for (LeisureWishList leisureWishList : optionalLeisureWishList.get()) {
+			Leisure leisure = leisureRepository.findById(leisureWishList.getLeisureId())
+				.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
+
+			leisureWishListDtoList.add(
+				LeisureWishListDto.builder()
+					.leisureWishListId(leisureWishList.getId())
+					.leisureId(leisureWishList.getLeisureId())
+					.memberId(memberId)
+					.leisureName(leisure.getLeisureName())
+					.addr(leisure.getAddr())
+					.price(leisure.getPrice())
+					.pictureUrl(leisure.getPictureUrl())
+					.build()
+			);
+		}
+		return leisureWishListDtoList;
+	}
 }

@@ -1,10 +1,11 @@
 package com.zerobase.leisure.domain.form;
 
+import java.time.LocalDate;
 import lombok.Getter;
 
 @Getter
-public class AddLeisureForm {
-	private String name;
+public class LeisureForm {
+	private String LeisureName;
 	private String addr;
 	private Integer price;
 	private String pictureUrl;
