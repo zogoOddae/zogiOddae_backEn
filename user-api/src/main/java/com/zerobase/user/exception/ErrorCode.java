@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
@@ -35,8 +36,16 @@ public enum ErrorCode {
 
     DUPLICATE_MEMBER_ID("이미 중복된 아이디가 존재합니다.",LocalDateTime.now()),
     NOT_AUTHROIZED("인증 되지 않은 상태입니다.", LocalDateTime.now()),
-    
+    USER_PROFILE_LIST_NOT_ZERO( "업로드 할 이미지가 없습니다.",LocalDateTime.now()),
+    USER_DELETE_FAIL_PROFILE_( "프로필 이미지 삭제에 실패하였습니다.",LocalDateTime.now()),
+    USER_EXISTS_NICKNAME( "이미 등록된 닉네임입니다.",LocalDateTime.now())
     ;
+
+
+
+
+
+
     private final String description;
     private final LocalDateTime getTimeStamp;
 }
