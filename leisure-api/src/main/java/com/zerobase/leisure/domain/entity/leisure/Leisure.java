@@ -48,8 +48,11 @@ public class Leisure extends BaseEntity {
 			.addr(form.getAddr())
 			.price(form.getPrice())
 			.description(form.getDescription())
+			.pictureUrl(form.getPictureUrl())
 			.minPerson(form.getMinPerson())
 			.maxPerson(form.getMaxPerson())
+			.lat(form.getLat())
+			.lon(form.getLon())
 			.build();
 	}
 }
