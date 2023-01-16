@@ -35,10 +35,63 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 public class Member extends BaseEntity {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
+
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Setter
+    @Column(name = "username", nullable = false, length = 32)
+    private String username;
+    @Setter
+    @Column(name = "nickname", nullable = false, length = 32)
+    private String nickname;
+    @Setter
+    @Column(name = "password", nullable = false, length = 1024)
+    private String password;
+    @Column(name = "phoneNo")
+    private String phoneNo;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long emailKey;
+    @Setter
+    @Column(name = "email", unique = true, nullable = false, length = 64)
+    private String email;
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MemberStatus status;
+
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MemberRole role;
+
+    @Setter
+    @Column(name = "profileImage")
+    private String profileImage;
+
+    @Column(name = "createdAt")
+    private LocalDateTime createdAt;
+    @Column(name = "updatedAt")
+    private LocalDateTime updatedAt;
+    @Column(name = "deletedAt")
+    private LocalDateTime deletedAt;
+
+    @Setter
+    @Column(name = "zipcode")
+    private String zipcode;
+    @Setter
+    @Column(name = "address")
+    private String address;
+    @Setter
+    @Column(name = "addressDetail")
+    private String addressDetail;
+
 
     @Column(name = "platform", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -48,51 +101,24 @@ public class Member extends BaseEntity {
     @Column(name = "platformId", unique = false, nullable = true, length = 256)
     private String platformId;
 
-    @Setter
-    @Column(name = "email", unique = true, nullable = false, length = 64)
-    private String email;
-
-    @Setter
-    @Column(name = "username", nullable = false, length = 32)
-    private String username;
-
-    @Setter
-    @Column(name = "password", nullable = false, length = 1024)
-    private String password;
-
-    @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private MemberStatus status;
-
-    @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private MemberRole role;
-
-    private String zipcode;
-    private String address;
-    private String addressDetail;
 
 
-    private String nickName;
-    private String profile;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private LocalDateTime deletedAt;
 
     @OneToMany
     private List<Member> members = new ArrayList<>();
 
     @Builder
-    public Member(String email, String password, String nickName, MemberStatus status,
-            com.zerobase.type.MemberRole role) {
+    public Member(String email, String password, String nickname, MemberStatus status,
+            MemberRole role) {
         this.email = email;
         this.password = password;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.status = status;
         this.role = role;
     }
-    public void editNickName(String nickName) {
-        this.nickName = nickName;
+
+    public void editNickName(String nickname) {
+        this.nickname = nickname;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -116,8 +142,8 @@ public class Member extends BaseEntity {
         return MemberDto.builder()
                 .id(this.id)
                 .email(this.email)
-                .nickName(this.nickName)
-                .profile(this.profile)
+                .nickName(this.nickname)
+                .profile(this.profileImage)
                 .role(this.role)
                 .status(this.status)
                 .createdAt(this.createdAt)
@@ -125,8 +151,8 @@ public class Member extends BaseEntity {
                 .build();
     }
 
-    public void editProfile(String profile) {
-        this.profile = profile;
+    public void editProfile(String profileImage) {
+        this.profileImage = profileImage;
         this.updatedAt = LocalDateTime.now();
     }
 

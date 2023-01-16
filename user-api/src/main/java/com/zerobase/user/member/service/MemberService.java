@@ -1,15 +1,12 @@
 package com.zerobase.user.member.service;
 
-import org.springframework.stereotype.Service;
+import com.zerobase.user.member.dto.ChangeNickname;
+import com.zerobase.user.member.dto.MemberInfoDto;
+import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.zerobase.user.member.repository.MemberRepository;
-
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
-@Service
-public class MemberService {
-
-    private final MemberRepository memberRepository;
-
+public interface MemberService {
+    MemberInfoDto mypage();
+    String updateProfile(List<MultipartFile> multipartFiles);
+    String changeNickname(ChangeNickname changeNickname);
 }

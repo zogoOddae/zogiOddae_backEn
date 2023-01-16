@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Transactional
-    Long updateInfo(String username, String newName, String email);
+    Long updateInfo(String username, String newName);
     Optional<Member> findByEmail(String email);
     Optional<Member> findByPlatformAndPlatformId(MemberPlatform platform, String platformId);
 
