@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long> {
 
     Optional<List<Accommodation>> findAllBySellerId(Long sellerId);
-    Optional<Accommodation> getFirstByIdAndSellerId(Long accommodationId, Long sellerId);
+    Optional<Accommodation> FindByIdAndSellerId(Long accommodationId, Long sellerId);
 }
