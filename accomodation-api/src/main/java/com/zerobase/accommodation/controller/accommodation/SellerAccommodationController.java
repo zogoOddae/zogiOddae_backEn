@@ -1,8 +1,10 @@
 package com.zerobase.accommodation.controller.accommodation;
 
 
+import com.zerobase.accommodation.domain.dto.accommodation.AccommodationDayOffDto;
 import com.zerobase.accommodation.domain.dto.accommodation.AccommodationDto;
 import com.zerobase.accommodation.domain.dto.accommodation.AccommodationListDto;
+import com.zerobase.accommodation.domain.form.AccommodationDayOffForm;
 import com.zerobase.accommodation.domain.form.AccommodationForm;
 import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.accommodation.SellerAccommodationService;
@@ -54,6 +56,29 @@ public class SellerAccommodationController {
 		return WebResponseData.ok("성공적으로 삭제 되었습니다.");
 	}
 
+	//휴일 관련
+	@PostMapping("/dayOff")
+	public WebResponseData<String> addAccommodationDayOff(@RequestParam Long accommodationId, @RequestBody AccommodationDayOffForm form) {
+		sellerAccommodationService.addAccommodationDayOff(accommodationId, form);
+		return WebResponseData.ok("성공적으로 등록 되었습니다.");
+	}
 
+	@DeleteMapping("/dayOff")
+	public WebResponseData<String> deleteAccommodationDayOff(@RequestParam Long accommodationDayOffId) {
+		sellerAccommodationService.deleteAccommodationDayOff(accommodationDayOffId);
+		return WebResponseData.ok("성공적으로 삭제 되었습니다.");
+	}
+
+	@GetMapping("/dayOff")
+	public WebResponseData<List<AccommodationDayOffDto>> getAccommodationDayOff(@RequestParam Long accommodationId) {
+		return WebResponseData.ok(AccommodationDayOffDto.fromList(sellerAccommodationService.getAccommodationDayOff(accommodationId)));
+	}
+
+	@PutMapping("/dayOff")
+	public WebResponseData<String> updateAccommodationDayOff(@RequestParam Long accommodationDayOffId,
+		@RequestBody AccommodationDayOffForm form) {
+		sellerAccommodationService.updateAccommodationDayOff(accommodationDayOffId, form);
+		return WebResponseData.ok("성공적으로 수정되었습니다.");
+	}
 
 }

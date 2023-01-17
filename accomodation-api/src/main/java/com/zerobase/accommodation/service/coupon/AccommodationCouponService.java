@@ -34,7 +34,7 @@ public class AccommodationCouponService {
             accommodationCouponGroupRepository.findById(form.getCouponGroupId());
 
         if(!optionalAccommodationCouponGroup.isPresent()){
-            throw new AccommodationException(ErrorCode.NOT_REGISTERED_COUPONGROUP);
+            throw new AccommodationException(ErrorCode.NOT_REGISTERED_COUPON_GROUP);
         }
 
         if(LocalDateTime.now().isAfter(optionalAccommodationCouponGroup.get().getEndTime())){

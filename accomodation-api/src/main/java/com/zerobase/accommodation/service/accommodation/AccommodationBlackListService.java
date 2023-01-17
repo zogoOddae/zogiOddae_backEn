@@ -1,6 +1,5 @@
 package com.zerobase.accommodation.service.accommodation;
 
-import com.zerobase.accommodation.domain.entity.accommodation.Accommodation;
 import com.zerobase.accommodation.domain.entity.accommodation.AccommodationBlackList;
 import com.zerobase.accommodation.domain.form.AddAccommodationBlackListForm;
 import com.zerobase.accommodation.domain.repository.accommodation.AccommodationBlackListRepository;
@@ -27,7 +26,7 @@ public class AccommodationBlackListService {
         }
 
         accommodationRepository.findById(form.getAccommodationId())
-            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMODATION));
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         AccommodationBlackList accommodationBlackList = AccommodationBlackList.builder()
             .accommodationId(form.getAccommodationId())
@@ -46,7 +45,7 @@ public class AccommodationBlackListService {
             .orElseThrow(() -> new AccommodationException(ErrorCode.ALREADY_DELETED_BLACKLIST));
 
         accommodationRepository.findById(accommodationBlackList.getAccommodationId())
-            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMODATION));
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         accommodationBlackListRepository.deleteById(accomodationBlackListId);
     }

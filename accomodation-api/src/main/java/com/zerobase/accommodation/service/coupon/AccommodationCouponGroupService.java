@@ -39,7 +39,7 @@ public class AccommodationCouponGroupService {
 
     private AccommodationCouponGroup findCouponGroup(Long accommodationCouponGroupId){
         return accommodationCouponGroupRepository.findById(accommodationCouponGroupId)
-            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_REGISTERED_COUPONGROUP));
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_REGISTERED_COUPON_GROUP));
     }
 
 }

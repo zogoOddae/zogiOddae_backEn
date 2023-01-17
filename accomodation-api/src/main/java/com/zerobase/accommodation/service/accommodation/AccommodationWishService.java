@@ -21,7 +21,7 @@ public class AccommodationWishService {
     private final AccommodationRepository accommodationRepository;
 
     public AccommodationWishList addAccommodationWish(Long memberId, Long accommodationId) {
-       accommodationRepository.findById(accommodationId).orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMODATION));
+       accommodationRepository.findById(accommodationId).orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         return accommodationWishListRepository.save(AccommodationWishList.builder().memberId(memberId)
             .accommodationId(accommodationId)
@@ -34,7 +34,7 @@ public class AccommodationWishService {
 
     public Accommodation getAccommodationInfo(Long accommodationId) {
         return accommodationRepository.findById(accommodationId).orElseThrow(() -> new AccommodationException(
-            ErrorCode.NOT_FOUND_ACCOMODATION));
+            ErrorCode.NOT_FOUND_ACCOMMODATION));
     }
 
     public List<AccommodationWishListDto> getAllAccommodationWish(Long memberId) {
@@ -46,7 +46,7 @@ public class AccommodationWishService {
 
         for(AccommodationWishList accommodationWishList : optionalAccommodationWishList.get()){
             Accommodation accommodation = accommodationRepository.findById(accommodationWishList.getAccommodationId()).orElseThrow(() -> new AccommodationException(
-                ErrorCode.NOT_FOUND_ACCOMODATION));
+                ErrorCode.NOT_FOUND_ACCOMMODATION));
 
             accommodationWishListDtoList.add(
                 AccommodationWishListDto.builder()

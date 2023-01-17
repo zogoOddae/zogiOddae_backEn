@@ -3,6 +3,7 @@ package com.zerobase.accommodation.service.accommodation;
 import com.zerobase.accommodation.domain.dto.accommodation.AccommodationListDto;
 import com.zerobase.accommodation.domain.entity.accommodation.Accommodation;
 import com.zerobase.accommodation.domain.entity.accommodation.AccommodationDayOff;
+import com.zerobase.accommodation.domain.form.AccommodationDayOffForm;
 import com.zerobase.accommodation.domain.form.AccommodationForm;
 import com.zerobase.accommodation.domain.repository.accommodation.AccommodationDayOffRepository;
 import com.zerobase.accommodation.domain.repository.accommodation.AccommodationRepository;
@@ -11,7 +12,6 @@ import com.zerobase.accommodation.exception.AccommodationException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,23 +25,12 @@ public class SellerAccommodationService {
     public Accommodation addAccommodation(Long sellerId, AccommodationForm form) {
         Accommodation accommodation = Accommodation.of(sellerId, form);
         accommodationRepository.save(accommodation);
-
-        String dayOffStart = form.getDayOffStartDate()
-            .format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-
-        accommodationDayOffRepository.save(AccommodationDayOff.builder()
-            .accommodationId(accommodation.getId())
-            .year(dayOffStart.substring(0, 4))
-            .startDate(form.getDayOffStartDate())
-            .endDate(form.getDayOffEndDate())
-            .build());
-
         return accommodation;
     }
 
     public List<AccommodationListDto> getAllAccommodation(Long sellerId) {
         List<Accommodation> accommodationList = accommodationRepository.findAllBySellerId(sellerId)
-            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMODATION));
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         List<AccommodationListDto> dtoList = new ArrayList<>();
 
@@ -53,7 +42,7 @@ public class SellerAccommodationService {
 
     public Accommodation updateAccommodation(Long accommodationId, AccommodationForm form) {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
-            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMODATION));
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         accommodation.setAccommodationName(form.getAccommodationName());
         accommodation.setSellerId(accommodation.getSellerId());
@@ -66,40 +55,55 @@ public class SellerAccommodationService {
         accommodation.setLat(form.getLat());
         accommodation.setLon(form.getLon());
 
-		String dayOffStart = form.getDayOffStartDate().format(DateTimeFormatter.ofPattern("yyyymmdd"));
-
-		Optional<AccommodationDayOff> accommodationDayOffOptional = accommodationDayOffRepository.findByAccommodationId(accommodationId);
-
-		if(!accommodationDayOffOptional.isPresent()){
-			accommodationDayOffRepository.save(AccommodationDayOff.builder()
-				.accommodationId(accommodation.getId())
-				.year(dayOffStart.substring(0, 4))
-				.startDate(form.getDayOffStartDate())
-				.endDate(form.getDayOffEndDate())
-				.build());
-		}else{
-			AccommodationDayOff accommodationDayOff = accommodationDayOffOptional.get();
-
-			accommodationDayOff.setAccommodationId(accommodationId);
-			accommodationDayOff.setYear(dayOffStart.substring(0, 4));
-			accommodationDayOff.setStartDate(form.getDayOffStartDate());
-			accommodationDayOff.setEndDate(form.getDayOffEndDate());
-
-			accommodationDayOffRepository.save(accommodationDayOff);
-		}
-
         return accommodation;
     }
 
     public Accommodation getDetailAccommodation(Long accommodationId, Long sellerId) {
-        return accommodationRepository.getFirstByIdAndSellerId(accommodationId, sellerId)
-            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMODATION));
+        return accommodationRepository.FindByIdAndSellerId(accommodationId, sellerId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
     }
 
     public void deleteAccommodation(Long accommodationId, Long sellerId) {
-        accommodationRepository.getFirstByIdAndSellerId(accommodationId, sellerId)
-            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMODATION));
+        accommodationRepository.FindByIdAndSellerId(accommodationId, sellerId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         accommodationRepository.deleteById(accommodationId);
+    }
+
+    public void addAccommodationDayOff(Long accommodationId, AccommodationDayOffForm form) {
+        String dayOffStart = form.getStartDate()
+            .format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        accommodationDayOffRepository.save(AccommodationDayOff.builder()
+            .accommodationId(accommodationId)
+            .year(dayOffStart.substring(0, 4))
+            .startDate(form.getStartDate())
+            .endDate(form.getEndDate())
+            .build());
+    }
+
+
+    public void deleteAccommodationDayOff(Long accommodationDayOffId) {
+        accommodationDayOffRepository.findById(accommodationDayOffId).orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION_DAY_OFF));
+
+        accommodationDayOffRepository.deleteById(accommodationDayOffId);
+    }
+
+    public List<AccommodationDayOff> getAccommodationDayOff(Long accommodationId) {
+        return accommodationDayOffRepository.findAllByAccommodationId(accommodationId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION_DAY_OFF));
+    }
+
+    public void updateAccommodationDayOff(Long accommodationDayOffId, AccommodationDayOffForm form) {
+        AccommodationDayOff accommodationDayOff = accommodationDayOffRepository.findById(accommodationDayOffId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION_DAY_OFF));
+
+        String dayOffStart = form.getStartDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        accommodationDayOff.setYear(dayOffStart.substring(0,4));
+        accommodationDayOff.setStartDate(form.getStartDate());
+        accommodationDayOff.setEndDate(form.getEndDate());
+
+        accommodationDayOffRepository.save(accommodationDayOff);
     }
 }
