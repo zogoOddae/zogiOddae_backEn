@@ -1,4 +1,4 @@
-package com.zerobase.leisure;
+package com.zerobase.leisure.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

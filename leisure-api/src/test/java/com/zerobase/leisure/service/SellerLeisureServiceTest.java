@@ -1,4 +1,4 @@
-package com.zerobase.leisure;
+package com.zerobase.leisure.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -241,11 +241,9 @@ class SellerLeisureServiceTest {
 	}
 
 	private LeisureDayOff addLeisureDayOff() {
-		sellerLeisureService.addLeisureDayOff(1L, LeisureDayOffForm.builder()
+		return sellerLeisureService.addLeisureDayOff(1L, LeisureDayOffForm.builder()
 			.startDay(LocalDate.of(2023,1,1))
 			.endDay(LocalDate.of(2023,1,2))
 			.build());
-
-		return leisureDayOffRepository.findById(1L).get();
 	}
 }

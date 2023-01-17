@@ -60,10 +60,10 @@ public class SellerLeisureService {
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE)));
 	}
 
-	public void addLeisureDayOff(Long leisureId, LeisureDayOffForm form) {
+	public LeisureDayOff addLeisureDayOff(Long leisureId, LeisureDayOffForm form) {
 		String dayOffStart = form.getStartDay().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-		leisureDayOffRepository.save(LeisureDayOff.builder()
+		return leisureDayOffRepository.save(LeisureDayOff.builder()
 			.leisureId(leisureId)
 			.year(dayOffStart.substring(0, 4))
 			.startDate(form.getStartDay())
