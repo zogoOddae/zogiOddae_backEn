@@ -21,6 +21,7 @@ import com.zerobase.common.type.MemberPlatform;
 import com.zerobase.common.type.MemberRole;
 import com.zerobase.user.exception.CustomException;
 import com.zerobase.user.exception.ErrorCode;
+import com.zerobase.user.member.dto.KakaoLoginRequestDto;
 import com.zerobase.user.member.dto.LoginRequestDto;
 import com.zerobase.user.member.dto.RefreshTokenRequestDto;
 import com.zerobase.user.member.dto.SignUpRequestDto;
@@ -73,8 +74,13 @@ public class AuthController {
         return WebResponseData.ok(authService.refreshToken(request));
     }    
 
-    @PostMapping("/api/auth/login")
-    public WebResponseData<?> login(@RequestBody @Valid LoginRequestDto request) {
+    @PostMapping("/api/auth/zogioddae/login")
+    public WebResponseData<?> zogiOddaeLogin(@RequestBody @Valid LoginRequestDto request) {
+        return WebResponseData.ok(authService.login(request));
+    }
+
+    @PostMapping("/api/auth/kakao/login")
+    public WebResponseData<?> kakaoLogin(@RequestBody KakaoLoginRequestDto request) {
         return WebResponseData.ok(authService.login(request));
     }
 
