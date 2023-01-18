@@ -2,7 +2,7 @@ package com.zerobase.accommodation.service.coupon;
 
 import com.zerobase.accommodation.domain.entity.coupon.AccommodationCoupon;
 import com.zerobase.accommodation.domain.entity.coupon.AccommodationCouponGroup;
-import com.zerobase.accommodation.domain.form.AddAccommodationCouponForm;
+import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationCouponForm;
 import com.zerobase.accommodation.domain.repository.coupon.AccommodationCouponGroupRepository;
 import com.zerobase.accommodation.domain.repository.coupon.AcoommodationCouponRepository;
 import com.zerobase.accommodation.domain.type.ErrorCode;

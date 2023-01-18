@@ -29,6 +29,11 @@ public enum ErrorCode {
 
 	//휴일
 	NOT_FOUND_ACCOMMODATION_DAY_OFF("존재하지 않는 휴일 정보입니다."),
+
+	//상품주문
+	NOT_FOUND_ACCOMMODATION_ORDER_ITEM("존재하지 않는 상품 주문입니다."),
+	NOT_FOUND_PAYMENT("존재하지 않는 결제 내역입니다."),
+
 	SERVER_INTERVAL_ERROR("서버 내부적 오류입니다.");
 
 	private final String description;

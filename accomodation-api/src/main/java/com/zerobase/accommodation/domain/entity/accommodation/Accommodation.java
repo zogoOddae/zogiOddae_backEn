@@ -1,7 +1,7 @@
 package com.zerobase.accommodation.domain.entity.accommodation;
 
 import com.zerobase.accommodation.domain.entity.common.BaseEntity;
-import com.zerobase.accommodation.domain.form.AccommodationForm;
+import com.zerobase.accommodation.domain.form.accommodation.AccommodationForm;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

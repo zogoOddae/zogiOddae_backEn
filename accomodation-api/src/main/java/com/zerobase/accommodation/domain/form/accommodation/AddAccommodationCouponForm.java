@@ -1,4 +1,4 @@
-package com.zerobase.accommodation.domain.form;
+package com.zerobase.accommodation.domain.form.accommodation;
 
 import java.time.LocalDateTime;
 import lombok.Getter;
