@@ -1,6 +1,5 @@
 package com.zerobase.leisure.service.leisure;
 
-import com.zerobase.leisure.domain.dto.leisure.LeisureDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureWishListDto;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.entity.leisure.LeisureWishList;
@@ -9,8 +8,6 @@ import com.zerobase.leisure.domain.repository.leisure.LeisureWishListRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.exception.LeisureException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
