@@ -27,7 +27,6 @@ public class LeisureCartService {
 	private final LeisureOrderItemRepository leisureOrderItemRepository;
 	private final LeisureCartCheck leisureCartCheck;
 
-	@Transactional
 	public void addLeisureCart(Long customerId, AddLeisureCartForm form) {
 		if (leisureOrderItemRepository.findByLeisureCart_CustomerIdAndLeisureId(customerId,
 			form.getLeisureId()).isPresent()) {
@@ -59,7 +58,6 @@ public class LeisureCartService {
 			LeisureOrderItem.of(leisure.getSellerId(), leisure.getPrice(), leisureCart, form));
 	}
 
-	@Transactional
 	public void deleteLeisureCart(Long customerId, Long leisureOrderItemId) {
 		LeisureCart leisureCart = leisureCartRepository.findByCustomerId(customerId)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_CART));
