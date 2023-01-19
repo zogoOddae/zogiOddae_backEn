@@ -36,11 +36,11 @@ public class LeisureReviewService {
 		return leisureReviewRepository.save(leisureReview);
 	}
 
-	public LeisureReview updateReplyLeisureReview(Long reviewId, AddLeisureReviewForm form) {
+	public LeisureReview updateReplyLeisureReview(Long reviewId, String reply) {
 		LeisureReview leisureReview = leisureReviewRepository.findById(reviewId)
 			.orElseThrow(() -> new LeisureException(ErrorCode.REVIEW_NOT_FOUND));
 
-		leisureReview.setReply(form.getReply());
+		leisureReview.setReply(reply);
 		return leisureReviewRepository.save(leisureReview);
 	}
 

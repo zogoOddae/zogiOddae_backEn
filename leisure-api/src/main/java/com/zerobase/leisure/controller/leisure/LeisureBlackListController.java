@@ -23,9 +23,9 @@ public class LeisureBlackListController {
 
     //블랙리스트 등록
     @PostMapping
-    public @ResponseBody WebResponseData<LeisureBlackListDto> addLeisureBlackList(@RequestBody AddLeisureBlackListForm form) {
-        return WebResponseData.ok(
-            LeisureBlackListDto.from(leisureBlackListService.addLeisureBlackList(form)));
+    public @ResponseBody WebResponseData<String> addLeisureBlackList(@RequestBody AddLeisureBlackListForm form) {
+        leisureBlackListService.addLeisureBlackList(form);
+        return WebResponseData.ok("블랙리스트에 추가했습니다.");
     }
 
     //블랙 리스트 삭제

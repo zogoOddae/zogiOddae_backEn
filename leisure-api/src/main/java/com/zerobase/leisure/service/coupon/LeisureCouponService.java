@@ -22,16 +22,16 @@ public class LeisureCouponService {
     private final LeisureCouponGroupRepository leisureCouponGroupRepository;
 
 
-    public LeisureCoupon issuedLeisureCoupon(AddLeisureCouponForm form) {
+    public LeisureCoupon issuedLeisureCoupon(Long customerId, Long couponGroupId) {
         Optional<LeisureCoupon> optionalLeisureCoupon =
-            leisureCouponRepository.findByCustomerIdAndCouponGroupId(form.getCustomerId(),form.getCouponGroupId());
+            leisureCouponRepository.findByCustomerIdAndCouponGroupId(customerId,couponGroupId);
 
         if(optionalLeisureCoupon.isPresent()){
             throw new LeisureException(ErrorCode.ALREADY_ISSUED_COUPON);
         }
 
         Optional<LeisureCouponGroup> optionalLeisureCouponGroup =
-            leisureCouponGroupRepository.findById(form.getCouponGroupId());
+            leisureCouponGroupRepository.findById(couponGroupId);
 
         if(!optionalLeisureCouponGroup.isPresent()){
             throw new LeisureException(ErrorCode.NOT_REGISTERED_COUPON_GROUP);
@@ -41,16 +41,16 @@ public class LeisureCouponService {
             throw new LeisureException(ErrorCode.EXPIRED_COUPON);
         }
 
-        Long countCoupons = leisureCouponRepository.countByCouponGroupId(form.getCouponGroupId());
+        Long countCoupons = leisureCouponRepository.countByCouponGroupId(couponGroupId);
 
         if(countCoupons >= optionalLeisureCouponGroup.get().getIssuedCount()){
             throw new LeisureException(ErrorCode.EXCEEDED_COUNT_COUPON);
         }
 
         return leisureCouponRepository.save(LeisureCoupon.builder()
-            .couponGroupId(form.getCouponGroupId())
+            .couponGroupId(couponGroupId)
             .usedYN(false)
-            .customerId(form.getCustomerId())
+            .customerId(customerId)
             .endTime(optionalLeisureCouponGroup.get().getEndTime())
             .build());
     }
