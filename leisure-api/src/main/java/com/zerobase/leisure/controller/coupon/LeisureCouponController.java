@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,8 +19,8 @@ public class LeisureCouponController {
     private final LeisureCouponService leisureCouponService;
 
     @PostMapping
-    public WebResponseData<LeisureCouponDto> issuedLeisureCoupon(@RequestBody AddLeisureCouponForm form) {
-        return WebResponseData.ok(
-            LeisureCouponDto.from(leisureCouponService.issuedLeisureCoupon(form)));
+    public WebResponseData<String> issuedLeisureCoupon(@RequestParam Long customerId, Long couponGroupId) {
+        leisureCouponService.issuedLeisureCoupon(customerId, couponGroupId);
+        return WebResponseData.ok("쿠폰을 발급했습니다.");
     }
 }

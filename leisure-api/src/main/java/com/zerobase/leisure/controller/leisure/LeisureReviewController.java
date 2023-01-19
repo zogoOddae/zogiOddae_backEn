@@ -25,9 +25,9 @@ public class LeisureReviewController {
 	private final LeisureReviewService leisureReviewService;
 
 	@PostMapping
-	public @ResponseBody WebResponseData<LeisureReviewDto> addLeisureReview(@RequestBody AddLeisureReviewForm form) {
-		return WebResponseData.ok(
-			LeisureReviewDto.from(leisureReviewService.addLeisureReview(form)));
+	public @ResponseBody WebResponseData<String> addLeisureReview(@RequestBody AddLeisureReviewForm form) {
+		leisureReviewService.addLeisureReview(form);
+		return WebResponseData.ok("리뷰를 성공적으로 등록했습니다.");
 	}
 
 	/*
@@ -39,23 +39,23 @@ public class LeisureReviewController {
 	}
 
 	@PutMapping
-	public @ResponseBody WebResponseData<LeisureReviewDto> updateLeisureReview(@RequestParam Long reviewId, @RequestBody AddLeisureReviewForm form) {
-		return WebResponseData.ok(
-			LeisureReviewDto.from(leisureReviewService.updateLeisureReview(reviewId,form)));
+	public @ResponseBody WebResponseData<String> updateLeisureReview(@RequestParam Long leisureReviewId, @RequestBody AddLeisureReviewForm form) {
+		leisureReviewService.updateLeisureReview(leisureReviewId,form);
+		return WebResponseData.ok("리뷰를 수정했습니다.");
 	}
 
 	/*
 	샐러가 답글 달기
    */
 	@PutMapping("/reply")
-	public @ResponseBody WebResponseData<LeisureReviewDto> updateReplyLeisure(@RequestParam Long reviewId, @RequestBody AddLeisureReviewForm form) {
-		return WebResponseData.ok(
-			LeisureReviewDto.from(leisureReviewService.updateReplyLeisureReview(reviewId,form)));
+	public @ResponseBody WebResponseData<String> updateReplyLeisure(@RequestParam Long leisureReviewId, @RequestBody String reply) {
+		leisureReviewService.updateReplyLeisureReview(leisureReviewId,reply);
+		return WebResponseData.ok("리뷰에 답글을 남겼습니다.");
 	}
 
 	@DeleteMapping
-	public @ResponseBody WebResponseData<String> deleteLeisureReview(@RequestParam Long reviewId) {
-		leisureReviewService.deleteLeisureReview(reviewId);
+	public @ResponseBody WebResponseData<String> deleteLeisureReview(@RequestParam Long leisureReviewId) {
+		leisureReviewService.deleteLeisureReview(leisureReviewId);
 		return WebResponseData.ok("성공적으로 삭제 되었습니다.");
 	}
 

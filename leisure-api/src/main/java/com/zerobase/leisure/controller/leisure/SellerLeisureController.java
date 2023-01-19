@@ -27,9 +27,10 @@ public class SellerLeisureController {
 
 	private final SellerLeisureService sellerLeisureService;
 	@PostMapping
-	public @ResponseBody WebResponseData<LeisureDto> addLeisure(@RequestParam Long sellerId,
+	public @ResponseBody WebResponseData<String> addLeisure(@RequestParam Long sellerId,
 											@RequestBody LeisureForm form) {
-		return WebResponseData.ok(LeisureDto.from(sellerLeisureService.AddLeisure(sellerId, form)));
+		sellerLeisureService.AddLeisure(sellerId, form);
+		return WebResponseData.ok("성공적으로 등록했습니다.");
 	}
 
 	@GetMapping
@@ -44,9 +45,9 @@ public class SellerLeisureController {
 	}
 
 	@PutMapping
-	public @ResponseBody WebResponseData<LeisureDto> updateLeisure(@RequestParam Long leisureId, @RequestBody LeisureForm form) {
-		return WebResponseData.ok(
-			LeisureDto.from(sellerLeisureService.updateLeisure(leisureId, form)));
+	public @ResponseBody WebResponseData<String> updateLeisure(@RequestParam Long leisureId, @RequestBody LeisureForm form) {
+		sellerLeisureService.updateLeisure(leisureId, form);
+		return WebResponseData.ok("성공적으로 수정했습니다.");
 	}
 
 	@DeleteMapping

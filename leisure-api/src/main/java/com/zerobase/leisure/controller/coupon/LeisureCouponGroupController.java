@@ -1,6 +1,5 @@
 package com.zerobase.leisure.controller.coupon;
 
-import com.zerobase.leisure.domain.dto.coupon.LeisureCouponGroupDto;
 import com.zerobase.leisure.domain.form.AddLeisureCouponGroupForm;
 import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.service.coupon.LeisureCouponGroupService;
@@ -21,20 +20,20 @@ public class LeisureCouponGroupController {
     private final LeisureCouponGroupService leisureCouponGroupService;
 
     @PostMapping
-    public WebResponseData<LeisureCouponGroupDto> addLeisureCouponGroup(@RequestBody AddLeisureCouponGroupForm form) {
-        return WebResponseData.ok(
-            LeisureCouponGroupDto.from(leisureCouponGroupService.addLeisureCouponGroup(form)));
+    public WebResponseData<String> addLeisureCouponGroup(@RequestBody AddLeisureCouponGroupForm form) {
+        leisureCouponGroupService.addLeisureCouponGroup(form);
+        return WebResponseData.ok("쿠폰을 등록했습니다.");
     }
 
     @PutMapping
-    public WebResponseData<LeisureCouponGroupDto> updateLeisureCouponGroup(@RequestBody AddLeisureCouponGroupForm form) {
-        return WebResponseData.ok(
-            LeisureCouponGroupDto.from(leisureCouponGroupService.updateLeisureCouponGroup(form)));
+    public WebResponseData<String> updateLeisureCouponGroup(@RequestBody AddLeisureCouponGroupForm form) {
+        leisureCouponGroupService.updateLeisureCouponGroup(form);
+        return WebResponseData.ok("쿠폰을 수정했습니다.");
     }
 
     @DeleteMapping
-    public WebResponseData<String> deleteLeisureCouponGroup(@RequestParam Long LeisureCouponGroupId) {
-        leisureCouponGroupService.deleteLeisureCouponGroup(LeisureCouponGroupId);
+    public WebResponseData<String> deleteLeisureCouponGroup(@RequestParam Long leisureCouponGroupId) {
+        leisureCouponGroupService.deleteLeisureCouponGroup(leisureCouponGroupId);
 
         return WebResponseData.ok("성공적으로 삭제되었습니다.");
     }
