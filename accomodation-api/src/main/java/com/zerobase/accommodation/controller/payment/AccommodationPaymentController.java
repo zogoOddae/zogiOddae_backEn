@@ -26,16 +26,16 @@ public class AccommodationPaymentController {
     }
 
 
-    @PostMapping("/kakaopay/approve")
-    public WebResponseData<AccommodationPaymentDto> kakaopayApprove(@RequestParam(value = "pg_token") String pgtoken, @RequestBody AccommodationPaymentForm form) {
+    @GetMapping("/kakaopay/approve")
+    public WebResponseData<AccommodationPaymentDto> kakaopayApprove( @RequestParam Long accommodationPaymentId, @RequestParam(value = "pg_token") String pgtoken) {
         return WebResponseData.ok(
-            AccommodationPaymentDto.from(accommodationPaymentService.paymentSuccess(pgtoken, form)));
+            AccommodationPaymentDto.from(accommodationPaymentService.paymentSuccess(pgtoken, accommodationPaymentId)));
     }
 
-    @PostMapping("/kakaopay/cancel")
-    public WebResponseData<AccommodationPaymentDto> kakaopayCancel(@RequestBody AccommodationPaymentForm form) {
+    @GetMapping("/kakaopay/cancel")
+    public WebResponseData<AccommodationPaymentDto> kakaopayCancel(@RequestParam Long accommodationPaymentId ) {
         return WebResponseData.ok(
-            AccommodationPaymentDto.from(accommodationPaymentService.paymentCancel(form)));
+            AccommodationPaymentDto.from(accommodationPaymentService.paymentCancel(accommodationPaymentId)));
     }
 
     @GetMapping("/kakaopay/fail")

@@ -1,12 +1,19 @@
 package com.zerobase.accommodation.service.accommodation;
 
+import com.zerobase.accommodation.domain.dto.accommodation.AccommodationReviewDto;
 import com.zerobase.accommodation.domain.entity.accommodation.AccommodationReview;
 import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationReviewForm;
 import com.zerobase.accommodation.domain.repository.accommodation.AccommodationReviewRepository;
 import com.zerobase.accommodation.domain.type.ErrorCode;
 import com.zerobase.accommodation.exception.AccommodationException;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -67,7 +74,15 @@ public class AccommodationReviewService {
         return accommodationReviewRepository.findById(reviewId).orElseThrow(() -> new AccommodationException(ErrorCode.NOT_HAD_REVIEW));
     }
 
-    public List<AccommodationReview> getAllAccommodationReview(Long accomodationId) {
-        return accommodationReviewRepository.findAllByAccommodationId(accomodationId);
+    public Page<AccommodationReviewDto> getAllAccommodationReview(Long accommodationId, Pageable pageable) {
+        Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("customerId"));
+        Page<AccommodationReview> accommodationReviews = accommodationReviewRepository.findAllByAccommodationId(accommodationId, limit);
+
+        List<AccommodationReviewDto> accommodationReviewDtos = new ArrayList<>();
+
+        for(AccommodationReview accommodationReview : accommodationReviews){
+            accommodationReviewDtos.add(AccommodationReviewDto.from(accommodationReview));
+        }
+        return new PageImpl<>(accommodationReviewDtos, limit, accommodationReviews.getTotalElements());
     }
 }

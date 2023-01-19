@@ -10,6 +10,8 @@ import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.accommodation.SellerAccommodationService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,14 +29,15 @@ public class SellerAccommodationController {
 	private final SellerAccommodationService sellerAccommodationService;
 
 	@PostMapping
-	public WebResponseData<AccommodationDto> addAccommodation(@RequestParam Long sellerId, @RequestBody AccommodationForm form) {
-		return WebResponseData.ok(
-			AccommodationDto.from(sellerAccommodationService.addAccommodation(sellerId, form)));
+	public WebResponseData<String> addAccommodation(@RequestParam Long sellerId, @RequestBody AccommodationForm form) {
+		sellerAccommodationService.addAccommodation(sellerId, form);
+		return WebResponseData.ok("성공적으로 등록되었습니다.");
 	}
 
 	@GetMapping
-	public WebResponseData<List<AccommodationListDto>> getAccommodation(@RequestParam Long sellerId) { //셀러 상품 전체 조회
-		return WebResponseData.ok(sellerAccommodationService.getAllAccommodation(sellerId));
+	public WebResponseData<Page<AccommodationListDto>> getAccommodation(@RequestParam Long sellerId, final Pageable pageable) { //셀러 상품 전체 조회
+		Page<AccommodationListDto> accommodationListDtos = sellerAccommodationService.getAllAccommodation(sellerId, pageable);
+		return WebResponseData.ok(accommodationListDtos);
 	}
 
 	@GetMapping("/detail")
@@ -45,9 +48,9 @@ public class SellerAccommodationController {
 	}
 
 	@PutMapping
-	public WebResponseData<AccommodationDto> updateAccommodation(@RequestParam Long accommodationId, @RequestBody AccommodationForm form) { //form에서 기존 정보와 수정 정보를 같이 주어야함
-		return WebResponseData.ok(
-			AccommodationDto.from(sellerAccommodationService.updateAccommodation(accommodationId, form)));
+	public WebResponseData<String> updateAccommodation(@RequestParam Long accommodationId, @RequestBody AccommodationForm form) { //form에서 기존 정보와 수정 정보를 같이 주어야함
+		sellerAccommodationService.updateAccommodation(accommodationId, form);
+		return WebResponseData.ok("성공적으로 수정 되었습니다.");
 	}
 
 	@DeleteMapping

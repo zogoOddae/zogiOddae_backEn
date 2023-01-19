@@ -27,7 +27,7 @@ public class AccommodationDayOff extends BaseEntity{
 
 	private Long accommodationId;
 
-	private String year;
+	private String dayOffYear;
 	private LocalDate startDate;
 	private LocalDate endDate;
 }

@@ -34,4 +34,5 @@ public class AccommodationReview extends BaseEntity {
 	private String reply;
 
 
+
 }

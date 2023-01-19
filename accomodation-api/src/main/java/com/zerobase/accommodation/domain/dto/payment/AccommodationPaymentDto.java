@@ -28,8 +28,10 @@ public class AccommodationPaymentDto {
 
     private LocalDateTime canceledAt;
     private String nextRedirectURL;
+    private String approveURL;
 
-    public static AccommodationPaymentDto from(AccommodationPayment accommodationPayment, String nextRedirectURL) {
+
+    public static AccommodationPaymentDto from(AccommodationPayment accommodationPayment, String nextRedirectURL, String approveURL) {
         return AccommodationPaymentDto.builder()
             .accommodationPaymentId(accommodationPayment.getId())
             .customerId(accommodationPayment.getCustomerId())
@@ -41,6 +43,7 @@ public class AccommodationPaymentDto {
             .status(accommodationPayment.getStatus())
             .canceledAt(accommodationPayment.getCanceledAt())
             .nextRedirectURL(nextRedirectURL)
+            .approveURL(approveURL)
             .build();
     }
 
