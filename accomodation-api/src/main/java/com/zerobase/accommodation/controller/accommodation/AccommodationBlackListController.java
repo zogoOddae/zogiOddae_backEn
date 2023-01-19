@@ -1,7 +1,7 @@
 package com.zerobase.accommodation.controller.accommodation;
 
 import com.zerobase.accommodation.domain.dto.accommodation.AccommodationBlackListDto;
-import com.zerobase.accommodation.domain.form.AddAccommodationBlackListForm;
+import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationBlackListForm;
 import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.accommodation.AccommodationBlackListService;
 import lombok.RequiredArgsConstructor;

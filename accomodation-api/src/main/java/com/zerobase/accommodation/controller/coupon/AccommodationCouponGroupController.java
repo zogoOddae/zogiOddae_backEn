@@ -1,7 +1,7 @@
 package com.zerobase.accommodation.controller.coupon;
 
 import com.zerobase.accommodation.domain.dto.coupon.AccommodationCouponGroupDto;
-import com.zerobase.accommodation.domain.form.AddAccommodationCouponGroupForm;
+import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationCouponGroupForm;
 import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.coupon.AccommodationCouponGroupService;
 import lombok.RequiredArgsConstructor;

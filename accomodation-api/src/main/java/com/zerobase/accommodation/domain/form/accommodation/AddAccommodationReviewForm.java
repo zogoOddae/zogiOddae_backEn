@@ -1,4 +1,4 @@
-package com.zerobase.accommodation.domain.form;
+package com.zerobase.accommodation.domain.form.accommodation;
 
 import lombok.Getter;
 

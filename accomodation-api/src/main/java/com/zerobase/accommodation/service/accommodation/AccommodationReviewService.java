@@ -1,7 +1,7 @@
 package com.zerobase.accommodation.service.accommodation;
 
 import com.zerobase.accommodation.domain.entity.accommodation.AccommodationReview;
-import com.zerobase.accommodation.domain.form.AddAccommodationReviewForm;
+import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationReviewForm;
 import com.zerobase.accommodation.domain.repository.accommodation.AccommodationReviewRepository;
 import com.zerobase.accommodation.domain.type.ErrorCode;
 import com.zerobase.accommodation.exception.AccommodationException;

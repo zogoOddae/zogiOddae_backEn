@@ -1,7 +1,7 @@
 package com.zerobase.accommodation.domain.entity.coupon;
 
 import com.zerobase.accommodation.domain.entity.common.BaseEntity;
-import com.zerobase.accommodation.domain.form.AddAccommodationCouponGroupForm;
+import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationCouponGroupForm;
 import com.zerobase.accommodation.domain.type.CouponTarget;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;

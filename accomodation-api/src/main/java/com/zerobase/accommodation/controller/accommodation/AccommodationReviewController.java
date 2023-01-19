@@ -2,7 +2,7 @@ package com.zerobase.accommodation.controller.accommodation;
 
 import com.zerobase.accommodation.domain.dto.accommodation.AccommodationReviewDto;
 import com.zerobase.accommodation.domain.entity.accommodation.AccommodationReview;
-import com.zerobase.accommodation.domain.form.AddAccommodationReviewForm;
+import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationReviewForm;
 import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.accommodation.AccommodationReviewService;
 import java.util.List;

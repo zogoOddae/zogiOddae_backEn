@@ -1,7 +1,7 @@
 package com.zerobase.accommodation.service.accommodation;
 
 import com.zerobase.accommodation.domain.entity.accommodation.AccommodationBlackList;
-import com.zerobase.accommodation.domain.form.AddAccommodationBlackListForm;
+import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationBlackListForm;
 import com.zerobase.accommodation.domain.repository.accommodation.AccommodationBlackListRepository;
 import com.zerobase.accommodation.domain.repository.accommodation.AccommodationRepository;
 import com.zerobase.accommodation.domain.type.ErrorCode;
