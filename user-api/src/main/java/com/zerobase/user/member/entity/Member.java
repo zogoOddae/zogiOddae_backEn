@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,8 @@ import com.zerobase.common.type.MemberPlatform;
 
 import com.zerobase.user.base.entity.BaseEntity;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -42,8 +45,10 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    private String uuid;
+
+//    @Column(name = "user_id")
+//    private Long userId;
 
     @Setter
     @Column(name = "username", nullable = false, length = 32)
@@ -101,11 +106,27 @@ public class Member extends BaseEntity {
     @Column(name = "platformId", unique = false, nullable = true, length = 256)
     private String platformId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "notice_id")
+    private Notice notice;
+
+    @Getter
+    @OneToMany(mappedBy = "member")
+    private List<Notice> notices = new ArrayList<>();
+
 
 
 
     @OneToMany
     private List<Member> members = new ArrayList<>();
+
+
+    public Member(String email, String password, String nickname) {
+        this.nickname = nickname;
+        this.password = password;
+        this.email = email;
+
+    }
 
     @Builder
     public Member(String email, String password, String nickname, MemberStatus status,
@@ -122,6 +143,10 @@ public class Member extends BaseEntity {
         this.createdAt = LocalDateTime.now();
     }
 
+
+    public void giveUUID(String uuid) {
+        this.uuid = uuid;
+    }
     public void resetPassword(String password) {
         this.password = password;
         this.updatedAt = LocalDateTime.now();
@@ -151,14 +176,12 @@ public class Member extends BaseEntity {
                 .build();
     }
 
-    public void editProfile(String profileImage) {
-        this.profileImage = profileImage;
-        this.updatedAt = LocalDateTime.now();
+
+
+
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
     }
-
-
-
-
 
 
 
