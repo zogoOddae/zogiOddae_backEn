@@ -1,7 +1,11 @@
 package com.zerobase.leisure.domain.entity.order;
 
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
+import com.zerobase.leisure.domain.type.PaymentStatus;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,10 +29,17 @@ public class LeisurePayment extends BaseEntity {
 	private Long id;
 
 	private Long customerId;
-	private Long sellerId;
+	private Long leisureOrderItemId;
 
 	private Long leisureId;
 
 	private Integer price;
+
+	private String tid;
 	private String paymentToken;
+
+	@Enumerated(value = EnumType.STRING)
+	private PaymentStatus status;
+
+	private LocalDateTime canceledAt;
 }
