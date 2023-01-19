@@ -4,8 +4,8 @@ import java.util.Date;
 
 import org.springframework.util.StringUtils;
 
+import com.zerobase.common.type.MemberRole;
 import com.zerobase.util.AES256Encoder;
-import com.zerobase.type.MemberRole;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
