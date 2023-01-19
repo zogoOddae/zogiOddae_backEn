@@ -23,7 +23,12 @@ public enum ErrorCode {
 	EXCEEDED_COUNT_COUPON("남은 쿠폰이 없습니다."),
 	NOT_REGISTERED_COUPON_GROUP("등록되지 않은 쿠폰입니다."),
 	NOT_HAD_DAY_OFF("등록된 휴일이 없습니다."),
-	NOT_FOUND_DAY_OFF("등록된 휴일이 없습니다.")
+	NOT_FOUND_DAY_OFF("등록된 휴일이 없습니다."),
+	TOO_MANY_PERSON("인원수를 다시 설정해주세요."),
+	NOT_FOUND_CART("장바구니 정보를 찾을 수 없습니다."),
+	NOT_FOUND_ORDER_ITEM("상품을 찾을 수 없습니다."),
+	NOT_HAD_ORDER_ITEM("장바구니에 등록된 상품이 없습니다."),
+	ALREADY_IN_CART("이미 장바구니에 담긴 상품입니다.")
 	;
 
 

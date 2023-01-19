@@ -1,10 +1,15 @@
 package com.zerobase.leisure.domain.entity.order;
 
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
+import com.zerobase.leisure.domain.form.AddLeisureCartForm;
+import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,13 +30,32 @@ public class LeisureOrderItem extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private Long sellerId;
+	private Long leisureId;
+
 	@ManyToOne
 	private LeisureOrder leisureOrder;
 
-	private Long customerId;
-	private Long sellerId;
+	@ManyToOne
+	@JoinColumn
+	private LeisureCart leisureCart;
 
-	private Long leisureId;
+	private Integer persons;
+
+	private LocalDateTime startAt;
+	private LocalDateTime endAt;
 
 	private Integer price;
+
+	public static LeisureOrderItem of(Long sellerId, Integer price, LeisureCart leisureCart, AddLeisureCartForm form) {
+		return LeisureOrderItem.builder()
+			.sellerId(sellerId)
+			.leisureId(form.getLeisureId())
+			.leisureCart(leisureCart)
+			.persons(form.getPersons())
+			.startAt(form.getStartAt())
+			.endAt(form.getEndAt())
+			.price(price)
+			.build();
+	}
 }

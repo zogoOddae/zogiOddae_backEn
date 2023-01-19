@@ -5,6 +5,8 @@ import com.zerobase.leisure.domain.form.AddLeisureCouponGroupForm;
 import com.zerobase.leisure.domain.type.CouponTarget;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,6 +30,8 @@ public class LeisureCouponGroup extends BaseEntity {
 	private Long id;
 
 	private Long salePrice;
+
+	@Enumerated(EnumType.STRING)
 	private CouponTarget couponTarget;
 	private Integer issuedCount;
 
