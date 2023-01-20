@@ -1,6 +1,7 @@
 package com.zerobase.leisure.service.order;
 
 import com.zerobase.leisure.domain.form.LeisureOrderForm;
+import com.zerobase.leisure.domain.repository.order.LeisureCartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LeisureOrderService {
 
-	public void LeisureOrder(Long customerId, LeisureOrderForm form) {
+	private LeisureCartRepository leisureCartRepository;
+	public void LeisureOrder(Long customerId) {
 
 	}
 }

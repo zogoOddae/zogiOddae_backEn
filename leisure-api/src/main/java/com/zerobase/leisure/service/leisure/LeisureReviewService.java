@@ -6,8 +6,14 @@ import com.zerobase.leisure.domain.form.AddLeisureReviewForm;
 import com.zerobase.leisure.domain.repository.leisure.LeisureReviewRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.exception.LeisureException;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,9 +27,17 @@ public class LeisureReviewService {
 		return leisureReview;
 	}
 
-	public List<LeisureReviewDto> getAllLeisureReview(Long leisureId) {
-		return LeisureReviewDto.fromList(leisureReviewRepository.findAllByLeisureId(leisureId)
-			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_HAD_REVIEW)));
+	public Page<LeisureReviewDto> getAllLeisureReview(Long leisureId, Pageable pageable) {
+		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
+		Page<LeisureReview> leisureReviews = leisureReviewRepository.findAllByLeisureId(leisureId, limit);
+
+		List<LeisureReviewDto> leisureReviewDtos = new ArrayList<>();
+
+		for (LeisureReview leisureReview : leisureReviews) {
+			leisureReviewDtos.add(LeisureReviewDto.from(leisureReview));
+		}
+
+		return new PageImpl<>(leisureReviewDtos, limit, leisureReviews.getTotalElements());
 	}
 
 	public LeisureReview updateLeisureReview(Long reviewId, AddLeisureReviewForm form) {

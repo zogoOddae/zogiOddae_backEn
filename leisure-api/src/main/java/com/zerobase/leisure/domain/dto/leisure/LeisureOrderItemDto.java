@@ -27,9 +27,6 @@ public class LeisureOrderItemDto {
 	private LocalDateTime startAt;
 	private LocalDateTime endAt;
 
-	private double lat;
-	private double lon;
-
 	public static LeisureOrderItemDto from(LeisureOrderItem leisureOrderItem, Leisure leisure) {
 		return LeisureOrderItemDto.builder()
 			.leisureOrderItemId(leisureOrderItem.getId())
@@ -40,8 +37,6 @@ public class LeisureOrderItemDto {
 			.persons(leisureOrderItem.getPersons())
 			.startAt(leisureOrderItem.getStartAt())
 			.endAt(leisureOrderItem.getEndAt())
-			.lat(leisure.getLat())
-			.lon(leisure.getLon())
 			.build();
 	}
 }

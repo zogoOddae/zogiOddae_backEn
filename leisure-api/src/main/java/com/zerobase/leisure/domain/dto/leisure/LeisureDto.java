@@ -19,6 +19,7 @@ public class LeisureDto {
 	private String leisureName;
 	private String addr;
 	private Integer price;
+	private String description;
 
 	private String pictureUrl;
 
@@ -38,6 +39,7 @@ public class LeisureDto {
 			.price(leisure.getPrice())
 			.maxPerson(leisure.getMaxPerson())
 			.minPerson(leisure.getMinPerson())
+			.description(leisure.getDescription())
 			.lat(leisure.getLat())
 			.lon(leisure.getLon())
 			.build();

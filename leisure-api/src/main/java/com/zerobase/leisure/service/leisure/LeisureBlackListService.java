@@ -8,9 +8,15 @@ import com.zerobase.leisure.domain.repository.common.LeisureBlackListRepository;
 import com.zerobase.leisure.domain.repository.leisure.LeisureRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.exception.LeisureException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,9 +54,17 @@ public class LeisureBlackListService {
         leisureBlackListRepository.deleteById(leisureBackListId);
     }
 
-    public List<LeisureBlackListDto> getLeisureBlackList(Long leisureId) {
+    public Page<LeisureBlackListDto> getLeisureBlackList(Long leisureId, Pageable pageable) {
+        leisureRepository.findById(leisureId).orElseThrow(()->new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
 
-        return LeisureBlackListDto.fromList(leisureBlackListRepository.findAllByLeisureId(leisureId)
-            .orElseThrow(() -> new LeisureException(ErrorCode.NOT_HAD_BLACKLIST)));
+        Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("customerId"));
+
+        Page<LeisureBlackList> leisureBlackLists = leisureBlackListRepository.findAllByLeisureId(leisureId,limit);
+        List<LeisureBlackListDto> leisureBlackListDtoList = new ArrayList<>();
+
+        for(LeisureBlackList accommodationBlackList : leisureBlackLists ){
+            leisureBlackListDtoList.add(LeisureBlackListDto.from(accommodationBlackList));
+        }
+        return new PageImpl<>(leisureBlackListDtoList, limit, leisureBlackLists.getTotalElements());
     }
 }
