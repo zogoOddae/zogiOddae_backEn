@@ -1,5 +1,6 @@
 package com.zerobase.accommodation.service.coupon;
 
+import com.zerobase.accommodation.domain.dto.coupon.AccommodationCouponDto;
 import com.zerobase.accommodation.domain.entity.coupon.AccommodationCoupon;
 import com.zerobase.accommodation.domain.entity.coupon.AccommodationCouponGroup;
 import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationCouponForm;
@@ -7,10 +8,18 @@ import com.zerobase.accommodation.domain.repository.coupon.AccommodationCouponGr
 import com.zerobase.accommodation.domain.repository.coupon.AcoommodationCouponRepository;
 import com.zerobase.accommodation.domain.type.ErrorCode;
 import com.zerobase.accommodation.exception.AccommodationException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -37,7 +46,7 @@ public class AccommodationCouponService {
             throw new AccommodationException(ErrorCode.NOT_REGISTERED_COUPON_GROUP);
         }
 
-        if(LocalDateTime.now().isAfter(optionalAccommodationCouponGroup.get().getEndTime())){
+        if(LocalDate.now().isAfter(optionalAccommodationCouponGroup.get().getEndTime())){
             throw new AccommodationException(ErrorCode.EXPIRED_COUPON);
         }
 
@@ -53,5 +62,20 @@ public class AccommodationCouponService {
             .customerId(form.getCustomerId())
             .endTime(optionalAccommodationCouponGroup.get().getEndTime())
             .build());
+    }
+
+    public Page<AccommodationCouponDto> getAccommodationAllCoupon(Long customerId, Pageable pageable) {
+        Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
+
+        Page<AccommodationCoupon> accommodationCoupons
+            = accommodationCouponRepository.findAllByCustomerIdAndUsedYNFalse(customerId,limit);
+
+        List<AccommodationCouponDto> accommodationCouponDtos = new ArrayList<>();
+
+        for(AccommodationCoupon accommodationCoupon : accommodationCoupons){
+            accommodationCouponDtos.add(AccommodationCouponDto.from(accommodationCoupon));
+        }
+
+        return new PageImpl<>(accommodationCouponDtos, limit, accommodationCoupons.getTotalElements());
     }
 }

@@ -1,5 +1,6 @@
 package com.zerobase.accommodation.domain.form.accommodation;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
@@ -12,5 +13,5 @@ public class AddAccommodationCouponForm {
 
     private LocalDateTime usedTime;
 
-    private LocalDateTime endTime;
+    private LocalDate endTime;
 }

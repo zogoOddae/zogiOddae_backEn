@@ -30,7 +30,7 @@ public class AccommodationBlackListController {
     }
 
     @GetMapping
-    public WebResponseData<Page<AccommodationBlackListDto>> addAccommodationBlackList(@RequestParam Long accommodationId, final Pageable pageable) {
+    public WebResponseData<Page<AccommodationBlackListDto>> getAccommodationBlackList(@RequestParam Long accommodationId, final Pageable pageable) {
         Page<AccommodationBlackListDto> accommodationBlackListDtos = accommodationBlackListService.getAllAccommodationBlackList(accommodationId, pageable);
         return WebResponseData.ok(accommodationBlackListDtos);
     }

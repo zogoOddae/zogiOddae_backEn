@@ -29,7 +29,7 @@ public class AccommodationReview extends BaseEntity {
 	private Long accommodationId;
 
 	private double rating;
-	private double description;
+	private String description;
 
 	private String reply;
 

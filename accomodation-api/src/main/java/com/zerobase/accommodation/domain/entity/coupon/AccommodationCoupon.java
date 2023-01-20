@@ -1,6 +1,7 @@
 package com.zerobase.accommodation.domain.entity.coupon;
 
 import com.zerobase.accommodation.domain.entity.common.BaseEntity;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,6 +32,5 @@ public class AccommodationCoupon extends BaseEntity{
 
 	private LocalDateTime usedTime;
 
-	private LocalDateTime endTime;
-
+	private LocalDate endTime;
 }

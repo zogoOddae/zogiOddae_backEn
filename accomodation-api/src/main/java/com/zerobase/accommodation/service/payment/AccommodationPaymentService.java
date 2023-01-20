@@ -9,9 +9,17 @@ import com.zerobase.accommodation.domain.repository.payment.AccommodationPayment
 import com.zerobase.accommodation.domain.type.ErrorCode;
 import com.zerobase.accommodation.domain.type.PaymentStatus;
 import com.zerobase.accommodation.exception.AccommodationException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -122,5 +130,20 @@ public class AccommodationPaymentService {
         accommodationPayment.setStatus(PaymentStatus.CANCELED);
 
         return accommodationPaymentRepository.save(accommodationPayment);
+    }
+
+    public Page<AccommodationPaymentDto> getAccommodationPayment(Long customerId, Pageable pageable) {
+        Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("createAt"));
+
+        Page<AccommodationPayment> accommodationPayments
+            = accommodationPaymentRepository.findAllByCustomerIdAndStatus(customerId,PaymentStatus.PAID,limit);
+
+        List<AccommodationPaymentDto> accommodationPaymentDtos = new ArrayList<>();
+
+        for(AccommodationPayment accommodationPayment : accommodationPayments){
+            accommodationPaymentDtos.add(AccommodationPaymentDto.from(accommodationPayment));
+        }
+
+        return new PageImpl<>(accommodationPaymentDtos, limit, accommodationPayments.getTotalElements());
     }
 }
