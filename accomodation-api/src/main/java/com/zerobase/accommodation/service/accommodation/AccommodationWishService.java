@@ -52,7 +52,7 @@ public class AccommodationWishService {
                 AccommodationWishListDto.builder()
                     .accommodationWishListId(accommodationWishList.getId())
                     .accommodationId(accommodationWishList.getAccommodationId())
-                    .memberId(memberId)
+                    .customerId(memberId)
                     .accommodationName(accommodation.getAccommodationName())
                     .addr(accommodation.getAddr())
                     .price(accommodation.getPrice())

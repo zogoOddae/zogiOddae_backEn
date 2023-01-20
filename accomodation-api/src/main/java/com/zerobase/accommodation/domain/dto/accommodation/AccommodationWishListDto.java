@@ -16,7 +16,7 @@ public class AccommodationWishListDto {
     private Long accommodationWishListId;
     private Long accommodationId;
 
-    private Long memberId;
+    private Long customerId;
     private String accommodationName;
     private String addr;
     private Integer price;
@@ -27,7 +27,7 @@ public class AccommodationWishListDto {
         return AccommodationWishListDto.builder()
             .accommodationWishListId(accommodationWishList.getId())
             .accommodationId(accommodation.getId())
-            .memberId(accommodationWishList.getMemberId())
+            .customerId(accommodationWishList.getMemberId())
             .accommodationName(accommodation.getAccommodationName())
             .addr(accommodation.getAddr())
             .price(accommodation.getPrice())

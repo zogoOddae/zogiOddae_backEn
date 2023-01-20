@@ -7,6 +7,8 @@ import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.accommodation.AccommodationReviewService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,34 +28,33 @@ public class AccommodationReviewController {
     사용자가 리뷰를 등록
      */
     @PostMapping
-    public WebResponseData<AccommodationReviewDto> addAccommodation(@RequestBody AddAccommodationReviewForm form) {
-        return WebResponseData.ok(
-            AccommodationReviewDto.from(accommodationReviewService.addAccommodationReview(form)));
+    public WebResponseData<String> addAccommodation(@RequestBody AddAccommodationReviewForm form) {
+        accommodationReviewService.addAccommodationReview(form);
+        return WebResponseData.ok("성공적으로 등록되었습니다.");
     }
 
     /*
     상품 조회 시 모든 리뷰 조회
      */
     @GetMapping
-    public WebResponseData<List<AccommodationReview>> getAccommodation(@RequestParam Long accommodationId) { //상품의 모든 리뷰 조회
-        return WebResponseData.ok(accommodationReviewService.getAllAccommodationReview(accommodationId));
+    public WebResponseData<Page<AccommodationReviewDto>> getAccommodation(@RequestParam Long accommodationId, final Pageable pageable) { //상품의 모든 리뷰 조회
+        Page<AccommodationReviewDto> accommodationReviews = accommodationReviewService.getAllAccommodationReview(accommodationId, pageable);
+        return WebResponseData.ok(accommodationReviews);
     }
 
     @PutMapping
-    public WebResponseData<AccommodationReviewDto> updateAccommodation(@RequestParam Long reviewId, @RequestBody AddAccommodationReviewForm form) {
-        return WebResponseData.ok(
-            AccommodationReviewDto.from(
-                accommodationReviewService.updateAccommodationReview(reviewId,form)));
+    public WebResponseData<String> updateAccommodation(@RequestParam Long accommodationReviewId, @RequestBody AddAccommodationReviewForm form) {
+        accommodationReviewService.updateAccommodationReview(accommodationReviewId,form);
+        return WebResponseData.ok("성공적으로 수정되었습니다.");
     }
 
     /*
     샐러가 답글 달기
    */
     @PutMapping("/reply")
-    public WebResponseData<AccommodationReviewDto> updateReplyAccomodation(@RequestParam Long reviewId, @RequestBody AddAccommodationReviewForm form) {
-        return WebResponseData.ok(
-            AccommodationReviewDto.from(
-                accommodationReviewService.updateReplyAccommodationReview(reviewId,form)));
+    public WebResponseData<String> updateReplyAccomodation(@RequestParam Long accommodationReviewId, @RequestBody AddAccommodationReviewForm form) {
+        accommodationReviewService.updateReplyAccommodationReview(accommodationReviewId,form);
+        return WebResponseData.ok("성공적으로 답글이 등록되었습니다.");
     }
 
     @DeleteMapping

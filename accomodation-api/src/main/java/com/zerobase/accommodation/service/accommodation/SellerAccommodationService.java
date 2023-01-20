@@ -9,10 +9,15 @@ import com.zerobase.accommodation.domain.repository.accommodation.AccommodationD
 import com.zerobase.accommodation.domain.repository.accommodation.AccommodationRepository;
 import com.zerobase.accommodation.domain.type.ErrorCode;
 import com.zerobase.accommodation.exception.AccommodationException;
+import org.springframework.data.domain.Page;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,8 +33,10 @@ public class SellerAccommodationService {
         return accommodation;
     }
 
-    public List<AccommodationListDto> getAllAccommodation(Long sellerId) {
-        List<Accommodation> accommodationList = accommodationRepository.findAllBySellerId(sellerId)
+    public Page<AccommodationListDto> getAllAccommodation(Long sellerId, Pageable pageable) {
+        Pageable limit = PageRequest.of(pageable.getPageNumber(), 15);
+
+        Page<Accommodation> accommodationList = accommodationRepository.findAllBySellerId(sellerId)
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         List<AccommodationListDto> dtoList = new ArrayList<>();
@@ -37,7 +44,7 @@ public class SellerAccommodationService {
         for (Accommodation accommodation : accommodationList) {
             dtoList.add(AccommodationListDto.from(accommodation));
         }
-        return dtoList;
+        return new PageImpl<>(dtoList, limit, accommodationList.getTotalElements());
     }
 
     public Accommodation updateAccommodation(Long accommodationId, AccommodationForm form) {
@@ -59,12 +66,12 @@ public class SellerAccommodationService {
     }
 
     public Accommodation getDetailAccommodation(Long accommodationId, Long sellerId) {
-        return accommodationRepository.FindByIdAndSellerId(accommodationId, sellerId)
+        return accommodationRepository.findByIdAndSellerId(accommodationId, sellerId)
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
     }
 
     public void deleteAccommodation(Long accommodationId, Long sellerId) {
-        accommodationRepository.FindByIdAndSellerId(accommodationId, sellerId)
+        accommodationRepository.findByIdAndSellerId(accommodationId, sellerId)
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         accommodationRepository.deleteById(accommodationId);
@@ -76,7 +83,7 @@ public class SellerAccommodationService {
 
         accommodationDayOffRepository.save(AccommodationDayOff.builder()
             .accommodationId(accommodationId)
-            .year(dayOffStart.substring(0, 4))
+            .dayOffYear(dayOffStart.substring(0, 4))
             .startDate(form.getStartDate())
             .endDate(form.getEndDate())
             .build());
@@ -100,7 +107,7 @@ public class SellerAccommodationService {
 
         String dayOffStart = form.getStartDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
-        accommodationDayOff.setYear(dayOffStart.substring(0,4));
+        accommodationDayOff.setDayOffYear(dayOffStart.substring(0,4));
         accommodationDayOff.setStartDate(form.getStartDate());
         accommodationDayOff.setEndDate(form.getEndDate());
 

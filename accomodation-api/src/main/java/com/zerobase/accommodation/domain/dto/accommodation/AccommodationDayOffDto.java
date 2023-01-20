@@ -26,7 +26,7 @@ public class AccommodationDayOffDto {
         return AccommodationDayOffDto.builder()
             .id(accommodationDayOff.getId())
             .accommodationId(accommodationDayOff.getAccommodationId())
-            .year(accommodationDayOff.getYear())
+            .year(accommodationDayOff.getDayOffYear())
             .startDate(accommodationDayOff.getStartDate())
             .endDate(accommodationDayOff.getEndDate())
             .build();
