@@ -7,6 +7,8 @@ import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.service.leisure.LeisureReviewService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +36,10 @@ public class LeisureReviewController {
 	상품 조회 시 모든 리뷰 조회
 	 */
 	@GetMapping
-	public @ResponseBody WebResponseData<List<LeisureReviewDto>> getLeisure(@RequestParam Long leisureId) {
-		return WebResponseData.ok(leisureReviewService.getAllLeisureReview(leisureId));
+	public @ResponseBody WebResponseData<Page<LeisureReviewDto>> getLeisure(@RequestParam Long leisureId, final
+		Pageable pageable) {
+		Page<LeisureReviewDto> leisureReviewDtos = leisureReviewService.getAllLeisureReview(leisureId,pageable);
+		return WebResponseData.ok(leisureReviewDtos);
 	}
 
 	@PutMapping

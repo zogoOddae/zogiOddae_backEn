@@ -1,5 +1,6 @@
 package com.zerobase.leisure.service.leisure;
 
+import com.zerobase.leisure.domain.dto.leisure.LeisureDto;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.entity.leisure.LeisureDayOff;
 import com.zerobase.leisure.domain.form.LeisureDayOffForm;
@@ -9,9 +10,15 @@ import com.zerobase.leisure.domain.repository.leisure.LeisureRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.exception.LeisureException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,9 +34,14 @@ public class SellerLeisureService {
 		return leisure;
 	}
 
-	public List<Leisure> getAllLeisure(Long sellerId) {
-		return leisureRepository.findAllBySellerId(sellerId)
-			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_HAVE_LEISURE));
+	public Page<LeisureDto> getAllLeisure(Long sellerId, Pageable pageable) {
+		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
+
+		Page<Leisure> leisurePage = leisureRepository.findAllBySellerId(sellerId, limit);
+
+		List<LeisureDto> leisureDtos = LeisureDto.fromList(leisurePage.toList());
+
+		return new PageImpl<>(leisureDtos, limit, leisurePage.getTotalElements());
 	}
 
 	public Leisure getDetailLeisure(Long leisureId, Long sellerId) {

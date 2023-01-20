@@ -29,7 +29,9 @@ public class LeisurePaymentDto {
     private LocalDateTime canceledAt;
     private String nextRedirectURL;
 
-    public static LeisurePaymentDto from(LeisurePayment leisurePayment, String nextRedirectURL) {
+    private String approveURL;
+
+    public static LeisurePaymentDto from(LeisurePayment leisurePayment, String nextRedirectURL, String approveURL) {
         return LeisurePaymentDto.builder()
             .leisurePaymentId(leisurePayment.getId())
             .customerId(leisurePayment.getCustomerId())
@@ -41,6 +43,7 @@ public class LeisurePaymentDto {
             .status(leisurePayment.getStatus())
             .canceledAt(leisurePayment.getCanceledAt())
             .nextRedirectURL(nextRedirectURL)
+            .approveURL(approveURL)
             .build();
     }
 
