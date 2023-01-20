@@ -33,12 +33,12 @@ public class SellerLeisureController {
 
 	private final SellerLeisureService sellerLeisureService;
 	@PostMapping
-	public @ResponseBody WebResponseData<String> addLeisure(@AuthenticationPrincipal MemberDetails memberDetails,
+	public @ResponseBody WebResponseData<String> addLeisure(@RequestParam Long sellerId,
 											@RequestBody LeisureForm form) {
-		if (memberDetails == null) {
-			throw new LeisureException(ErrorCode.NOT_AUTHORIZED);
-		}
-		sellerLeisureService.AddLeisure(memberDetails.getId(), form);
+//		if (memberDetails == null) {
+//			throw new LeisureException(ErrorCode.NOT_AUTHORIZED);
+//		}
+		sellerLeisureService.AddLeisure(sellerId, form);
 		return WebResponseData.ok("성공적으로 등록했습니다.");
 	}
 

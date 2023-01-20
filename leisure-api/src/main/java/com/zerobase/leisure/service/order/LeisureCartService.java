@@ -39,7 +39,6 @@ public class LeisureCartService {
 			|| form.getPersons() > leisure.getMaxPerson()) {
 			throw new LeisureException(ErrorCode.TOO_MANY_PERSON);
 		}
-
 		Optional<LeisureCart> optionalLeisureCart = leisureCartRepository.findByCustomerId(
 			customerId);
 
@@ -58,6 +57,7 @@ public class LeisureCartService {
 			LeisureOrderItem.of(leisure.getSellerId(), leisure.getPrice(), leisureCart, form));
 	}
 
+	@Transactional
 	public void deleteLeisureCart(Long customerId, Long leisureOrderItemId) {
 		LeisureCart leisureCart = leisureCartRepository.findByCustomerId(customerId)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_CART));

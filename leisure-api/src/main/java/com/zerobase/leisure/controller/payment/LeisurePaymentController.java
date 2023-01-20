@@ -21,13 +21,15 @@ public class LeisurePaymentController {
     private final LeisurePaymentService leisurePaymentService;
 
     @PostMapping("/kakaopay")
-    public WebResponseData<LeisurePaymentDto> kakaopayReady(@RequestBody LeisurePaymentForm form) {
-        return WebResponseData.ok(leisurePaymentService.getPaymentReady(form));
+    public WebResponseData<LeisurePaymentDto> kakaopayReady(@RequestParam Long customerId,
+        @RequestBody LeisurePaymentForm form) {
+        return WebResponseData.ok(leisurePaymentService.getPaymentReady(customerId, form));
     }
 
 
     @GetMapping("/kakaopay/approve")
-    public WebResponseData<LeisurePaymentDto> kakaopayApprove(@RequestParam(value = "pg_token") String pgtoken, Long leisurePaymentId) {
+    public WebResponseData<LeisurePaymentDto> kakaopayApprove(@RequestParam(value = "pg_token") String pgtoken,
+        Long leisurePaymentId) {
         return WebResponseData.ok(
             LeisurePaymentDto.from(leisurePaymentService.paymentSuccess(pgtoken, leisurePaymentId)));
     }

@@ -16,6 +16,8 @@ public class LeisureOrderItemDto {
 	private Long leisureOrderItemId;
 	private Long sellerId;
 
+	private String reservationId;
+
 	private String leisureName;
 	private String addr;
 	private Integer price;
@@ -30,6 +32,7 @@ public class LeisureOrderItemDto {
 	public static LeisureOrderItemDto from(LeisureOrderItem leisureOrderItem, Leisure leisure) {
 		return LeisureOrderItemDto.builder()
 			.leisureOrderItemId(leisureOrderItem.getId())
+			.reservationId(leisureOrderItem.getReservationId())
 			.sellerId(leisure.getSellerId())
 			.leisureName(leisure.getLeisureName())
 			.addr(leisure.getAddr())

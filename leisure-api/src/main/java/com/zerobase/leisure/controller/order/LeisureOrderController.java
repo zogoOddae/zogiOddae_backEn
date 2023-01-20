@@ -1,15 +1,21 @@
 package com.zerobase.leisure.controller.order;
 
 import com.zerobase.common.auth.MemberDetails;
+import com.zerobase.leisure.domain.dto.leisure.LeisureOrderItemDto;
 import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.exception.LeisureException;
 import com.zerobase.leisure.service.order.LeisureOrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/leisure/order")
@@ -18,11 +24,20 @@ public class LeisureOrderController {
 
 	private final LeisureOrderService leisureOrderService;
 	@PostMapping
-	public WebResponseData<String> LeisureOrder(@AuthenticationPrincipal MemberDetails memberDetails) {
-		if (memberDetails==null) {
-			throw new LeisureException(ErrorCode.NOT_AUTHORIZED);
-		}
-		leisureOrderService.LeisureOrder(memberDetails.getId());
+	public @ResponseBody WebResponseData<String> LeisureOrder(@RequestParam Long leisurePaymentId, Long customerId) {
+//		if (memberDetails==null) {
+//			throw new LeisureException(ErrorCode.NOT_AUTHORIZED);
+//		}
+		leisureOrderService.LeisureOrder(customerId, leisurePaymentId);
 		return WebResponseData.ok("예약에 성공하였습니다.");
+	}
+
+	@GetMapping
+	public @ResponseBody WebResponseData<Page<LeisureOrderItemDto>> getLeisureOrder(@RequestParam Long customerId,
+		final Pageable pageable) {
+//		if (memberDetails==null) {
+//			throw new LeisureException(ErrorCode.NOT_AUTHORIZED);
+//		}
+		return WebResponseData.ok(leisureOrderService.getLeisureOrder(customerId,pageable));
 	}
 }

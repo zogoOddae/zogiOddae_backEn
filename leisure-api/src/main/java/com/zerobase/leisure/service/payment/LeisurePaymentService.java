@@ -8,6 +8,7 @@ import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.domain.type.PaymentStatus;
 import com.zerobase.leisure.exception.LeisureException;
 import java.util.Map;
+import java.util.Objects;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ public class LeisurePaymentService {
 	}
 
 	@Transactional
-	public LeisurePaymentDto getPaymentReady(LeisurePaymentForm form) {
+	public LeisurePaymentDto getPaymentReady(Long customerId,LeisurePaymentForm form) {
 		//결제 준비
 		RestTemplate restTemplate = new RestTemplate();
 		String url = "https://kapi.kakao.com/v1/payment/ready"; //카카오 APi URL
@@ -46,7 +47,7 @@ public class LeisurePaymentService {
 //            .orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_ORDER_ITEM));
 		LeisurePayment leisurePayment = LeisurePayment.builder()
 			.price(form.getPrice())
-			.customerId(form.getCustomerId())
+			.customerId(customerId)
 			.leisureOrderItemId(form.getLeisureOrderItemId())
 			.leisureId(form.getLeisureId())
 			.status(PaymentStatus.PAYMENT_WAIT)
@@ -58,7 +59,7 @@ public class LeisurePaymentService {
 
 		String parameter = "cid=TC0ONETIME" // 가맹점 코드 - 테스트용으로 고정
 			+ "&partner_order_id=" + form.getLeisureOrderItemId()// 가맹점 주문번호를 상품주문 ID로 사용
-			+ "&partner_user_id=" + form.getCustomerId() // 가맹점 회원 id
+			+ "&partner_user_id=" + customerId // 가맹점 회원 id
 			+ "&item_name=상품명" //leisureRepository.findById(leisureOrderItem.getLeisureId())
 			//.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE)).getLeisureName()// 상품명
 			+ "&quantity=1" // 상품 수량
@@ -73,7 +74,7 @@ public class LeisurePaymentService {
 		Map<String, String> map = restTemplate.postForObject(url,
 			new HttpEntity<>(parameter, getHeaders()), Map.class);
 
-		leisurePayment.setTid(map.get("tid"));
+		leisurePayment.setTid(Objects.requireNonNull(map).get("tid"));
 		leisurePaymentRepository.save(leisurePayment);
 
 		String approval_url =
@@ -88,7 +89,7 @@ public class LeisurePaymentService {
 		String url = "https://kapi.kakao.com/v1/payment/approve";
 
 		LeisurePayment leisurePayment = leisurePaymentRepository.findById(leisurePaymentId)
-			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUNT_PAYMENT));
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_PAYMENT));
 
 		String parameter = "cid=TC0ONETIME"
 			+ "&tid=" + leisurePayment.getTid()
@@ -112,7 +113,7 @@ public class LeisurePaymentService {
 		String url = "https://kapi.kakao.com/v1/payment/cancel";
 
 		LeisurePayment leisurePayment = leisurePaymentRepository.findById(leisurePaymentId)
-			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUNT_PAYMENT));
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_PAYMENT));
 
 		String parameter = "cid=TC0ONETIME"
 			+ "&tid=" + leisurePayment.getTid()
