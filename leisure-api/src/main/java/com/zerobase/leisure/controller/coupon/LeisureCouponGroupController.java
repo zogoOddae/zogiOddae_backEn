@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,25 +26,25 @@ public class LeisureCouponGroupController {
     private final LeisureCouponGroupService leisureCouponGroupService;
 
     @PostMapping
-    public WebResponseData<String> addLeisureCouponGroup(@RequestBody AddLeisureCouponGroupForm form) {
+    public @ResponseBody WebResponseData<String> addLeisureCouponGroup(@RequestBody AddLeisureCouponGroupForm form) {
         leisureCouponGroupService.addLeisureCouponGroup(form);
         return WebResponseData.ok("쿠폰을 등록했습니다.");
     }
 
     @GetMapping
-    public WebResponseData<Page<LeisureCouponGroupDto>> getAccommodationAllCouponGroup(final Pageable pageable) {
+    public @ResponseBody WebResponseData<Page<LeisureCouponGroupDto>> getAccommodationAllCouponGroup(final Pageable pageable) {
         Page<LeisureCouponGroupDto> leisureCouponGroupDtos = leisureCouponGroupService.getAllLeisureCouponGroup(pageable);
         return WebResponseData.ok(leisureCouponGroupDtos);
     }
 
     @PutMapping
-    public WebResponseData<String> updateLeisureCouponGroup(@RequestBody AddLeisureCouponGroupForm form) {
+    public @ResponseBody WebResponseData<String> updateLeisureCouponGroup(@RequestBody AddLeisureCouponGroupForm form) {
         leisureCouponGroupService.updateLeisureCouponGroup(form);
         return WebResponseData.ok("쿠폰을 수정했습니다.");
     }
 
     @DeleteMapping
-    public WebResponseData<String> deleteLeisureCouponGroup(@RequestParam Long leisureCouponGroupId) {
+    public @ResponseBody WebResponseData<String> deleteLeisureCouponGroup(@RequestParam Long leisureCouponGroupId) {
         leisureCouponGroupService.deleteLeisureCouponGroup(leisureCouponGroupId);
 
         return WebResponseData.ok("성공적으로 삭제되었습니다.");

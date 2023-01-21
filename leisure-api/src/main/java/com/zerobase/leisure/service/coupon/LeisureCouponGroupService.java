@@ -6,7 +6,7 @@ import com.zerobase.leisure.domain.form.AddLeisureCouponGroupForm;
 import com.zerobase.leisure.domain.repository.coupon.LeisureCouponGroupRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.exception.LeisureException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +54,7 @@ public class LeisureCouponGroupService {
         Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
 
         Page<LeisureCouponGroup> leisureCouponGroups = leisureCouponGroupRepository.findAllByEndTimeIsAfter(
-            LocalDateTime.now(), limit);
+            LocalDate.now(), limit);
 
         List<LeisureCouponGroupDto> leisureCouponGroupDtos = new ArrayList<>();
 
