@@ -1,15 +1,15 @@
 package com.zerobase.leisure.controller.order;
 
-import com.zerobase.leisure.domain.dto.leisure.LeisureOrderItemDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureCartDto;
 import com.zerobase.leisure.domain.form.AddLeisureCartForm;
 import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.service.order.LeisureCartService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +34,19 @@ public class LeisureCartController {
 	}
 
 	@GetMapping
-	public @ResponseBody WebResponseData<List<LeisureOrderItemDto>> getLeisureCart(@RequestParam Long customerId){
+	public @ResponseBody WebResponseData<LeisureCartDto> getLeisureCart(@RequestParam Long customerId){
 		return WebResponseData.ok(leisureCartService.getLeisureCart(customerId));
+	}
+
+	@PutMapping("/coupon")
+	public @ResponseBody WebResponseData<String> useCoupon(@RequestParam Long customerId, Long leisureOrderItemId, Long couponGroupId){
+		leisureCartService.useCoupon(customerId, leisureOrderItemId, couponGroupId);
+		return WebResponseData.ok("쿠폰을 적용했습니다.");
+	}
+
+	@DeleteMapping("/coupon")
+	public @ResponseBody WebResponseData<String> useCoupon(@RequestParam Long leisureOrderItemId){
+		leisureCartService.deleteCoupon(leisureOrderItemId);
+		return WebResponseData.ok("쿠폰 적용을 취소했습니다.");
 	}
 }

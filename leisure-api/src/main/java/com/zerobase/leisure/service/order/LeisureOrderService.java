@@ -1,11 +1,12 @@
 package com.zerobase.leisure.service.order;
 
 import com.zerobase.leisure.domain.dto.leisure.LeisureOrderItemDto;
+import com.zerobase.leisure.domain.entity.coupon.LeisureCoupon;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.entity.order.LeisureCart;
 import com.zerobase.leisure.domain.entity.order.LeisureOrder;
 import com.zerobase.leisure.domain.entity.order.LeisureOrderItem;
-import com.zerobase.leisure.domain.form.LeisureOrderForm;
+import com.zerobase.leisure.domain.repository.coupon.LeisureCouponRepository;
 import com.zerobase.leisure.domain.repository.leisure.LeisureRepository;
 import com.zerobase.leisure.domain.repository.order.LeisureCartRepository;
 import com.zerobase.leisure.domain.repository.order.LeisureOrderItemRepository;
@@ -13,8 +14,8 @@ import com.zerobase.leisure.domain.repository.order.LeisureOrderRepository;
 import com.zerobase.leisure.domain.repository.order.LeisurePaymentRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.domain.type.OrderStatus;
-import com.zerobase.leisure.domain.type.PaymentStatus;
 import com.zerobase.leisure.exception.LeisureException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +37,7 @@ public class LeisureOrderService {
 	private final LeisureOrderRepository leisureOrderRepository;
 	private final LeisurePaymentRepository leisurePaymentRepository;
 	private final LeisureRepository leisureRepository;
+	private final LeisureCouponRepository leisureCouponRepository;
 
 	@Transactional
 	public void LeisureOrder(Long customerId, Long leisurePaymentId) {
@@ -58,7 +60,6 @@ public class LeisureOrderService {
 			.orderStatus(OrderStatus.PAYMENT)
 			.build());
 
-		System.out.println(customerId);
 		LeisureCart leisureCart = leisureCartRepository.findByCustomerId(customerId)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_CART));
 
@@ -71,6 +72,15 @@ public class LeisureOrderService {
 			leisureOrderItem.setReservationId(
 				UUID.randomUUID().toString().replace("-", "").substring(0,15));
 			leisureOrderItem.setLeisureOrderId(leisureOrder.getId());
+
+			if (leisureOrderItem.getCouponId() != null) {
+				LeisureCoupon leisureCoupon = leisureCouponRepository.findById(leisureOrderItem.getCouponId())
+					.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_COUPON));
+				leisureCoupon.setUsedYN(true);
+				leisureCoupon.setUsedTime(LocalDateTime.now());
+
+				leisureCouponRepository.save(leisureCoupon);
+			}
 
 			leisureOrderItemRepository.save(leisureOrderItem);
 		}
@@ -90,9 +100,11 @@ public class LeisureOrderService {
 
 		List<Long> leisureIds = leisureIds(leisureOrderItems.toList());
 
+		List<Leisure> leisureList = leisureRepository.findAllById(leisureIds);
+
 		for (int i=0; i<leisureOrderItems.toList().size(); i++) {
 			leisureOrderItemDtoList.add(LeisureOrderItemDto.from(leisureOrderItems.toList().get(i),
-				leisureRepository.findById(leisureIds.get(i)).orElseThrow(()->new LeisureException(ErrorCode.NOT_FOUND_LEISURE))));
+				leisureList.get(whereLeisure(leisureList,leisureIds.get(i)))));
 		}
 
 		return new PageImpl<>(leisureOrderItemDtoList, limit, leisureOrderItems.getTotalElements());
@@ -105,6 +117,16 @@ public class LeisureOrderService {
 		}
 		return list;
 	}
+
+	private int whereLeisure(List<Leisure> leisureList, Long id) {
+		for (int i=0; i<leisureList.size(); i++) {
+			if (leisureList.get(i).getId().equals(id)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	private List<Long> leisureIds(List<LeisureOrderItem> leisureOrderList) {
 		List<Long> list = new ArrayList<>();
 		for (LeisureOrderItem leisureOrder : leisureOrderList) {

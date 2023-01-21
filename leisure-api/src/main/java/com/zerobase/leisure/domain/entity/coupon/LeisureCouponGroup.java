@@ -30,7 +30,7 @@ public class LeisureCouponGroup extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Long salePrice;
+	private Integer salePrice;
 
 	@Enumerated(EnumType.STRING)
 	private CouponTarget couponTarget;
@@ -40,7 +40,6 @@ public class LeisureCouponGroup extends BaseEntity {
 
 	public static LeisureCouponGroup of(AddLeisureCouponGroupForm form) {
 		return LeisureCouponGroup.builder()
-			.id(form.getLeisureCouponGroupId())
 			.salePrice(form.getSalePrice())
 			.couponTarget(form.getCouponTarget())
 			.issuedCount(form.getIssuedCount())

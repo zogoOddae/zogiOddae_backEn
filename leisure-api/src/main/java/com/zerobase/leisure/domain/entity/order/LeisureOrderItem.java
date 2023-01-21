@@ -3,9 +3,7 @@ package com.zerobase.leisure.domain.entity.order;
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
 import com.zerobase.leisure.domain.form.AddLeisureCartForm;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,6 +35,9 @@ public class LeisureOrderItem extends BaseEntity {
 
 	private Long leisureOrderId;
 
+	private Long couponId;
+	private Integer salePrice;
+
 	@ManyToOne
 	@JoinColumn
 	private LeisureCart leisureCart;
@@ -57,6 +58,7 @@ public class LeisureOrderItem extends BaseEntity {
 			.startAt(form.getStartAt())
 			.endAt(form.getEndAt())
 			.price(price)
+			.salePrice(0)
 			.build();
 	}
 }

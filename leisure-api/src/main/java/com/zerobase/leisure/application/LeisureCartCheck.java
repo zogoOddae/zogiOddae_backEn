@@ -17,7 +17,6 @@ public class LeisureCartCheck {
 
 	private final LeisureRepository leisureRepository;
 	private final LeisureOrderItemRepository leisureOrderItemRepository;
-	private final LeisureCartRepository leisureCartRepository;
 
 	@Transactional
 	public void cartCheck(LeisureCart leisureCart, LeisureOrderItem leisureOrderItem) {
@@ -30,9 +29,9 @@ public class LeisureCartCheck {
 		}
 
 		Leisure leisure = optionalLeisure.get();
-		if (!leisure.getPrice().equals(leisureOrderItem.getPrice())) {
+		if (!leisure.getPrice().equals(leisureOrderItem.getPrice()+leisureOrderItem.getSalePrice())) {
 			leisureCart.setTotalPrice(leisureCart.getTotalPrice()-leisureOrderItem.getPrice()
-			+leisure.getPrice());
+			+leisure.getPrice()-leisureOrderItem.getSalePrice());
 		}
 	}
 }

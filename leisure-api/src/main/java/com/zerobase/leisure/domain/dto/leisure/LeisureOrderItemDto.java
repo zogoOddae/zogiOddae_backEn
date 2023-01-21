@@ -18,6 +18,9 @@ public class LeisureOrderItemDto {
 
 	private String reservationId;
 
+	private Long couponId;
+	private Integer salePrice;
+
 	private String leisureName;
 	private String addr;
 	private Integer price;
@@ -34,9 +37,11 @@ public class LeisureOrderItemDto {
 			.leisureOrderItemId(leisureOrderItem.getId())
 			.reservationId(leisureOrderItem.getReservationId())
 			.sellerId(leisure.getSellerId())
+			.couponId(leisureOrderItem.getCouponId())
+			.salePrice(leisureOrderItem.getSalePrice())
 			.leisureName(leisure.getLeisureName())
 			.addr(leisure.getAddr())
-			.price(leisure.getPrice())
+			.price(leisureOrderItem.getPrice())
 			.persons(leisureOrderItem.getPersons())
 			.startAt(leisureOrderItem.getStartAt())
 			.endAt(leisureOrderItem.getEndAt())
