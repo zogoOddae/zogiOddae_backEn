@@ -5,6 +5,8 @@ import com.zerobase.leisure.domain.form.payment.LeisurePaymentForm;
 import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.service.payment.LeisurePaymentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,5 +45,11 @@ public class LeisurePaymentController {
     @GetMapping("/kakaopay/fail")
     public WebResponseData<String> kakaopayFail() {
         return WebResponseData.ok("결제 요청에 실패했습니다. 다시 시도해주세요.");
+    }
+
+    @GetMapping
+    public WebResponseData<Page<LeisurePaymentDto>> getLeisurePayment(@RequestParam Long customerId, final Pageable pageable) {
+        Page<LeisurePaymentDto> leisurePaymentDtos = leisurePaymentService.getLeisurePayment(customerId,pageable);
+        return WebResponseData.ok(leisurePaymentDtos);
     }
 }

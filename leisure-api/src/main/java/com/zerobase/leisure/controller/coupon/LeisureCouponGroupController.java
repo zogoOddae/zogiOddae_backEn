@@ -1,10 +1,15 @@
 package com.zerobase.leisure.controller.coupon;
 
+import com.zerobase.leisure.domain.dto.coupon.LeisureCouponGroupDto;
+import com.zerobase.leisure.domain.entity.coupon.LeisureCouponGroup;
 import com.zerobase.leisure.domain.form.AddLeisureCouponGroupForm;
 import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.service.coupon.LeisureCouponGroupService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +28,12 @@ public class LeisureCouponGroupController {
     public WebResponseData<String> addLeisureCouponGroup(@RequestBody AddLeisureCouponGroupForm form) {
         leisureCouponGroupService.addLeisureCouponGroup(form);
         return WebResponseData.ok("쿠폰을 등록했습니다.");
+    }
+
+    @GetMapping
+    public WebResponseData<Page<LeisureCouponGroupDto>> getAccommodationAllCouponGroup(final Pageable pageable) {
+        Page<LeisureCouponGroupDto> leisureCouponGroupDtos = leisureCouponGroupService.getAllLeisureCouponGroup(pageable);
+        return WebResponseData.ok(leisureCouponGroupDtos);
     }
 
     @PutMapping

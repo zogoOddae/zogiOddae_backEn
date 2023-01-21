@@ -7,11 +7,18 @@ import com.zerobase.leisure.domain.repository.order.LeisurePaymentRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.domain.type.PaymentStatus;
 import com.zerobase.leisure.exception.LeisureException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -129,5 +136,20 @@ public class LeisurePaymentService {
 		leisurePayment.setStatus(PaymentStatus.CANCELED);
 
 		return leisurePaymentRepository.save(leisurePayment);
+	}
+
+	public Page<LeisurePaymentDto> getLeisurePayment(Long customerId, Pageable pageable) {
+		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("createAt"));
+
+		Page<LeisurePayment> leisurePaymentPage
+			= leisurePaymentRepository.findAllByCustomerIdAndStatus(customerId,PaymentStatus.PAID,limit);
+
+		List<LeisurePaymentDto> leisurePaymentDtos = new ArrayList<>();
+
+		for(LeisurePayment leisurePayment : leisurePaymentPage){
+			leisurePaymentDtos.add(LeisurePaymentDto.from(leisurePayment));
+		}
+
+		return new PageImpl<>(leisurePaymentDtos, limit, leisurePaymentPage.getTotalElements());
 	}
 }
