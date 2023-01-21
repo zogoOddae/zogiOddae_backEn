@@ -33,8 +33,9 @@ public class LeisureOrderItem extends BaseEntity {
 	private Long sellerId;
 	private Long leisureId;
 
-	@ManyToOne
-	private LeisureOrder leisureOrder;
+	private String reservationId;
+
+	private Long leisureOrderId;
 
 	@ManyToOne
 	@JoinColumn

@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.AuditOverride;
 
-@Entity(name = "orderTable")
+@Entity(name = "leisureOrder")
 @Getter
 @Setter
 @Builder
@@ -30,16 +31,10 @@ public class LeisureOrder extends BaseEntity {
 	private Long id;
 
 	private Long customerId;
-	private Long sellerId;
 
-	@OneToMany
-	private List<LeisureOrderItem> items;
+	private Long leisurePaymentId;
 
-	private Long leisureId;
-
-	private Long couponId;
-
-	private Integer price;
+	private Integer totalPrice;
 
 	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;

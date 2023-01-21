@@ -31,7 +31,8 @@ public enum ErrorCode {
 	ALREADY_IN_CART("이미 장바구니에 담긴 상품입니다."),
 	NOT_FOUND_PAYMENT("결제 정보를 찾을 수 없습니다."),
 	NOT_AUTHORIZED("로그인중이 아닙니다,"),
-	NOT_FOUNT_PAYMENT("결제 정보를 찾을 수 없습니다.")
+	ALREADY_ORDERED_PAYMENT("이미 예약된 결제 정보입니다."),
+	NOT_PAYMENT_ORDER("결제된 주문이 아닙니다.")
 	;
 
 

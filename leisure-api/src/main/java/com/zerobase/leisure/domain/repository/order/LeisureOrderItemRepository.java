@@ -3,6 +3,8 @@ package com.zerobase.leisure.domain.repository.order;
 import com.zerobase.leisure.domain.entity.order.LeisureOrderItem;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +14,6 @@ public interface LeisureOrderItemRepository extends JpaRepository<LeisureOrderIt
 
 	Optional<LeisureOrderItem> findByLeisureCart_CustomerIdAndLeisureId(Long customerId, Long leisureId);
 	void deleteByIdAndLeisureCart_CustomerId(Long id, Long LeisureCartId);
+
+	Page<LeisureOrderItem> findAllByLeisureOrderIdIn(List<Long> ids, Pageable limit);
 }
