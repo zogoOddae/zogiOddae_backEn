@@ -2,6 +2,7 @@ package com.zerobase.leisure.domain.dto.coupon;
 
 import com.zerobase.leisure.domain.entity.coupon.LeisureCouponGroup;
 import com.zerobase.leisure.domain.type.CouponTarget;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,7 @@ public class LeisureCouponGroupDto {
     private CouponTarget couponTarget;
     private Integer issuedCount;
 
-    private LocalDateTime endTime;
+    private LocalDate endTime;
 
     public static LeisureCouponGroupDto from(LeisureCouponGroup leisureCouponGroup) {
         return LeisureCouponGroupDto.builder()

@@ -1,6 +1,7 @@
 package com.zerobase.leisure.domain.form;
 
 import com.zerobase.leisure.domain.type.CouponTarget;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
@@ -12,5 +13,5 @@ public class AddLeisureCouponGroupForm {
     private CouponTarget couponTarget;
     private Integer issuedCount;
 
-    private LocalDateTime endTime;
+    private LocalDate endTime;
 }

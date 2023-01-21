@@ -1,11 +1,20 @@
 package com.zerobase.leisure.service.coupon;
 
+import com.zerobase.leisure.domain.dto.coupon.LeisureCouponGroupDto;
 import com.zerobase.leisure.domain.entity.coupon.LeisureCouponGroup;
 import com.zerobase.leisure.domain.form.AddLeisureCouponGroupForm;
 import com.zerobase.leisure.domain.repository.coupon.LeisureCouponGroupRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.exception.LeisureException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,4 +50,19 @@ public class LeisureCouponGroupService {
             .orElseThrow(() -> new LeisureException(ErrorCode.NOT_REGISTERED_COUPON_GROUP));
     }
 
+    public Page<LeisureCouponGroupDto> getAllLeisureCouponGroup(Pageable pageable) {
+        Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
+
+        Page<LeisureCouponGroup> leisureCouponGroups = leisureCouponGroupRepository.findAllByEndTimeIsAfter(
+            LocalDateTime.now(), limit);
+
+        List<LeisureCouponGroupDto> leisureCouponGroupDtos = new ArrayList<>();
+
+        for(LeisureCouponGroup leisureCouponGroup : leisureCouponGroups){
+            leisureCouponGroupDtos.add(LeisureCouponGroupDto.from(leisureCouponGroup));
+        }
+
+        return new PageImpl<>(leisureCouponGroupDtos, limit, leisureCouponGroups.getTotalElements());
+
+    }
 }

@@ -3,6 +3,7 @@ package com.zerobase.leisure.domain.entity.coupon;
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
 import com.zerobase.leisure.domain.form.AddLeisureCouponGroupForm;
 import com.zerobase.leisure.domain.type.CouponTarget;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -35,7 +36,7 @@ public class LeisureCouponGroup extends BaseEntity {
 	private CouponTarget couponTarget;
 	private Integer issuedCount;
 
-	private LocalDateTime endTime;
+	private LocalDate endTime;
 
 	public static LeisureCouponGroup of(AddLeisureCouponGroupForm form) {
 		return LeisureCouponGroup.builder()
