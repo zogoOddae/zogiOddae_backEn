@@ -1,10 +1,13 @@
 package com.zerobase.accommodation.controller.payment;
 
+import com.zerobase.accommodation.domain.dto.coupon.AccommodationCouponDto;
 import com.zerobase.accommodation.domain.dto.payment.AccommodationPaymentDto;
 import com.zerobase.accommodation.domain.form.payment.AccommodationPaymentForm;
 import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.payment.AccommodationPaymentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,5 +44,13 @@ public class AccommodationPaymentController {
     @GetMapping("/kakaopay/fail")
     public WebResponseData<String> kakaopayFail() {
         return WebResponseData.ok("결제 요청에 실패했습니다. 다시 시도해주세요.");
+    }
+
+
+    //내 결제 내역
+    @GetMapping
+    public WebResponseData<Page<AccommodationPaymentDto>> getAccommodationPayment(@RequestParam Long customerId, final Pageable pageable) {
+        Page<AccommodationPaymentDto> accommodationPaymentDtos = accommodationPaymentService.getAccommodationPayment(customerId,pageable);
+        return WebResponseData.ok(accommodationPaymentDtos);
     }
 }

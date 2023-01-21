@@ -18,7 +18,7 @@ public class AccommodationReviewDto {
 	private Long accommodationId;
 
 	private double rating;
-	private double description;
+	private String description;
 
 	private String reply;
 

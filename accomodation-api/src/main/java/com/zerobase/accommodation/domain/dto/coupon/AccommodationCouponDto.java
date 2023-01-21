@@ -1,6 +1,7 @@
 package com.zerobase.accommodation.domain.dto.coupon;
 
 import com.zerobase.accommodation.domain.entity.coupon.AccommodationCoupon;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,7 @@ public class AccommodationCouponDto {
 
     private LocalDateTime usedTime;
 
-    private LocalDateTime endTime;
+    private LocalDate endTime;
 
     public static AccommodationCouponDto from(AccommodationCoupon accommodationCoupon) {
         return AccommodationCouponDto.builder()

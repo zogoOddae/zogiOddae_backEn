@@ -27,12 +27,12 @@ public class AccommodationReviewService {
             throw new AccommodationException(ErrorCode.ALREADY_REGISTERED_REVIEW);
         }
 
-        return AccommodationReview.builder()
+        return accommodationReviewRepository.save(AccommodationReview.builder()
             .customerId(form.getCustomerId())
             .accommodationId(form.getAccommodationId())
             .rating(form.getRating())
             .description(form.getDescription())
-            .build();
+            .build());
     }
 
     public AccommodationReview updateAccommodationReview(Long reviewId,

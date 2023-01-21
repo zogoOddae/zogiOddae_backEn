@@ -9,7 +9,7 @@ public class AddAccommodationReviewForm {
     private Long accommodationId;
 
     private double rating;
-    private double description;
+    private String description;
 
     private String reply;
 }

@@ -9,7 +9,7 @@ import lombok.Getter;
 public class AddLeisureCouponGroupForm {
     private Long LeisureCouponGroupId;
 
-    private Long salePrice;
+    private Integer salePrice;
     private CouponTarget couponTarget;
     private Integer issuedCount;
 
