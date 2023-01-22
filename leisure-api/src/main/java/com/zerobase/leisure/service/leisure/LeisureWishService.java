@@ -9,8 +9,13 @@ import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.exception.LeisureException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,34 +35,35 @@ public class LeisureWishService {
 			.build());
 	}
 
+	@Transactional
 	public void deleteLeisureWish(Long memberId, Long leisureId) {
 		leisureWishListRepository.deleteByMemberIdAndLeisureId(memberId, leisureId);
 	}
 
-	public List<LeisureWishListDto> getLeisureWishList(Long memberId) {
-		Optional<List<LeisureWishList>> optionalLeisureWishList = leisureWishListRepository.findAllByMemberId(
-			memberId);
-		List<LeisureWishListDto> leisureWishListDtoList = new ArrayList<>();
-		if (!optionalLeisureWishList.isPresent()) {
-			return leisureWishListDtoList;
-		}
+	public Page<LeisureWishListDto> getLeisureWishList(Long memberId, Pageable pageable) {
+		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
 
-		for (LeisureWishList leisureWishList : optionalLeisureWishList.get()) {
+		Page<LeisureWishList> leisureWishListList = leisureWishListRepository.findAllByMemberId(memberId, limit)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_HAD_WISHLIST));
+
+		List<LeisureWishListDto> leisureWishListDtoList = new ArrayList<>();
+
+		for (LeisureWishList leisureWishList : leisureWishListList.toList()) {
 			Leisure leisure = leisureRepository.findById(leisureWishList.getLeisureId())
 				.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
 
 			leisureWishListDtoList.add(
 				LeisureWishListDto.builder()
-					.leisureWishListId(leisureWishList.getId())
-					.leisureId(leisureWishList.getLeisureId())
+					.wishListId(leisureWishList.getId())
+					.id(leisureWishList.getLeisureId())
 					.memberId(memberId)
-					.leisureName(leisure.getLeisureName())
+					.name(leisure.getLeisureName())
 					.addr(leisure.getAddr())
 					.price(leisure.getPrice())
 					.pictureUrl(leisure.getPictureUrl())
 					.build()
 			);
 		}
-		return leisureWishListDtoList;
+		return new PageImpl<>(leisureWishListDtoList, limit, leisureWishListList.getTotalElements());
 	}
 }

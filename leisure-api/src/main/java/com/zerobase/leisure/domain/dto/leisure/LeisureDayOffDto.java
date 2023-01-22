@@ -1,7 +1,6 @@
 package com.zerobase.leisure.domain.dto.leisure;
 
 import com.zerobase.leisure.domain.entity.leisure.LeisureDayOff;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -14,20 +13,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeisureDayOffDto {
+	private Long dayOffId;
 	private Long id;
-	private Long leisureId;
 
 	private String year;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private String startDate;
+	private String endDate;
 
 	public static LeisureDayOffDto from(LeisureDayOff leisureDayOff) {
 		return LeisureDayOffDto.builder()
-			.id(leisureDayOff.getId())
-			.leisureId(leisureDayOff.getLeisureId())
+			.dayOffId(leisureDayOff.getId())
+			.id(leisureDayOff.getLeisureId())
 			.year(leisureDayOff.getYear())
-			.startDate(leisureDayOff.getStartDate())
-			.endDate(leisureDayOff.getEndDate())
+			.startDate(leisureDayOff.getStartAt().toString())
+			.endDate(leisureDayOff.getEndAt().toString())
 			.build();
 	}
 

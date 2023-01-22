@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LeisureDto {
+public class CustomerLeisureDto {
 	private Long id;
 	private Long sellerId;
 
@@ -29,8 +29,8 @@ public class LeisureDto {
 	private double lat;
 	private double lon;
 
-	public static LeisureDto from(Leisure leisure) {
-		return LeisureDto.builder()
+	public static CustomerLeisureDto from(Leisure leisure) {
+		return CustomerLeisureDto.builder()
 			.id(leisure.getId())
 			.sellerId(leisure.getSellerId())
 			.name(leisure.getLeisureName())
@@ -45,9 +45,9 @@ public class LeisureDto {
 			.build();
 	}
 
-	public static List<LeisureDto> fromList(List<Leisure> leisureList) {
+	public static List<CustomerLeisureDto> fromList(List<Leisure> leisureList) {
 		return leisureList.stream()
-			.map(LeisureDto::from)
+			.map(CustomerLeisureDto::from)
 			.collect(Collectors.toList());
 	}
 }

@@ -2,16 +2,20 @@ package com.zerobase.leisure.service.order;
 
 import com.zerobase.leisure.application.LeisureCartCheck;
 import com.zerobase.leisure.domain.dto.leisure.LeisureCartDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureCartItemDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureCartPaymentDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureOrderItemDto;
 import com.zerobase.leisure.domain.entity.coupon.LeisureCoupon;
 import com.zerobase.leisure.domain.entity.coupon.LeisureCouponGroup;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
+import com.zerobase.leisure.domain.entity.leisure.LeisureReservationDay;
 import com.zerobase.leisure.domain.entity.order.LeisureCart;
 import com.zerobase.leisure.domain.entity.order.LeisureOrderItem;
 import com.zerobase.leisure.domain.form.AddLeisureCartForm;
 import com.zerobase.leisure.domain.repository.coupon.LeisureCouponGroupRepository;
 import com.zerobase.leisure.domain.repository.coupon.LeisureCouponRepository;
 import com.zerobase.leisure.domain.repository.leisure.LeisureRepository;
+import com.zerobase.leisure.domain.repository.leisure.LeisureReservationDayRepository;
 import com.zerobase.leisure.domain.repository.order.LeisureCartRepository;
 import com.zerobase.leisure.domain.repository.order.LeisureOrderItemRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
@@ -33,6 +37,7 @@ public class LeisureCartService {
 	private final LeisureCartCheck leisureCartCheck;
 	private final LeisureCouponRepository leisureCouponRepository;
 	private final LeisureCouponGroupRepository leisureCouponGroupRepository;
+	private final LeisureReservationDayRepository leisureReservationDayRepository;
 
 	public void addLeisureCart(Long customerId, AddLeisureCartForm form) {
 		if (leisureOrderItemRepository.findByLeisureCart_CustomerIdAndLeisureId(customerId,
@@ -49,6 +54,11 @@ public class LeisureCartService {
 		Optional<LeisureCart> optionalLeisureCart = leisureCartRepository.findByCustomerId(
 			customerId);
 
+		if (leisureReservationDayRepository.findByLeisureIdAndStartAtBetween(form.getLeisureId(), form.getStartAt(),form.getEndAt())
+			.isPresent()) throw new LeisureException(ErrorCode.ALREADY_RESERVATION_DAY);
+		if (leisureReservationDayRepository.findByLeisureIdAndEndAtBetween(form.getLeisureId(), form.getStartAt(),form.getEndAt())
+			.isPresent()) throw new LeisureException(ErrorCode.ALREADY_RESERVATION_DAY);
+
 		LeisureCart leisureCart= optionalLeisureCart.orElseGet(
 			() -> leisureCartRepository.save(LeisureCart.builder()
 				.customerId(customerId)
@@ -63,10 +73,16 @@ public class LeisureCartService {
 	public void deleteLeisureCart(Long customerId, Long leisureOrderItemId) {
 		LeisureCart leisureCart = leisureCartRepository.findByCustomerId(customerId)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_CART));
-		leisureCart.setTotalPrice(leisureCart.getTotalPrice() - leisureOrderItemRepository.findById(
-				leisureOrderItemId)
-			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_ORDER_ITEM))
-			.getPrice());
+
+		LeisureOrderItem leisureOrderItem = leisureOrderItemRepository.findById(
+				leisureOrderItemId).orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_ORDER_ITEM));
+
+		if (leisureOrderItem.getCouponId() != null) {
+			LeisureCoupon leisureCoupon =
+				leisureCouponRepository.findById(leisureOrderItem.getCouponId()).get();
+			leisureCoupon.setUsedYN(false);
+			leisureCouponRepository.save(leisureCoupon);
+		}
 
 		leisureOrderItemRepository.deleteByIdAndLeisureCart_CustomerId(leisureOrderItemId,
 			customerId);
@@ -92,15 +108,50 @@ public class LeisureCartService {
 		leisureCart.setTotalPrice(totalPrice(leisureOrderItemList));
 
 		List<Leisure> leisureList = leisureRepository.findAllById(leisureIds(leisureOrderItemList));
+		int totalPrice=0;
+		List<LeisureCartItemDto> list = new ArrayList<>();
+		for (int i=0; i<leisureList.size(); i++) {
+			list.add(LeisureCartItemDto.from(leisureOrderItemList.get(i),leisureList.get(i)));
+			totalPrice += leisureList.get(i).getPrice();
+		}
+
+		return LeisureCartDto.builder()
+			.cartId(leisureCart.getId())
+			.cartItemList(list)
+			.totalPrice(totalPrice)
+			.build();
+	}
+
+	@Transactional
+	public LeisureCartPaymentDto getLeisureCartPayment(Long customerId, String userName) {
+
+		LeisureCart leisureCart = leisureCartRepository.findByCustomerId(customerId)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_CART));
+
+		List<LeisureOrderItem> leisureOrderItemList = leisureOrderItemRepository
+			.findAllByLeisureCart_CustomerId(customerId)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_HAD_ORDER_ITEM));
+
+		for (LeisureOrderItem i : leisureOrderItemList) {
+			leisureCartCheck.cartCheck(leisureCart, i);
+		}
+
+		leisureOrderItemList = leisureOrderItemRepository.findAllByLeisureCart_CustomerId(customerId)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_HAD_ORDER_ITEM));
+
+		leisureCart.setTotalPrice(totalPrice(leisureOrderItemList));
+
+		List<Leisure> leisureList = leisureRepository.findAllById(leisureIds(leisureOrderItemList));
 
 		List<LeisureOrderItemDto> list = new ArrayList<>();
 		for (int i=0; i<leisureList.size(); i++) {
 			list.add(LeisureOrderItemDto.from(leisureOrderItemList.get(i),leisureList.get(i)));
 		}
 
-		return LeisureCartDto.builder()
+		return LeisureCartPaymentDto.builder()
+			.customerName(userName)
 			.cartId(leisureCart.getId())
-			.leisureOrderItemList(list)
+			.orderItemList(list)
 			.totalPrice(leisureCart.getTotalPrice())
 			.build();
 	}
@@ -127,13 +178,13 @@ public class LeisureCartService {
 		LeisureOrderItem leisureOrderItem = leisureOrderItemRepository.findById(leisureOrderItemId)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_ORDER_ITEM));
 
-		if (leisureOrderItemRepository.findByCouponId(leisureCoupon.getId()).isPresent()){
-			throw new LeisureException(ErrorCode.ALREADY_USED_COUPON);
-		}
-
 		leisureOrderItem.setCouponId(leisureCoupon.getId());
 		leisureOrderItem.setSalePrice(leisureCouponGroup.getSalePrice());
 		leisureOrderItem.setPrice(leisureOrderItem.getPrice()-leisureOrderItem.getSalePrice());
+
+		leisureCoupon.setUsedYN(true);
+
+		leisureCouponRepository.save(leisureCoupon);
 
 		leisureOrderItemRepository.save(leisureOrderItem);
 	}

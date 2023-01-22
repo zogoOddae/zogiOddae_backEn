@@ -1,7 +1,8 @@
 package com.zerobase.leisure.domain.dto.leisure;
 
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
-import com.zerobase.leisure.domain.entity.leisure.LeisureWishList;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,25 +12,30 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LeisureWishListDto {
-	private Long wishListId;
+public class LeisureListDto {
 	private Long id;
+	private Long sellerId;
 
-	private Long memberId;
 	private String name;
 	private String addr;
 	private Integer price;
+
 	private String pictureUrl;
 
-	public static LeisureWishListDto from(LeisureWishList LeisureWishList, Leisure leisure) {
-		return LeisureWishListDto.builder()
-			.wishListId(LeisureWishList.getId())
+	public static LeisureListDto from(Leisure leisure) {
+		return LeisureListDto.builder()
 			.id(leisure.getId())
-			.memberId(LeisureWishList.getMemberId())
+			.sellerId(leisure.getSellerId())
 			.name(leisure.getLeisureName())
 			.addr(leisure.getAddr())
-			.price(leisure.getPrice())
 			.pictureUrl(leisure.getPictureUrl())
+			.price(leisure.getPrice())
 			.build();
+	}
+
+	public static List<LeisureListDto> fromList(List<Leisure> leisureList) {
+		return leisureList.stream()
+			.map(LeisureListDto::from)
+			.collect(Collectors.toList());
 	}
 }

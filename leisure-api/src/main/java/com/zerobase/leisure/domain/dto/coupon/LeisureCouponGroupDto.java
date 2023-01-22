@@ -2,8 +2,6 @@ package com.zerobase.leisure.domain.dto.coupon;
 
 import com.zerobase.leisure.domain.entity.coupon.LeisureCouponGroup;
 import com.zerobase.leisure.domain.type.CouponTarget;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,21 +12,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeisureCouponGroupDto {
-    private Long id;
+    private Long couponGroupId;
 
     private Integer salePrice;
     private CouponTarget couponTarget;
     private Integer issuedCount;
-
-    private LocalDate endTime;
+    private String endTime;
 
     public static LeisureCouponGroupDto from(LeisureCouponGroup leisureCouponGroup) {
         return LeisureCouponGroupDto.builder()
-            .id(leisureCouponGroup.getId())
+            .couponGroupId(leisureCouponGroup.getId())
             .salePrice(leisureCouponGroup.getSalePrice())
             .couponTarget(leisureCouponGroup.getCouponTarget())
             .issuedCount(leisureCouponGroup.getIssuedCount())
-            .endTime(leisureCouponGroup.getEndTime())
+            .endTime(leisureCouponGroup.getEndTime().toString())
             .build();
     }
 }

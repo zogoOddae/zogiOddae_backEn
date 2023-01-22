@@ -11,12 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LeisureOrderItemDto {
+public class LeisureCartItemDto {
 	private Long orderItemId;
-	private Long sellerId;
-
-	private Long couponId;
-	private Integer salePrice;
 
 	private String name;
 	private Integer price;
@@ -28,15 +24,12 @@ public class LeisureOrderItemDto {
 	private String startAt;
 	private String endAt;
 
-	public static LeisureOrderItemDto from(LeisureOrderItem leisureOrderItem, Leisure leisure) {
-		return LeisureOrderItemDto.builder()
+	public static LeisureCartItemDto from(LeisureOrderItem leisureOrderItem, Leisure leisure) {
+		return LeisureCartItemDto.builder()
 			.orderItemId(leisureOrderItem.getId())
-			.sellerId(leisure.getSellerId())
-			.couponId(leisureOrderItem.getCouponId())
-			.salePrice(leisureOrderItem.getSalePrice())
-			.pictureUrl(leisure.getPictureUrl())
 			.name(leisure.getLeisureName())
-			.price(leisureOrderItem.getPrice())
+			.price(leisure.getPrice())
+			.pictureUrl(leisure.getPictureUrl())
 			.persons(leisureOrderItem.getPersons())
 			.startAt(leisureOrderItem.getStartAt().toString())
 			.endAt(leisureOrderItem.getEndAt().toString())

@@ -1,8 +1,6 @@
 package com.zerobase.leisure.domain.dto.coupon;
 
 import com.zerobase.leisure.domain.entity.coupon.LeisureCoupon;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,24 +12,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LeisureCouponDto {
 
-	private Long id;
-	private Long customerId;
+	private Long couponId;
 	private Long couponGroupId;
 
-	private boolean usedYN;
+	private Integer salePrice;
 
-	private LocalDateTime usedTime;
+	private String endTime;
 
-	private LocalDate endTime;
-
-	public static LeisureCouponDto from(LeisureCoupon leisureCoupon) {
+	public static LeisureCouponDto from(LeisureCoupon leisureCoupon, Integer salePrice) {
 		return LeisureCouponDto.builder()
-			.id(leisureCoupon.getId())
-			.customerId(leisureCoupon.getCustomerId())
+			.couponId(leisureCoupon.getId())
+			.salePrice(salePrice)
 			.couponGroupId(leisureCoupon.getCouponGroupId())
-			.usedYN(leisureCoupon.isUsedYN())
-			.usedTime(leisureCoupon.getUsedTime())
-			.endTime(leisureCoupon.getEndTime())
+			.endTime(leisureCoupon.getEndTime().toString())
 			.build();
 	}
 }

@@ -10,10 +10,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LeisureCartDto {
+public class LeisureCartPaymentDto {
 	private Long cartId;
 
-	private List<LeisureCartItemDto> cartItemList;
+	private String customerName;
+
+	private List<LeisureOrderItemDto> orderItemList;
 
 	private Integer totalPrice;
 }

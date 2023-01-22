@@ -76,7 +76,7 @@ class SellerLeisureServiceTest {
 		List<LeisureDto> leisureList = sellerLeisureService.getAllLeisure(1L, Pageable.ofSize(0)).toList();
 		//then
 		assertEquals(leisureList.get(0).getSellerId(),1L);
-		assertEquals(leisureList.get(0).getLeisureName(), "바다 레저");
+		assertEquals(leisureList.get(0).getName(), "바다 레저");
 		assertEquals(leisureList.get(0).getPrice(), 18000);
 		assertEquals(leisureList.get(0).getPictureUrl(), "D://test/test.jpg");
 		assertEquals(leisureList.get(0).getAddr(), "허리도 가늘군 만지면 부러지리");
@@ -155,8 +155,8 @@ class SellerLeisureServiceTest {
 		//then
 		assertNotNull(leisureDayOff);
 		assertEquals(leisureDayOff.getYear(),"2023");
-		assertEquals(leisureDayOff.getStartDate(),LocalDate.of(2023,1,1));
-		assertEquals(leisureDayOff.getEndDate(),LocalDate.of(2023,1,2));
+		assertEquals(leisureDayOff.getStartAt(),LocalDate.of(2023,1,1));
+		assertEquals(leisureDayOff.getEndAt(),LocalDate.of(2023,1,2));
 	}
 
 	@Test
@@ -192,17 +192,17 @@ class SellerLeisureServiceTest {
 			.endDay(LocalDate.of(2023,1,4))
 			.build());
 		//when
-		List<LeisureDayOff> leisureDayOffList = sellerLeisureService.getLeisureDayOff(1L);
+		List<LeisureDayOff> leisureDayOffList = null;
 		//then
 		assertEquals(leisureDayOffList.get(0).getYear(), "2023");
 		assertEquals(leisureDayOffList.get(1).getYear(), "2023");
 		assertEquals(leisureDayOffList.get(2).getYear(), "2023");
-		assertEquals(leisureDayOffList.get(0).getStartDate(), LocalDate.of(2023,1,1));
-		assertEquals(leisureDayOffList.get(1).getStartDate(), LocalDate.of(2023,1,2));
-		assertEquals(leisureDayOffList.get(2).getStartDate(), LocalDate.of(2023,1,3));
-		assertEquals(leisureDayOffList.get(0).getEndDate(), LocalDate.of(2023,1,2));
-		assertEquals(leisureDayOffList.get(1).getEndDate(), LocalDate.of(2023,1,3));
-		assertEquals(leisureDayOffList.get(2).getEndDate(), LocalDate.of(2023,1,4));
+		assertEquals(leisureDayOffList.get(0).getStartAt(), LocalDate.of(2023,1,1));
+		assertEquals(leisureDayOffList.get(1).getStartAt(), LocalDate.of(2023,1,2));
+		assertEquals(leisureDayOffList.get(2).getStartAt(), LocalDate.of(2023,1,3));
+		assertEquals(leisureDayOffList.get(0).getEndAt(), LocalDate.of(2023,1,2));
+		assertEquals(leisureDayOffList.get(1).getEndAt(), LocalDate.of(2023,1,3));
+		assertEquals(leisureDayOffList.get(2).getEndAt(), LocalDate.of(2023,1,4));
 	}
 
 	@Test
@@ -221,8 +221,8 @@ class SellerLeisureServiceTest {
 		LeisureDayOff leisureDayOff1 = leisureDayOffRepository.findById(leisureDayOff.getId()).get();
 		//then
 		assertEquals(leisureDayOff1.getYear(), "2024");
-		assertEquals(leisureDayOff1.getStartDate(), LocalDate.of(2024,2,4));
-		assertEquals(leisureDayOff1.getEndDate(), LocalDate.of(2024,2,5));
+		assertEquals(leisureDayOff1.getStartAt(), LocalDate.of(2024,2,4));
+		assertEquals(leisureDayOff1.getEndAt(), LocalDate.of(2024,2,5));
 	}
 
 
