@@ -13,36 +13,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccommodationOrderItemDto {
-    private Long accommodationOrderItemId;
+    private Long orderItemId;
     private Long sellerId;
-
-    private String reservationId;
 
     private Long couponId;
     private Integer salePrice;
 
-    private String accommodationName;
-    private String addr;
+    private String name;
     private Integer price;
+
     private String pictureUrl;
+
     private Integer persons;
-    private LocalDate startAt;
-    private LocalDate endAt;
+
+    private String startAt;
+    private String endAt;
 
     public static AccommodationOrderItemDto from(AccommodationOrderItem accommodationOrderItem, Accommodation accommodation) {
         return AccommodationOrderItemDto.builder()
-            .accommodationOrderItemId(accommodationOrderItem.getId())
-            .reservationId(accommodationOrderItem.getReservationId())
+            .orderItemId(accommodationOrderItem.getId())
             .sellerId(accommodation.getSellerId())
             .couponId(accommodationOrderItem.getCouponId())
             .salePrice(accommodationOrderItem.getSalePrice())
-            .accommodationName(accommodation.getAccommodationName())
-            .addr(accommodation.getAddr())
+            .name(accommodation.getAccommodationName())
             .price(accommodation.getPrice())
             .price(accommodationOrderItem.getPrice())
             .persons(accommodationOrderItem.getPersons())
-            .startAt(accommodationOrderItem.getStartAt())
-            .endAt(accommodationOrderItem.getEndAt())
+            .startAt(accommodationOrderItem.getStartAt().toString())
+            .endAt(accommodationOrderItem.getEndAt().toString())
             .build();
     }
 }

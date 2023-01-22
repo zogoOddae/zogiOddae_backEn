@@ -18,31 +18,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/accommodation/couponGroup")
 @RequiredArgsConstructor
 public class AccommodationCouponGroupController {
 
     private final AccommodationCouponGroupService accommodationCouponGroupService;
 
-    @PostMapping
+    @PostMapping("/admin/accommodation/couponGroup")
     public WebResponseData<String> addAccommodationCouponGroup(@RequestBody AddAccommodationCouponGroupForm form) {
         accommodationCouponGroupService.addAccommodationCouponGroup(form);
         return WebResponseData.ok("성공적으로 등록되었습니다.");
     }
 
-    @GetMapping
+    @GetMapping("/accommodation/couponGroup")
     public WebResponseData<Page<AccommodationCouponGroupDto>> getAccommodationAllCouponGroup(final Pageable pageable) {
         Page<AccommodationCouponGroupDto> accommodationCouponGroupDtos = accommodationCouponGroupService.getAllAccommodationCouponGroup(pageable);
         return WebResponseData.ok(accommodationCouponGroupDtos);
     }
 
-    @PutMapping
+    @PutMapping("/admin/accommodation/couponGroup")
     public WebResponseData<String> updateAccommodationCouponGroup(@RequestBody AddAccommodationCouponGroupForm form) {
         accommodationCouponGroupService.updateAccommodationCouponGroup(form);
         return WebResponseData.ok("성공적으로 수정되었습니다.");
     }
 
-    @DeleteMapping
+    @DeleteMapping("/admin/accommodation/couponGroup")
     public WebResponseData<String> deleteAccommodationCouponGroup(@RequestParam Long accommodationCouponGroupId) {
         accommodationCouponGroupService.deleteAccommodationCouponGroup(accommodationCouponGroupId);
         return WebResponseData.ok("성공적으로 삭제되었습니다.");

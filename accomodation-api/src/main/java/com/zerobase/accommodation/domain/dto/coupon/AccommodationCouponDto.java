@@ -13,24 +13,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccommodationCouponDto {
-    private Long id;
-    private Long customerId;
+
+    private Long couponId;
     private Long couponGroupId;
 
-    private boolean usedYN;
+    private Integer salePrice;
 
-    private LocalDateTime usedTime;
+    private String endTime;
 
-    private LocalDate endTime;
-
-    public static AccommodationCouponDto from(AccommodationCoupon accommodationCoupon) {
+    public static AccommodationCouponDto from(AccommodationCoupon accommodationCoupon,Integer salePrice) {
         return AccommodationCouponDto.builder()
-            .id(accommodationCoupon.getId())
-            .customerId(accommodationCoupon.getCustomerId())
+            .couponId(accommodationCoupon.getId())
+            .salePrice(salePrice)
             .couponGroupId(accommodationCoupon.getCouponGroupId())
-            .usedYN(accommodationCoupon.isUsedYN())
-            .usedTime(accommodationCoupon.getUsedTime())
-            .endTime(accommodationCoupon.getEndTime())
+            .endTime(accommodationCoupon.getEndTime().toString())
             .build();
     }
 }

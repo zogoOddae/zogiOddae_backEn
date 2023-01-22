@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/accommodation")
+@RequestMapping("/seller/accommodation")
 @RequiredArgsConstructor
 public class SellerAccommodationController {
 

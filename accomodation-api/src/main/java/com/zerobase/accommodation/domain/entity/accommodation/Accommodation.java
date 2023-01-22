@@ -2,6 +2,7 @@ package com.zerobase.accommodation.domain.entity.accommodation;
 
 import com.zerobase.accommodation.domain.entity.common.BaseEntity;
 import com.zerobase.accommodation.domain.form.accommodation.AccommodationForm;
+import com.zerobase.accommodation.domain.type.Category;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,8 +44,12 @@ public class Accommodation extends BaseEntity {
 	private String checkIn;
 	private String checkOut;
 
+	private Category category;
+
+
 	private double lat;
 	private double lon;
+
 
 	public static Accommodation of(Long sellerId, AccommodationForm form) {
 		return Accommodation.builder()
@@ -57,6 +62,9 @@ public class Accommodation extends BaseEntity {
 			.maxPerson(form.getMaxPerson())
 			.checkIn(form.getCheckIn())
 			.checkOut(form.getCheckOut())
+			.category(form.getCategory())
+			.lat(form.getLat())
+			.lon(form.getLon())
 			.build();
 	}
 }

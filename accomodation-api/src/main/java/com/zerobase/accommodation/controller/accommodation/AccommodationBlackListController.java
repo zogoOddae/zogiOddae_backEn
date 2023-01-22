@@ -17,26 +17,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/accommodation/blacklist")
 @RequiredArgsConstructor
 public class AccommodationBlackListController {
     private final AccommodationBlackListService accommodationBlackListService;
 
     //블랙리스트 등록
-    @PostMapping
+    @PostMapping("/seller/accommodation/blacklist")
     public WebResponseData<String> addAccommodationBlackList(@RequestBody AddAccommodationBlackListForm form) {
         accommodationBlackListService.addAccommodationBlackList(form);
         return WebResponseData.ok("성공적으로 등록 되었습니다.");
     }
 
-    @GetMapping
+    @GetMapping("/seller/accommodation/blacklist")
     public WebResponseData<Page<AccommodationBlackListDto>> getAccommodationBlackList(@RequestParam Long accommodationId, final Pageable pageable) {
         Page<AccommodationBlackListDto> accommodationBlackListDtos = accommodationBlackListService.getAllAccommodationBlackList(accommodationId, pageable);
         return WebResponseData.ok(accommodationBlackListDtos);
     }
 
     //블랙 리스트 삭제
-    @DeleteMapping
+    @DeleteMapping("/seller/accommodation/blacklist")
     public WebResponseData<String> deleteAccommodationBlackList(@RequestParam Long accommodationBlackListId) {
         accommodationBlackListService.deleteAccommodationBlackList(accommodationBlackListId);
         return WebResponseData.ok("성공적으로 삭제 되었습니다.");

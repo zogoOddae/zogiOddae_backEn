@@ -2,6 +2,7 @@ package com.zerobase.accommodation.controller.order;
 
 import com.zerobase.accommodation.domain.dto.accommodation.AccommodationCartDto;
 import com.zerobase.accommodation.domain.dto.accommodation.AccommodationOrderItemDto;
+import com.zerobase.accommodation.domain.dto.payment.AccommodationCartPaymentDto;
 import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationCartForm;
 import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.order.AccommodationCartService;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/accommodation/cart")
+@RequestMapping("/customer/accommodation/cart")
 @RequiredArgsConstructor
 public class AccommodationCartController {
 	private final AccommodationCartService accommodationCartService;
@@ -38,6 +39,11 @@ public class AccommodationCartController {
 	@GetMapping
 	public @ResponseBody WebResponseData<AccommodationCartDto> getAccommodationCart(@RequestParam Long customerId){
 		return WebResponseData.ok(accommodationCartService.getAccommodationCart(customerId));
+	}
+
+	@GetMapping("/payment")
+	public @ResponseBody WebResponseData<AccommodationCartPaymentDto> getLeisureCartPayment(@RequestParam Long customerId, String customerName){
+		return WebResponseData.ok(accommodationCartService.getAccommodationCartPayment(customerId, customerName));
 	}
 
 	@PutMapping("/coupon")

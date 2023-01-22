@@ -29,12 +29,12 @@ public class AccommodationCouponGroupService {
 
     public AccommodationCouponGroup updateAccommodationCouponGroup(
         AddAccommodationCouponGroupForm form) {
-        AccommodationCouponGroup accommodationCouponGroup = findCouponGroup(form.getAccommodationCouponGroupid());
+        AccommodationCouponGroup accommodationCouponGroup = findCouponGroup(form.getAccommodationCouponGroupId());
 
-        accommodationCouponGroup.setId(form.getAccommodationCouponGroupid());
+        accommodationCouponGroup.setId(form.getAccommodationCouponGroupId());
         accommodationCouponGroup.setCouponTarget(form.getCouponTarget());
         accommodationCouponGroup.setSalePrice(form.getSalePrice());
-        accommodationCouponGroup.setIssusedcount(form.getIssusedcount());
+        accommodationCouponGroup.setIssusedcount(form.getIssuedCount());
         accommodationCouponGroup.setEndTime(form.getEndTime());
 
         return accommodationCouponGroupRepository.save(accommodationCouponGroup);

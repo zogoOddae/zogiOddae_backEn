@@ -17,7 +17,7 @@ public class AccommodationCouponGroupDto {
 
     private Integer salePrice;
     private CouponTarget couponTarget;
-    private Integer issusedcount;
+    private Integer issuedCount;
 
     private LocalDate endTime;
 
@@ -26,7 +26,7 @@ public class AccommodationCouponGroupDto {
             .id(accommodationCouponGroup.getId())
             .salePrice(accommodationCouponGroup.getSalePrice())
             .couponTarget(accommodationCouponGroup.getCouponTarget())
-            .issusedcount(accommodationCouponGroup.getIssusedcount())
+            .issuedCount(accommodationCouponGroup.getIssusedcount())
             .endTime(accommodationCouponGroup.getEndTime())
             .build();
     }

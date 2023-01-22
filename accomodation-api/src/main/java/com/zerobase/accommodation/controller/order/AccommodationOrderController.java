@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/accommodation/order")
+@RequestMapping("/customer/accommodation/order")
 @RequiredArgsConstructor
 public class AccommodationOrderController {
 
@@ -36,4 +36,5 @@ public class AccommodationOrderController {
 //		}
         return WebResponseData.ok(accommodationOrderService.getAccommodationOrder(customerId,pageable));
     }
+
 }

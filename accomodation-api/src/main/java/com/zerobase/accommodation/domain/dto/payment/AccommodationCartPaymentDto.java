@@ -1,5 +1,6 @@
-package com.zerobase.accommodation.domain.dto.accommodation;
+package com.zerobase.accommodation.domain.dto.payment;
 
+import com.zerobase.accommodation.domain.dto.accommodation.AccommodationOrderItemDto;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,12 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccommodationCartDto {
+public class AccommodationCartPaymentDto {
     private Long cartId;
 
     private String customerName;
 
-    private List<AccommodationOrderItemDto> accommodationOrderItemList;
+    private List<AccommodationOrderItemDto> orderItemList;
 
     private Integer totalPrice;
 }

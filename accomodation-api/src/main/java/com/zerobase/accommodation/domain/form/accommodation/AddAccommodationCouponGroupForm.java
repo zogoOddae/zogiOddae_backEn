@@ -6,11 +6,11 @@ import lombok.Getter;
 
 @Getter
 public class AddAccommodationCouponGroupForm {
-    private Long accommodationCouponGroupid;
+    private Long accommodationCouponGroupId;
 
     private Integer salePrice;
     private CouponTarget couponTarget;
-    private Integer issusedcount;
+    private Integer issuedCount;
 
     private LocalDate endTime;
 }
