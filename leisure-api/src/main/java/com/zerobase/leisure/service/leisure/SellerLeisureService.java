@@ -1,5 +1,6 @@
 package com.zerobase.leisure.service.leisure;
 
+import com.zerobase.leisure.domain.dto.leisure.LeisureDayOffDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureDto;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.entity.leisure.LeisureDayOff;
@@ -85,9 +86,15 @@ public class SellerLeisureService {
 		leisureDayOffRepository.deleteById(leisureDayOffId);
 	}
 
-	public List<LeisureDayOff> getLeisureDayOff(Long leisureId) {
-		return leisureDayOffRepository.findAllByLeisureId(leisureId)
-			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_HAD_DAY_OFF));
+	public Page<LeisureDayOffDto> getLeisureDayOff(Long leisureId, Pageable pageable) {
+		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
+
+		Page<LeisureDayOff> leisureDayOffPage = leisureDayOffRepository.findAllByLeisureId(leisureId, limit)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_DAY_OFF));
+
+		List<LeisureDayOffDto> leisureDtoList = LeisureDayOffDto.fromList(leisureDayOffPage.toList());
+
+		return new PageImpl<>(leisureDtoList, limit, leisureDayOffPage.getTotalElements());
 	}
 
 	public void updateLeisureDayOff(Long leisureDayOffId, LeisureDayOffForm form) {

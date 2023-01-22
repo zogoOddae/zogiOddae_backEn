@@ -1,5 +1,6 @@
 package com.zerobase.leisure.domain.dto.leisure;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.entity.order.LeisureOrderItem;
 import java.time.LocalDateTime;
@@ -29,7 +30,9 @@ public class LeisureOrderItemDto {
 
 	private Integer persons;
 
+	@JsonFormat
 	private LocalDateTime startAt;
+	@JsonFormat
 	private LocalDateTime endAt;
 
 	public static LeisureOrderItemDto from(LeisureOrderItem leisureOrderItem, Leisure leisure) {

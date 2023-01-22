@@ -52,8 +52,8 @@ public class LeisureReviewController {
 	샐러가 답글 달기
    */
 	@PutMapping("/reply")
-	public @ResponseBody WebResponseData<String> updateReplyLeisure(@RequestParam Long leisureReviewId, @RequestBody String reply) {
-		leisureReviewService.updateReplyLeisureReview(leisureReviewId,reply);
+	public @ResponseBody WebResponseData<String> updateReplyLeisure(@RequestParam Long leisureReviewId, @RequestBody AddLeisureReviewForm form) {
+		leisureReviewService.updateReplyLeisureReview(leisureReviewId,form);
 		return WebResponseData.ok("리뷰에 답글을 남겼습니다.");
 	}
 

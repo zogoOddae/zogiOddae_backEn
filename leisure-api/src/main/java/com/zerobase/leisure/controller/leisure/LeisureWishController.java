@@ -3,8 +3,9 @@ package com.zerobase.leisure.controller.leisure;
 import com.zerobase.leisure.domain.dto.leisure.LeisureWishListDto;
 import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.service.leisure.LeisureWishService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,8 +34,9 @@ public class LeisureWishController {
     }
 
     @GetMapping
-    public @ResponseBody WebResponseData<List<LeisureWishListDto>> getLeisureWishList(@RequestParam Long customerId) {
-        return WebResponseData.ok(leisureWishService.getLeisureWishList(customerId));
+    public @ResponseBody WebResponseData<Page<LeisureWishListDto>> getLeisureWishList(@RequestParam Long customerId,
+        final Pageable pageable) {
+        return WebResponseData.ok(leisureWishService.getLeisureWishList(customerId, pageable));
     }
 }
 

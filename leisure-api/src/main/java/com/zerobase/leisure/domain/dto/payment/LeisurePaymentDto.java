@@ -1,5 +1,6 @@
 package com.zerobase.leisure.domain.dto.payment;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zerobase.leisure.domain.entity.order.LeisurePayment;
 import com.zerobase.leisure.domain.type.PaymentStatus;
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class LeisurePaymentDto {
 
     private PaymentStatus status;
 
+    @JsonFormat
     private LocalDateTime canceledAt;
     private String nextRedirectURL;
 

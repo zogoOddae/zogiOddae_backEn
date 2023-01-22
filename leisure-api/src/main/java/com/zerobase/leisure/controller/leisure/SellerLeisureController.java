@@ -82,8 +82,8 @@ public class SellerLeisureController {
 	}
 
 	@GetMapping("/dayOff")
-	public @ResponseBody WebResponseData<List<LeisureDayOffDto>> getLeisureDayOff(@RequestParam Long leisureId) {
-		return WebResponseData.ok(LeisureDayOffDto.fromList(sellerLeisureService.getLeisureDayOff(leisureId)));
+	public @ResponseBody WebResponseData<Page<LeisureDayOffDto>> getLeisureDayOff(@RequestParam Long leisureId, final Pageable pageable) {
+		return WebResponseData.ok(sellerLeisureService.getLeisureDayOff(leisureId, pageable));
 	}
 
 	@PutMapping("/dayOff")

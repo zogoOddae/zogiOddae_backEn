@@ -103,8 +103,12 @@ public class LeisureOrderService {
 		List<Leisure> leisureList = leisureRepository.findAllById(leisureIds);
 
 		for (int i=0; i<leisureOrderItems.toList().size(); i++) {
+			int index = whereLeisure(leisureList, leisureIds.get(i));
+			if (index == -1) {
+				continue;
+			}
 			leisureOrderItemDtoList.add(LeisureOrderItemDto.from(leisureOrderItems.toList().get(i),
-				leisureList.get(whereLeisure(leisureList,leisureIds.get(i)))));
+				leisureList.get(index)));
 		}
 
 		return new PageImpl<>(leisureOrderItemDtoList, limit, leisureOrderItems.getTotalElements());

@@ -192,7 +192,7 @@ class SellerLeisureServiceTest {
 			.endDay(LocalDate.of(2023,1,4))
 			.build());
 		//when
-		List<LeisureDayOff> leisureDayOffList = sellerLeisureService.getLeisureDayOff(1L);
+		List<LeisureDayOff> leisureDayOffList = null;
 		//then
 		assertEquals(leisureDayOffList.get(0).getYear(), "2023");
 		assertEquals(leisureDayOffList.get(1).getYear(), "2023");

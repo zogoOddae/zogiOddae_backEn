@@ -1,5 +1,6 @@
 package com.zerobase.leisure.domain.dto.leisure;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zerobase.leisure.domain.entity.leisure.LeisureDayOff;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,7 +19,9 @@ public class LeisureDayOffDto {
 	private Long leisureId;
 
 	private String year;
+	@JsonFormat
 	private LocalDate startDate;
+	@JsonFormat
 	private LocalDate endDate;
 
 	public static LeisureDayOffDto from(LeisureDayOff leisureDayOff) {
