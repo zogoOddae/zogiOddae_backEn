@@ -2,6 +2,7 @@ package com.zerobase.leisure.domain.entity.leisure;
 
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
 import com.zerobase.leisure.domain.form.LeisureForm;
+import com.zerobase.leisure.domain.type.Category;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +28,8 @@ public class Leisure extends BaseEntity {
 	private Long id;
 
 	private Long sellerId;
+
+	private Category category;
 
 	private String leisureName;
 	private String addr;

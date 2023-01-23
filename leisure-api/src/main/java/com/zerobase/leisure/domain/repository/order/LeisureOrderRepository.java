@@ -13,4 +13,6 @@ public interface LeisureOrderRepository extends JpaRepository<LeisureOrder, Long
 	Optional<LeisureOrder> findByCustomerIdAndLeisurePaymentId(Long customerId, Long leisurePaymentId);
 
 	Page<LeisureOrder> findByCustomerId(Long customerId, Pageable limit);
+
+	Optional<LeisureOrder> findByLeisurePaymentId(Long leisurePaymentId);
 }
