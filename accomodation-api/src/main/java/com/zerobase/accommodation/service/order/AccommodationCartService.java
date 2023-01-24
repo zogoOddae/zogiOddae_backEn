@@ -38,10 +38,10 @@ public class AccommodationCartService {
 
     public void addAccommodationCart(Long customerId, AddAccommodationCartForm form) {
         if (accommodationOrderItemRepository.findByAccommodationCart_CustomerIdAndAccommodationId(customerId,
-            form.getAccommodationId()).isPresent()) {
+            form.getProductId()).isPresent()) {
             throw new AccommodationException(ErrorCode.ALREADY_IN_CART);
         }
-        Accommodation accommodation = accommodationRepository.findById(form.getAccommodationId())
+        Accommodation accommodation = accommodationRepository.findById(form.getProductId())
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         if (accommodation.getMinPerson() > form.getPersons()
@@ -104,7 +104,7 @@ public class AccommodationCartService {
 
         return AccommodationCartDto.builder()
             .cartId(accommodationCart.getId())
-            .accommodationOrderItemList(list)
+            .orderItemList(list)
             .totalPrice(accommodationCart.getTotalPrice())
             .build();
     }

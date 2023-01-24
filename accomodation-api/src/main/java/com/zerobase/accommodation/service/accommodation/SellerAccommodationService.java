@@ -49,7 +49,7 @@ public class SellerAccommodationService {
         Accommodation accommodation = accommodationRepository.findById(accommodationId)
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
-        accommodation.setAccommodationName(form.getAccommodationName());
+        accommodation.setAccommodationName(form.getName());
         accommodation.setSellerId(accommodation.getSellerId());
         accommodation.setAddr(form.getAddr());
         accommodation.setDescription(form.getDescription());

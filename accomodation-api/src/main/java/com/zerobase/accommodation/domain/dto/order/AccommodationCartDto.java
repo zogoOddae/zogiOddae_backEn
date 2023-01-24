@@ -15,7 +15,7 @@ public class AccommodationCartDto {
 
     private String customerName;
 
-    private List<AccommodationOrderItemDto> accommodationOrderItemList;
+    private List<AccommodationOrderItemDto> orderItemList;
 
     private Integer totalPrice;
 }

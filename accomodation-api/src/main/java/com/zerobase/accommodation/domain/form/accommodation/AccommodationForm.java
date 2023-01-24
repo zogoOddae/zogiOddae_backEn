@@ -8,7 +8,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class AccommodationForm {
-	private String accommodationName;
+	private String name;
 	private String addr;
 	private Integer price;
 	private String pictureUrl;

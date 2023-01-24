@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class AddAccommodationBlackListForm {
 
-    private Long accommodationId;
+    private Long productId;
 
     private Long customerId;
     private String description;
