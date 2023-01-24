@@ -15,9 +15,9 @@ public interface LeisureRepository extends JpaRepository<Leisure, Long> {
 	Page<Leisure> findAllBySellerId(Long sellerId, Pageable limit);
 	Optional<Leisure> getFirstByIdAndSellerId(Long id, Long sellerId);
 
-	@Query(nativeQuery = true, value = "SELECT * From accommodation as a"
-		+ " Where a.addr Like :p_addr AND a.min_person <= :per1 AND a.max_person >= :per2 AND a.id NOT IN (:p_ids)")
-	Optional<Leisure> findAllByAddr(@Param("p_addr") String addr,@Param("per1")Integer personnel,@Param("per2") Integer personnel2,@Param("p_ids")List<Long> accommodationIds);
+	@Query(nativeQuery = true, value = "SELECT * From leisure as a"
+		+ " Where a.addr Like :addr AND a.min_person <= :personnel AND a.max_person >= :personnel2 AND a.id NOT IN (:leisureIds)")
+	Optional<Leisure> findAllByAddr(@Param("addr")String addr, @Param("personnel")Integer personnel, @Param("personnel2") Integer personnel2, @Param("leisureIds")List<Long> leisureIds);
 
 	List<Leisure> findAllByAddrLikeAndMinPersonLessThanEqualAndMaxPersonGreaterThanEqual(String addr, Integer personnel, Integer personnel2);
 

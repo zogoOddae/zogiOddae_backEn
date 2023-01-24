@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,5 +15,7 @@ public interface LeisureReservationDayRepository extends JpaRepository<LeisureRe
 	Optional<LeisureReservationDay> findByLeisureIdAndStartAtBetween(Long leisureId, LocalDateTime startAt, LocalDateTime endAt);
 	Optional<LeisureReservationDay> findByLeisureIdAndEndAtBetween(Long leisureId, LocalDateTime startAt, LocalDateTime endAt);
 
-	List<Long> findAllLeisureId(@Param("p_startAt") LocalDate startAt,@Param("p_endAt") LocalDate endAt);
+	@Query("SELECT distinct leisureId From LeisureReservationDay "
+		+ "Where startAt between :startAt and :endAt or endAt between :startAt and :endAt")
+	List<Long> findAllLeisureId(@Param("startAt") LocalDate startAt,@Param("endAt") LocalDate endAt);
 }

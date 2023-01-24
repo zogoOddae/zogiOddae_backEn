@@ -6,9 +6,9 @@ import lombok.Getter;
 
 @Getter
 public class LeisurePaymentForm {
-    private Long leisureOrderItemId; // 주문 상품 아이디
+    private Long orderItemId; // 주문 상품 아이디
 
-    private Long leisureId;
+    private Long productId;
 
     private Integer price;
 

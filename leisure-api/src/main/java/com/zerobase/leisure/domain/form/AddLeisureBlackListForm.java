@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AddLeisureBlackListForm {
 
-    private Long leisureId;
+    private Long productId;
 
     private Long customerId;
     private String description;

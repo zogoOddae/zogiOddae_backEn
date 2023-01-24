@@ -28,7 +28,7 @@ public class LeisureCouponGroupService {
     }
 
     public LeisureCouponGroup updateLeisureCouponGroup(AddLeisureCouponGroupForm form) {
-        LeisureCouponGroup leisureCouponGroup = findCouponGroup(form.getLeisureCouponGroupId());
+        LeisureCouponGroup leisureCouponGroup = findCouponGroup(form.getCouponGroupId());
 
         leisureCouponGroup.setCouponTarget(form.getCouponTarget());
         leisureCouponGroup.setSalePrice(form.getSalePrice());

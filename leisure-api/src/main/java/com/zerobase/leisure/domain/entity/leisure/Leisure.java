@@ -47,7 +47,7 @@ public class Leisure extends BaseEntity {
 	public static Leisure of(Long sellerId, LeisureForm form) {
 		return Leisure.builder()
 			.sellerId(sellerId)
-			.leisureName(form.getLeisureName())
+			.leisureName(form.getName())
 			.addr(form.getAddr())
 			.price(form.getPrice())
 			.description(form.getDescription())

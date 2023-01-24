@@ -39,7 +39,7 @@ public class LeisureReview extends BaseEntity {
 		return LeisureReview.builder()
 			.customerId(form.getCustomerId())
 			.sellerId(form.getSellerId())
-			.leisureId(form.getLeisureId())
+			.leisureId(form.getProductId())
 			.rating(form.getRating())
 			.description(form.getDescription())
 			.reply(form.getReply())

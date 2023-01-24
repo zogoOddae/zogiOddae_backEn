@@ -62,8 +62,8 @@ public class LeisurePaymentService {
 		LeisurePayment leisurePayment = LeisurePayment.builder()
 			.price(form.getPrice())
 			.customerId(customerId)
-			.leisureOrderItemId(form.getLeisureOrderItemId())
-			.leisureId(form.getLeisureId())
+			.leisureOrderItemId(form.getOrderItemId())
+			.leisureId(form.getProductId())
 			.status(PaymentStatus.PAYMENT_WAIT)
 			.build();
 
@@ -72,7 +72,7 @@ public class LeisurePaymentService {
 		int vat_amount = form.getPrice() / 10;
 
 		String parameter = "cid=TC0ONETIME" // 가맹점 코드 - 테스트용으로 고정
-			+ "&partner_order_id=" + form.getLeisureOrderItemId()// 가맹점 주문번호를 상품주문 ID로 사용
+			+ "&partner_order_id=" + form.getOrderItemId()// 가맹점 주문번호를 상품주문 ID로 사용
 			+ "&partner_user_id=" + customerId // 가맹점 회원 id
 			+ "&item_name=상품명" //leisureRepository.findById(leisureOrderItem.getLeisureId())
 			//.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE)).getLeisureName()// 상품명

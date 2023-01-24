@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 public class AddLeisureCouponGroupForm {
-    private Long leisureCouponGroupId;
+    private Long couponGroupId;
 
     private Integer salePrice;
     private CouponTarget couponTarget;
