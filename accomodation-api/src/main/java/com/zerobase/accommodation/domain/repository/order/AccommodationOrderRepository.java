@@ -12,4 +12,6 @@ public interface AccommodationOrderRepository extends JpaRepository<Accommodatio
     Optional<AccommodationOrder> findByCustomerIdAndAccommodationPaymentId(Long customerId, Long acccommodaiotnPaymentId);
 
     List<AccommodationOrder> findByCustomerId(Long customerId);
+
+    Optional<AccommodationOrder> findByAccommodationPaymentId(Long accommodationPaymentId);
 }

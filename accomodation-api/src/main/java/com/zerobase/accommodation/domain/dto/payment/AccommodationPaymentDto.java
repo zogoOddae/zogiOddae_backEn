@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccommodationPaymentDto {
-    private Long accommodationPaymentId;
+    private Long paymentId;
     private Long customerId;
-    private Long accommodationOrderItemId; // 주문 상품 아이디
+    private Long orderItemId; // 주문 상품 아이디
 
-    private Long accommodationId;
+    private Long id;
 
     private Integer price;
 
@@ -26,22 +26,23 @@ public class AccommodationPaymentDto {
 
     private PaymentStatus status;
 
-    private LocalDateTime canceledAt;
+    private String canceledAt;
     private String nextRedirectURL;
+
     private String approveURL;
 
 
     public static AccommodationPaymentDto from(AccommodationPayment accommodationPayment, String nextRedirectURL, String approveURL) {
         return AccommodationPaymentDto.builder()
-            .accommodationPaymentId(accommodationPayment.getId())
+            .paymentId(accommodationPayment.getId())
             .customerId(accommodationPayment.getCustomerId())
-            .accommodationOrderItemId(accommodationPayment.getAccommodationOrderItemId())
-            .accommodationId(accommodationPayment.getAccommodationId())
+            .orderItemId(accommodationPayment.getAccommodationOrderItemId())
+            .id(accommodationPayment.getAccommodationId())
             .price(accommodationPayment.getPrice())
             .tid(accommodationPayment.getTid())
             .paymentToken(accommodationPayment.getPaymentToken())
             .status(accommodationPayment.getStatus())
-            .canceledAt(accommodationPayment.getCanceledAt())
+            .canceledAt(accommodationPayment.getCanceledAt().toString())
             .nextRedirectURL(nextRedirectURL)
             .approveURL(approveURL)
             .build();
@@ -49,15 +50,15 @@ public class AccommodationPaymentDto {
 
     public static AccommodationPaymentDto from(AccommodationPayment accommodationPayment) {
         return AccommodationPaymentDto.builder()
-            .accommodationPaymentId(accommodationPayment.getId())
+            .paymentId(accommodationPayment.getId())
             .customerId(accommodationPayment.getCustomerId())
-            .accommodationOrderItemId(accommodationPayment.getAccommodationOrderItemId())
-            .accommodationId(accommodationPayment.getAccommodationId())
+            .orderItemId(accommodationPayment.getAccommodationOrderItemId())
+            .id(accommodationPayment.getAccommodationId())
             .price(accommodationPayment.getPrice())
             .tid(accommodationPayment.getTid())
             .paymentToken(accommodationPayment.getPaymentToken())
             .status(accommodationPayment.getStatus())
-            .canceledAt(accommodationPayment.getCanceledAt())
+            .canceledAt(accommodationPayment.getCanceledAt().toString())
             .build();
     }
 }

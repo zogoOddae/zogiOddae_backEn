@@ -1,16 +1,15 @@
 package com.zerobase.accommodation.service.payment;
 
 import com.zerobase.accommodation.domain.dto.payment.AccommodationPaymentDto;
-import com.zerobase.accommodation.domain.entity.accommodation.Accommodation;
 import com.zerobase.accommodation.domain.entity.order.AccommodationCart;
-import com.zerobase.accommodation.domain.entity.order.AccommodationOrderItem;
+import com.zerobase.accommodation.domain.entity.order.AccommodationOrder;
 import com.zerobase.accommodation.domain.entity.payment.AccommodationPayment;
 import com.zerobase.accommodation.domain.form.payment.AccommodationPaymentForm;
-import com.zerobase.accommodation.domain.repository.accommodation.AccommodationRepository;
 import com.zerobase.accommodation.domain.repository.order.AccommodationCartRepository;
-import com.zerobase.accommodation.domain.repository.order.AccommodationOrderItemRepository;
+import com.zerobase.accommodation.domain.repository.order.AccommodationOrderRepository;
 import com.zerobase.accommodation.domain.repository.payment.AccommodationPaymentRepository;
 import com.zerobase.accommodation.domain.type.ErrorCode;
+import com.zerobase.accommodation.domain.type.OrderStatus;
 import com.zerobase.accommodation.domain.type.PaymentStatus;
 import com.zerobase.accommodation.exception.AccommodationException;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -38,6 +36,7 @@ public class AccommodationPaymentService {
 
     private final AccommodationPaymentRepository accommodationPaymentRepository;
     private final AccommodationCartRepository accommodationCartRepository;
+    private final AccommodationOrderRepository accommodationOrderRepository;
 
     private static final String AUTHORIZATION = "KakaoAK 5d569ea19c6b8b53c9342d4d65a394e6"; //카카오페이 api 키
     private static final String CONTENTTYPE = "application/x-www-form-urlencoded;charset=utf-8";
@@ -108,6 +107,12 @@ public class AccommodationPaymentService {
         Map<String, String> map = restTemplate.postForObject(url, new HttpEntity<>(parameter, getHeaders()), Map.class);
 
         log.info(map.toString());
+
+        AccommodationOrder accommodationOrder = accommodationOrderRepository.findByAccommodationPaymentId(accommodationPaymentId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUNT_ORDER));
+
+        accommodationOrder.setOrderStatus(OrderStatus.CANCEL);
+        accommodationOrderRepository.save(accommodationOrder);
 
         accommodationPayment.setStatus(PaymentStatus.PAID);
         accommodationPayment.setPaymentToken(pgtoken);

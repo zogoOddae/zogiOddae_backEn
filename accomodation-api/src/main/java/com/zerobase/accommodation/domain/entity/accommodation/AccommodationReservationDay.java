@@ -20,14 +20,14 @@ import org.hibernate.envers.AuditOverride;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class AccommodationDayOff extends BaseEntity{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class AccommodationReservationDay extends BaseEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private Long accommodationId;
+    private Long accommodationId;
 
-	private String dayOffYear;
-	private LocalDate startAt;
-	private LocalDate endAt;
+    private String reservationYear;
+    private LocalDate startAt;
+    private LocalDate endAt;
 }

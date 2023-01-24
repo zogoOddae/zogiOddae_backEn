@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/accommodation/review")
 @RequiredArgsConstructor
 public class AccommodationReviewController {
     private final AccommodationReviewService accommodationReviewService;
@@ -27,7 +26,7 @@ public class AccommodationReviewController {
     /*
     사용자가 리뷰를 등록
      */
-    @PostMapping
+    @PostMapping("/customer/accommodation/review")
     public WebResponseData<String> addAccommodation(@RequestBody AddAccommodationReviewForm form) {
         accommodationReviewService.addAccommodationReview(form);
         return WebResponseData.ok("성공적으로 등록되었습니다.");
@@ -36,13 +35,13 @@ public class AccommodationReviewController {
     /*
     상품 조회 시 모든 리뷰 조회
      */
-    @GetMapping
+    @GetMapping("/customer/accommodation/review")
     public WebResponseData<Page<AccommodationReviewDto>> getAccommodation(@RequestParam Long accommodationId, final Pageable pageable) { //상품의 모든 리뷰 조회
         Page<AccommodationReviewDto> accommodationReviews = accommodationReviewService.getAllAccommodationReview(accommodationId, pageable);
         return WebResponseData.ok(accommodationReviews);
     }
 
-    @PutMapping
+    @PutMapping("/customer/accommodation/review")
     public WebResponseData<String> updateAccommodation(@RequestParam Long accommodationReviewId, @RequestBody AddAccommodationReviewForm form) {
         accommodationReviewService.updateAccommodationReview(accommodationReviewId,form);
         return WebResponseData.ok("성공적으로 수정되었습니다.");
@@ -51,13 +50,13 @@ public class AccommodationReviewController {
     /*
     샐러가 답글 달기
    */
-    @PutMapping("/reply")
+    @PutMapping("/seller/accommodation/review/reply")
     public WebResponseData<String> updateReplyAccomodation(@RequestParam Long accommodationReviewId, @RequestBody AddAccommodationReviewForm form) {
         accommodationReviewService.updateReplyAccommodationReview(accommodationReviewId,form);
         return WebResponseData.ok("성공적으로 답글이 등록되었습니다.");
     }
 
-    @DeleteMapping
+    @DeleteMapping("/customer/accommodation/review")
     public WebResponseData<String> deleteAccommodation(@RequestParam Long reviewId) {
         accommodationReviewService.deleteAccommodationReview(reviewId);
         return WebResponseData.ok("성공적으로 삭제 되었습니다.");

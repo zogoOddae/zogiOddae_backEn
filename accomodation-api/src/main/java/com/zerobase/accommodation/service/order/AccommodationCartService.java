@@ -3,6 +3,7 @@ package com.zerobase.accommodation.service.order;
 import com.zerobase.accommodation.application.AccommodationCartCheck;
 import com.zerobase.accommodation.domain.dto.accommodation.AccommodationCartDto;
 import com.zerobase.accommodation.domain.dto.accommodation.AccommodationOrderItemDto;
+import com.zerobase.accommodation.domain.dto.payment.AccommodationCartPaymentDto;
 import com.zerobase.accommodation.domain.entity.accommodation.Accommodation;
 import com.zerobase.accommodation.domain.entity.coupon.AccommodationCoupon;
 import com.zerobase.accommodation.domain.entity.coupon.AccommodationCouponGroup;
@@ -159,5 +160,38 @@ public class AccommodationCartService {
             total += i.getPrice();
         }
         return total;
+    }
+
+    @Transactional
+    public AccommodationCartPaymentDto getAccommodationCartPayment(Long customerId, String customerName) {
+        AccommodationCart accommodationCart = accommodationCartRepository.findByCustomerId(customerId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_CART));
+
+        List<AccommodationOrderItem> accommodationOrderItemList = accommodationOrderItemRepository
+            .findAllByAccommodationCart_CustomerId(customerId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_HAD_ORDER_ITEM));
+
+        for (AccommodationOrderItem i : accommodationOrderItemList) {
+            accommodationCartCheck.cartCheck(accommodationCart, i);
+        }
+
+        accommodationOrderItemList = accommodationOrderItemRepository.findAllByAccommodationCart_CustomerId(customerId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_HAD_ORDER_ITEM));
+
+        accommodationCart.setTotalPrice(totalPrice(accommodationOrderItemList));
+
+        List<Accommodation> accommodationList = accommodationRepository.findAllById(accommodationIds(accommodationOrderItemList));
+
+        List<AccommodationOrderItemDto> list = new ArrayList<>();
+        for (int i=0; i<accommodationList.size(); i++) {
+            list.add(AccommodationOrderItemDto.from(accommodationOrderItemList.get(i),accommodationList.get(i)));
+        }
+
+        return AccommodationCartPaymentDto.builder()
+            .customerName(customerName)
+            .cartId(accommodationCart.getId())
+            .orderItemList(list)
+            .totalPrice(accommodationCart.getTotalPrice())
+            .build();
     }
 }

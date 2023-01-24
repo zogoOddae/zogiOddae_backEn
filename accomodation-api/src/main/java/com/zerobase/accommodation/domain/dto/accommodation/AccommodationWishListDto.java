@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AccommodationWishListDto {
 
-    private Long accommodationWishListId;
-    private Long accommodationId;
+    private Long wishListId;
+    private Long id;
 
-    private Long customerId;
-    private String accommodationName;
+    private Long memberId;
+    private String name;
     private String addr;
     private Integer price;
     private String pictureUrl;
@@ -25,10 +25,10 @@ public class AccommodationWishListDto {
 
     public static AccommodationWishListDto from(AccommodationWishList accommodationWishList, Accommodation accommodation) {
         return AccommodationWishListDto.builder()
-            .accommodationWishListId(accommodationWishList.getId())
-            .accommodationId(accommodation.getId())
-            .customerId(accommodationWishList.getMemberId())
-            .accommodationName(accommodation.getAccommodationName())
+            .wishListId(accommodationWishList.getId())
+            .id(accommodation.getId())
+            .memberId(accommodationWishList.getMemberId())
+            .name(accommodation.getAccommodationName())
             .addr(accommodation.getAddr())
             .price(accommodation.getPrice())
             .pictureUrl(accommodation.getPictureUrl())

@@ -30,16 +30,16 @@ public class AccommodationCouponService {
     private final AccommodationCouponGroupRepository accommodationCouponGroupRepository;
 
 
-    public AccommodationCoupon issuedAccommodationCoupon(AddAccommodationCouponForm form) {
+    public AccommodationCoupon issuedAccommodationCoupon(Long customerId, Long couponGroupId) {
         Optional<AccommodationCoupon> optionalAccommodationCoupon =
-            accommodationCouponRepository.findByCustomerIdAndCouponGroupId(form.getCustomerId(),form.getCouponGroupId());
+            accommodationCouponRepository.findByCustomerIdAndCouponGroupId(customerId,couponGroupId);
 
         if(optionalAccommodationCoupon.isPresent()){
             throw new AccommodationException(ErrorCode.ALREADY_ISSUSED_COUPON);
         }
 
         Optional<AccommodationCouponGroup> optionalAccommodationCouponGroup =
-            accommodationCouponGroupRepository.findById(form.getCouponGroupId());
+            accommodationCouponGroupRepository.findById(couponGroupId);
 
         if(!optionalAccommodationCouponGroup.isPresent()){
             throw new AccommodationException(ErrorCode.NOT_REGISTERED_COUPON_GROUP);
@@ -49,32 +49,29 @@ public class AccommodationCouponService {
             throw new AccommodationException(ErrorCode.EXPIRED_COUPON);
         }
 
-        Long countCoupons = accommodationCouponRepository.countByCouponGroupId(form.getCouponGroupId());
+        Long countCoupons = accommodationCouponRepository.countByCouponGroupId(couponGroupId);
 
         if(countCoupons >= optionalAccommodationCouponGroup.get().getIssusedcount()){
             throw new AccommodationException(ErrorCode.EXCEEDED_COUNT_COUPON);
         }
 
         return accommodationCouponRepository.save(AccommodationCoupon.builder()
-            .couponGroupId(form.getCouponGroupId())
+            .couponGroupId(couponGroupId)
             .usedYN(false)
-            .customerId(form.getCustomerId())
+            .customerId(customerId)
             .endTime(optionalAccommodationCouponGroup.get().getEndTime())
             .build());
     }
 
-    public Page<AccommodationCouponDto> getAccommodationAllCoupon(Long customerId, Pageable pageable) {
-        Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
+    public List<AccommodationCouponDto> getAccommodationAllCoupon(Long customerId) {
+        List<AccommodationCoupon> accommodationCouponList = accommodationCouponRepository.findByCustomerIdAndUsedYN(
+            customerId, false).orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_COUPON));
 
-        Page<AccommodationCoupon> accommodationCoupons
-            = accommodationCouponRepository.findAllByCustomerIdAndUsedYNFalse(customerId,limit);
+        List<AccommodationCouponDto> accommodationCouponDtoList = new ArrayList<>();
 
-        List<AccommodationCouponDto> accommodationCouponDtos = new ArrayList<>();
-
-        for(AccommodationCoupon accommodationCoupon : accommodationCoupons){
-            accommodationCouponDtos.add(AccommodationCouponDto.from(accommodationCoupon));
+        for (AccommodationCoupon i : accommodationCouponList) {
+            accommodationCouponDtoList.add(AccommodationCouponDto.from(i, accommodationCouponGroupRepository.findById(i.getCouponGroupId()).get().getSalePrice()));
         }
-
-        return new PageImpl<>(accommodationCouponDtos, limit, accommodationCoupons.getTotalElements());
+        return accommodationCouponDtoList;
     }
 }

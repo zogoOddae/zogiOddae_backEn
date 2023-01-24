@@ -59,14 +59,7 @@ public class AccommodationReviewService {
 
     public AccommodationReview updateReplyAccommodationReview(Long reviewId, AddAccommodationReviewForm form) {
         AccommodationReview accommodationReview = getRiewInfo(reviewId);
-
-        accommodationReview.setAccommodationId(form.getAccommodationId());
-        accommodationReview.setCustomerId(form.getCustomerId());
-        accommodationReview.setDescription(form.getDescription());
-        accommodationReview.setRating(form.getRating());
         accommodationReview.setReply(form.getReply());
-        accommodationReview.setSellerId(form.getSellerId());
-
         return accommodationReviewRepository.save(accommodationReview);
     }
 

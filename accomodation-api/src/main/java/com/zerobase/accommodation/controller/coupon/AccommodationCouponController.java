@@ -5,6 +5,7 @@ import com.zerobase.accommodation.domain.dto.coupon.AccommodationCouponGroupDto;
 import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationCouponForm;
 import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.coupon.AccommodationCouponService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/accommodation/coupon")
+@RequestMapping("/customer/accommodation/coupon")
 @RequiredArgsConstructor
 public class AccommodationCouponController {
 
@@ -24,15 +25,13 @@ public class AccommodationCouponController {
 
 
     @PostMapping
-    public WebResponseData<AccommodationCouponDto> issuedAccommodationCoupon(@RequestBody AddAccommodationCouponForm form) {
-        return WebResponseData.ok(
-            AccommodationCouponDto.from(accommodationCouponService.issuedAccommodationCoupon(form)));
+    public WebResponseData<String> issuedAccommodationCoupon(@RequestParam Long customerId, Long couponGroupId) {
+        accommodationCouponService.issuedAccommodationCoupon(customerId, couponGroupId);
+        return WebResponseData.ok("쿠폰을 발급했습니다.");
     }
 
-    //내 쿠폰 목록
     @GetMapping
-    public WebResponseData<Page<AccommodationCouponDto>> getAccommodationAllCoupon(@RequestParam Long customerId, final Pageable pageable) {
-        Page<AccommodationCouponDto> accommodationCouponDtos = accommodationCouponService.getAccommodationAllCoupon(customerId,pageable);
-        return WebResponseData.ok(accommodationCouponDtos);
+    public WebResponseData<List<AccommodationCouponDto>> getAccommodationAllCoupon(@RequestParam Long customerId) {
+        return WebResponseData.ok( accommodationCouponService.getAccommodationAllCoupon(customerId));
     }
 }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccommodationReviewDto {
-	private Long accommodationReviewId;
+	private Long reviewId;
 
 	private Long customerId;
 	private Long sellerId;
@@ -24,7 +24,7 @@ public class AccommodationReviewDto {
 
 	public static AccommodationReviewDto from(AccommodationReview accommodationReview) {
 		return AccommodationReviewDto.builder()
-			.accommodationReviewId(accommodationReview.getId())
+			.reviewId(accommodationReview.getId())
 			.sellerId(accommodationReview.getSellerId())
 			.customerId(accommodationReview.getCustomerId())
 			.accommodationId(accommodationReview.getAccommodationId())

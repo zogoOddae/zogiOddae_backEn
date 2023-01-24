@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,35 +37,31 @@ public class AccommodationWishService {
         accommodationWishListRepository.deleteByMemberIdAndAccommodationId(memberId, accommodationId);
     }
 
-    public Accommodation getAccommodationInfo(Long accommodationId) {
-        return accommodationRepository.findById(accommodationId).orElseThrow(() -> new AccommodationException(
-            ErrorCode.NOT_FOUND_ACCOMMODATION));
-    }
 
-    public List<AccommodationWishListDto> getAllAccommodationWish(Long memberId) {
-        Optional<List<AccommodationWishList>> optionalAccommodationWishList = accommodationWishListRepository.findAllByMemberId(memberId);
+    public Page<AccommodationWishListDto> getAccommodationWishList(Long memberId, Pageable pageable) {
+        Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
+
+        Page<AccommodationWishList> accommodationWishLists = accommodationWishListRepository.findAllByMemberId(memberId, limit)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_HAD_WISHLIST));
+
         List<AccommodationWishListDto> accommodationWishListDtoList = new ArrayList<>();
-        if(!optionalAccommodationWishList.isPresent()){
-            return accommodationWishListDtoList;
-        }
 
-        for(AccommodationWishList accommodationWishList : optionalAccommodationWishList.get()){
+        for(AccommodationWishList accommodationWishList : accommodationWishLists.toList()){
             Accommodation accommodation = accommodationRepository.findById(accommodationWishList.getAccommodationId()).orElseThrow(() -> new AccommodationException(
                 ErrorCode.NOT_FOUND_ACCOMMODATION));
 
             accommodationWishListDtoList.add(
                 AccommodationWishListDto.builder()
-                    .accommodationWishListId(accommodationWishList.getId())
-                    .accommodationId(accommodationWishList.getAccommodationId())
-                    .customerId(memberId)
-                    .accommodationName(accommodation.getAccommodationName())
+                    .wishListId(accommodationWishList.getId())
+                    .id(accommodationWishList.getAccommodationId())
+                    .memberId(memberId)
+                    .name(accommodation.getAccommodationName())
                     .addr(accommodation.getAddr())
                     .price(accommodation.getPrice())
                     .pictureUrl(accommodation.getPictureUrl())
                     .build()
             );
         }
-
-        return accommodationWishListDtoList;
+        return new PageImpl<>(accommodationWishListDtoList, limit, accommodationWishLists.getTotalElements());
     }
 }

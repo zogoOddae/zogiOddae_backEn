@@ -18,8 +18,7 @@ public class AccommodationCartCheck {
     private final AccommodationOrderItemRepository accommodationOrderItemRepository;
 
     @Transactional
-    public void cartCheck(AccommodationCart accommodationCart,
-        AccommodationOrderItem accommodationOrderItem) {
+    public void cartCheck(AccommodationCart accommodationCart, AccommodationOrderItem accommodationOrderItem) {
         Optional<Accommodation> optionalAccommodation = accommodationRepository.findById(
             accommodationOrderItem.getAccommodationId());
 

@@ -31,8 +31,6 @@ public class AccommodationOrderItem extends BaseEntity {
 	private Long sellerId;
 	private Long accommodationId;
 
-	private String reservationId;
-
 	private Long accommodationOrderId;
 
 	private Long couponId;

@@ -12,16 +12,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AccommodationBlackListDto {
 
-    private Long accomodationBlackListId;
-    private Long accomodationId;
+    private Long blackListId;
+    private Long id;
 
     private Long customerId;
     private String description;
 
     public static AccommodationBlackListDto from(AccommodationBlackList accommodationBlackList) {
         return AccommodationBlackListDto.builder()
-            .accomodationBlackListId(accommodationBlackList.getId())
-            .accomodationId(accommodationBlackList.getAccommodationId())
+            .blackListId(accommodationBlackList.getId())
+            .id(accommodationBlackList.getAccommodationId())
             .customerId(accommodationBlackList.getCustomerId())
             .description(accommodationBlackList.getDescription())
             .build();

@@ -15,20 +15,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class AccommodationDayOffDto {
+    private Long dayOffId;
     private Long id;
-    private Long accommodationId;
 
     private String year;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate startAt;
+    private LocalDate endAt;
 
     public static AccommodationDayOffDto from(AccommodationDayOff accommodationDayOff) {
         return AccommodationDayOffDto.builder()
-            .id(accommodationDayOff.getId())
-            .accommodationId(accommodationDayOff.getAccommodationId())
+            .dayOffId(accommodationDayOff.getId())
+            .id(accommodationDayOff.getAccommodationId())
             .year(accommodationDayOff.getDayOffYear())
-            .startDate(accommodationDayOff.getStartDate())
-            .endDate(accommodationDayOff.getEndDate())
+            .startAt(accommodationDayOff.getStartAt())
+            .endAt(accommodationDayOff.getEndAt())
             .build();
     }
 

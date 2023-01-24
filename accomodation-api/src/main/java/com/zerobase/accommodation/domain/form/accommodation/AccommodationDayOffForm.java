@@ -7,6 +7,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class AccommodationDayOffForm {
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate startAt;
+    private LocalDate endAt;
 }
