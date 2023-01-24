@@ -38,7 +38,7 @@ public class AccommodationCouponGroup extends BaseEntity {
 			.id(form.getAccommodationCouponGroupId())
 			.salePrice(form.getSalePrice())
 			.couponTarget(form.getCouponTarget())
-			.issusedcount(form.getIssusedcount())
+			.issusedcount(form.getIssuedCount())
 			.endTime(form.getEndTime())
 			.build();
 	}
