@@ -1,7 +1,6 @@
 package com.zerobase.accommodation.domain.repository.accommodation;
 
 import com.zerobase.accommodation.domain.entity.accommodation.AccommodationWishList;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,4 +12,6 @@ public interface AccommodationWishListRepository extends JpaRepository<Accommoda
 
     void deleteByMemberIdAndAccommodationId(Long memberId, Long accommodationId);
     Optional<Page<AccommodationWishList>> findAllByMemberId(Long memberId, Pageable limit);
+
+    Optional<AccommodationWishList> findByMemberIdAndAccommodationId(Long memberId, Long accommodationId);
 }

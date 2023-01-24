@@ -108,12 +108,6 @@ public class AccommodationPaymentService {
 
         log.info(map.toString());
 
-        AccommodationOrder accommodationOrder = accommodationOrderRepository.findByAccommodationPaymentId(accommodationPaymentId)
-            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUNT_ORDER));
-
-        accommodationOrder.setOrderStatus(OrderStatus.CANCEL);
-        accommodationOrderRepository.save(accommodationOrder);
-
         accommodationPayment.setStatus(PaymentStatus.PAID);
         accommodationPayment.setPaymentToken(pgtoken);
 
@@ -133,8 +127,11 @@ public class AccommodationPaymentService {
 
         Map<String, String> map = restTemplate.postForObject(url, new HttpEntity<>(parameter, getHeaders()), Map.class);
 
-        log.info(map.toString());
+        AccommodationOrder accommodationOrder = accommodationOrderRepository.findByAccommodationPaymentId(accommodationPaymentId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUNT_ORDER));
 
+        accommodationOrder.setOrderStatus(OrderStatus.CANCEL);
+        accommodationOrderRepository.save(accommodationOrder);
 
         accommodationPayment.setStatus(PaymentStatus.CANCELED);
 

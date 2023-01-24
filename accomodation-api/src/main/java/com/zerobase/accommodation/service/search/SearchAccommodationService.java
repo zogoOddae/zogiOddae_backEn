@@ -4,7 +4,7 @@ import com.zerobase.accommodation.domain.dto.accommodation.AccommodationListDto;
 import com.zerobase.accommodation.domain.entity.accommodation.Accommodation;
 import com.zerobase.accommodation.domain.form.search.SearchAccommodationForm;
 import com.zerobase.accommodation.domain.repository.accommodation.AccommodationRepository;
-import com.zerobase.accommodation.domain.repository.search.AccommodationReseravtionDayRepository;
+import com.zerobase.accommodation.domain.repository.search.AccommodationReservationDayRepository;
 import com.zerobase.accommodation.domain.type.ErrorCode;
 import com.zerobase.accommodation.exception.AccommodationException;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SearchAccommodationService {
 
-    private final AccommodationReseravtionDayRepository accommodationReseravtionDayRepository;
+    private final AccommodationReservationDayRepository accommodationReservationDayRepository;
     private final AccommodationRepository accommodationRepository;
 
     public Page<AccommodationListDto> getAllSearchResult(SearchAccommodationForm form, Pageable pageable) {
@@ -28,7 +28,7 @@ public class SearchAccommodationService {
 
         //예약일 정보가 있는 id들만 가져오기
         List<Long> accommodationIds
-            = accommodationReseravtionDayRepository.findAllaccommodationId(form.getStartAt(),
+            = accommodationReservationDayRepository.findAllaccommodationId(form.getStartAt(),
             form.getEndAt());
         List<Accommodation> list;
 

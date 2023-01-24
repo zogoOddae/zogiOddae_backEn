@@ -1,6 +1,6 @@
 package com.zerobase.accommodation.domain.dto.payment;
 
-import com.zerobase.accommodation.domain.dto.accommodation.AccommodationOrderItemDto;
+import com.zerobase.accommodation.domain.dto.order.AccommodationOrderItemDto;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

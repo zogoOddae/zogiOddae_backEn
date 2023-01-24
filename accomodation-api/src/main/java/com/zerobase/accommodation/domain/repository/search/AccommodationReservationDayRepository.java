@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccommodationReseravtionDayRepository extends JpaRepository<AccommodationReservationDay, Long> {
+public interface AccommodationReservationDayRepository extends JpaRepository<AccommodationReservationDay, Long> {
     @Query("SELECT distinct accommodationId From AccommodationReservationDay "
         + "Where startAt between :p_startAt and :p_endAt or endAt between :p_startAt and :p_endAt")
     List<Long> findAllaccommodationId(@Param("p_startAt") LocalDate startAt,@Param("p_endAt") LocalDate endAt);
