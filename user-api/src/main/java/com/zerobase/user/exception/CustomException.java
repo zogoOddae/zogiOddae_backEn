@@ -22,4 +22,5 @@ public class CustomException extends RuntimeException {
         this.errorMessage = errorCode.getDescription();
         this.timestamp = LocalDateTime.now();
     }
+
 }
