@@ -41,12 +41,12 @@ public class MemberInfoDto {
 
 
 
-    public MemberInfoDto(Long memberId, Long userId, String email, String nickname, String profileImage, Long follower, Long following) {
+    public MemberInfoDto(Long memberId, Long userId, String email, String nickname) {
         this.memberId = memberId;
         this.userId = userId;
         this.email = email;
         this.nickname = nickname;
-        this.profileImage = profileImage;
+
 
     }
 

@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +20,6 @@ import com.zerobase.common.type.MemberRole;
 import com.zerobase.common.type.MemberStatus;
 import com.zerobase.user.base.entity.BaseEntity;
 import com.zerobase.user.member.dto.MemberDto;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,8 +41,10 @@ public class Member extends BaseEntity implements Serializable {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    private String uuid;
+
+//    @Column(name = "user_id")
+//    private Long userId;
 
     @Setter
     @Column(name = "username", nullable = false, length = 32)
@@ -101,27 +103,30 @@ public class Member extends BaseEntity implements Serializable {
     @Column(name = "platformId", unique = false, nullable = true, length = 256)
     private String platformId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "notice_id")
+    private Notice notice;
+
+    @Getter
+    @OneToMany(mappedBy = "member")
+    private List<Notice> notices = new ArrayList<>();
+
 
 
 
     // @OneToMany
     // private List<Member> members = new ArrayList<>();
 
-    // @Builder
-    // public Member(String email, String password, String nickname, MemberStatus status,
-    //         MemberRole role) {
-    //     this.email = email;
-    //     this.password = password;
-    //     this.nickname = nickname;
-    //     this.status = status;
-    //     this.role = role;
-    // }
 
     public void editNickName(String nickname) {
         this.nickname = nickname;
         this.createdAt = LocalDateTime.now();
     }
 
+
+    public void giveUUID(String uuid) {
+        this.uuid = uuid;
+    }
     public void resetPassword(String password) {
         this.password = password;
         this.updatedAt = LocalDateTime.now();
@@ -151,14 +156,12 @@ public class Member extends BaseEntity implements Serializable {
                 .build();
     }
 
-    public void editProfile(String profileImage) {
-        this.profileImage = profileImage;
-        this.updatedAt = LocalDateTime.now();
+
+
+
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
     }
-
-
-
-
 
 
 
