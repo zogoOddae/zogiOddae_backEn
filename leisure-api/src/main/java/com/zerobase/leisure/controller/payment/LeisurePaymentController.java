@@ -22,16 +22,21 @@ public class LeisurePaymentController {
 
     private final LeisurePaymentService leisurePaymentService;
 
+    @PostMapping
+    public WebResponseData<String> addPayment(@RequestParam Long customerId, Integer price) {
+        leisurePaymentService.addPayment(customerId, price);
+        return WebResponseData.ok("결제 정보가 추가되었습니다.");
+    }
+
     @PostMapping("/kakaopay")
-    public WebResponseData<LeisurePaymentDto> kakaopayReady(@RequestParam Long customerId,
-        @RequestBody LeisurePaymentForm form) {
-        return WebResponseData.ok(leisurePaymentService.getPaymentReady(customerId, form));
+    public WebResponseData<LeisurePaymentDto> kakaopayReady(@RequestBody LeisurePaymentForm form) {
+        return WebResponseData.ok(leisurePaymentService.getPaymentReady(form));
     }
 
 
     @GetMapping("/kakaopay/approve")
-    public WebResponseData<LeisurePaymentDto> kakaopayApprove(@RequestParam(value = "pg_token") String pgtoken,
-        Long leisurePaymentId) {
+    public WebResponseData<LeisurePaymentDto> kakaopayApprove(@RequestParam Long leisurePaymentId,
+        @RequestParam(value = "pg_token") String pgtoken) {
         return WebResponseData.ok(
             LeisurePaymentDto.from(leisurePaymentService.paymentSuccess(pgtoken, leisurePaymentId)));
     }

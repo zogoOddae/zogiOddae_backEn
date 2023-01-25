@@ -39,7 +39,9 @@ public enum ErrorCode {
 	ALREADY_RESERVATION_DAY("이미 예약된 시간입니다."),
 	NOT_FOUND_ORDER("주문 정보를 찾을 수 없습니다."),
 	ALREADY_WISHED_LEISURE("이미 찜한 상품입니다"),
-	NOT_WISHED_LEISURE("찜한 상품이 아닙니다.")
+	NOT_WISHED_LEISURE("찜한 상품이 아닙니다."),
+	CAN_ONLY_ONE_COUPON("하나의 쿠폰만 사용할 수 있습니다."),
+	NOT_FOUND_CATEGORY("카테고리를 찾을 수 없습니다.")
 	;
 
 

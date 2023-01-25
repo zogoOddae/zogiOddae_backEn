@@ -4,6 +4,8 @@ import com.zerobase.leisure.domain.entity.common.BaseEntity;
 import com.zerobase.leisure.domain.form.LeisureForm;
 import com.zerobase.leisure.domain.type.Category;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,6 +31,7 @@ public class Leisure extends BaseEntity {
 
 	private Long sellerId;
 
+	@Enumerated(EnumType.STRING)
 	private Category category;
 
 	private String leisureName;
@@ -48,6 +51,7 @@ public class Leisure extends BaseEntity {
 		return Leisure.builder()
 			.sellerId(sellerId)
 			.leisureName(form.getName())
+			.category(Category.valueOf(form.getCategory()))
 			.addr(form.getAddr())
 			.price(form.getPrice())
 			.description(form.getDescription())

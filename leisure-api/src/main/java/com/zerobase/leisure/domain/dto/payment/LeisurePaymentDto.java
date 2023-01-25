@@ -42,7 +42,7 @@ public class LeisurePaymentDto {
             .tid(leisurePayment.getTid())
             .paymentToken(leisurePayment.getPaymentToken())
             .status(leisurePayment.getStatus())
-            .canceledAt(leisurePayment.getCanceledAt().toString())
+            //.canceledAt(leisurePayment.getCanceledAt().toString())
             .nextRedirectURL(nextRedirectURL)
             .approveURL(approveURL)
             .build();
@@ -58,7 +58,7 @@ public class LeisurePaymentDto {
             .tid(leisurePayment.getTid())
             .paymentToken(leisurePayment.getPaymentToken())
             .status(leisurePayment.getStatus())
-            .canceledAt(leisurePayment.getCanceledAt().toString())
+            //canceledAt(leisurePayment.getCanceledAt() == null ? null : leisurePayment.getCanceledAt().toString())
             .build();
     }
 }

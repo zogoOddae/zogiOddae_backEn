@@ -16,6 +16,8 @@ public class LeisureForm {
 	private String pictureUrl;
 	private String description;
 
+	private String category;
+
 	private Integer minPerson;
 	private Integer maxPerson;
 

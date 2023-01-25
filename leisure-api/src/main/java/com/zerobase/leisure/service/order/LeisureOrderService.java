@@ -20,6 +20,7 @@ import com.zerobase.leisure.domain.repository.order.LeisureOrderRepository;
 import com.zerobase.leisure.domain.repository.order.LeisurePaymentRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.domain.type.OrderStatus;
+import com.zerobase.leisure.domain.type.PaymentStatus;
 import com.zerobase.leisure.exception.LeisureException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -53,11 +54,11 @@ public class LeisureOrderService {
 			.isPresent()) {
 			throw new LeisureException(ErrorCode.ALREADY_ORDERED_PAYMENT);
 		}
-//		if (leisurePaymentRepository.findById(leisurePaymentId)
-//			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_PAYMENT))
-//			.getStatus() != PaymentStatus.PAID) {
-//			throw new LeisureException(ErrorCode.NOT_PAYMENT_ORDER);
-//		}
+		if (leisurePaymentRepository.findById(leisurePaymentId)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_PAYMENT))
+			.getStatus() != PaymentStatus.PAID) {
+			throw new LeisureException(ErrorCode.NOT_PAYMENT_ORDER);
+		}
 
 		LeisureOrder leisureOrder = leisureOrderRepository.save(LeisureOrder.builder()
 			.customerId(customerId)
