@@ -1,6 +1,7 @@
 package com.zerobase.leisure.domain.entity.coupon;
 
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,9 +28,9 @@ public class LeisureCoupon extends BaseEntity{
 	private Long customerId;
 	private Long couponGroupId;
 
-	private boolean used;
+	private boolean usedYN;
 
 	private LocalDateTime usedTime;
 
-	private LocalDateTime endTime;
+	private LocalDate endTime;
 }

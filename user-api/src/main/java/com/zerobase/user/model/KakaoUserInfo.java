@@ -1,37 +1,34 @@
 package com.zerobase.user.model;
 
-import java.util.Map;
+import java.time.LocalDateTime;
 
-import com.zerobase.common.type.MemberPlatform;
+import lombok.Getter;
 
-public class KakaoUserInfo implements OAuth2UserInfo {
-    private Map<String, Object> attributes;
-    private Map<String, Object> attributesAccount;
-    private Map<String, Object> attributesProfile;
-
-    public KakaoUserInfo(Map<String, Object> attributes) {
-        this.attributes = attributes;
-        this.attributesAccount = (Map<String, Object>) attributes.get("kakao_account");
-        this.attributesProfile = (Map<String, Object>) attributesAccount.get("profile");
+@Getter
+public class KakaoUserInfo {
+    @Getter
+    public static class Properties {
+        private String nickname;
     }
 
-    @Override
-    public MemberPlatform getPlatform() {
-        return MemberPlatform.KAKAO;        
+    @Getter
+    public static class Profile {
+        private String nickname;
     }
 
-    @Override
-    public String getPlatformId() {
-        return attributes.get("id").toString();
+    @Getter
+    public static class  KakaoAccount {
+        private boolean profile_nickname_needs_agreement;
+        private Profile profile;
+        private boolean has_email;
+        private boolean email_needs_agreement;
+        private boolean is_email_valid;
+        private boolean is_email_verified;
+        private String email;
     }
 
-    @Override
-    public String getEmail() {
-        return attributesAccount.get("email").toString();
-    }
-
-    @Override
-    public String getName() {
-        return attributesProfile.get("nickname").toString();
-    }
+    private Long id;
+    private LocalDateTime connected_at;
+    private Properties properties;
+    private KakaoAccount kakao_account;    
 }

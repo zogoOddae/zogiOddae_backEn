@@ -1,11 +1,10 @@
 package com.zerobase.user.member.entity;
 
-import com.zerobase.common.type.MemberStatus;
-import com.zerobase.type.MemberRole;
-import com.zerobase.user.member.dto.MemberDto;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,30 +13,27 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.zerobase.common.type.MemberPlatform;
-
+import com.zerobase.common.type.MemberRole;
+import com.zerobase.common.type.MemberStatus;
 import com.zerobase.user.base.entity.BaseEntity;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import com.zerobase.user.member.dto.MemberDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Member extends BaseEntity {
+public class Member extends BaseEntity implements Serializable {
 
 
     @Id
@@ -57,14 +53,15 @@ public class Member extends BaseEntity {
     @Column(name = "nickname", nullable = false, length = 32)
     private String nickname;
     @Setter
-    @Column(name = "password", nullable = false, length = 1024)
+    @Column(name = "password", nullable = true, length = 1024)
     private String password;
     @Column(name = "phoneNo")
     private String phoneNo;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long emailKey;
+    // @Id
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // private Long emailKey;
+
     @Setter
     @Column(name = "email", unique = true, nullable = false, length = 64)
     private String email;
@@ -117,26 +114,9 @@ public class Member extends BaseEntity {
 
 
 
-    @OneToMany
-    private List<Member> members = new ArrayList<>();
+    // @OneToMany
+    // private List<Member> members = new ArrayList<>();
 
-
-    public Member(String email, String password, String nickname) {
-        this.nickname = nickname;
-        this.password = password;
-        this.email = email;
-
-    }
-
-    @Builder
-    public Member(String email, String password, String nickname, MemberStatus status,
-            MemberRole role) {
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
-        this.status = status;
-        this.role = role;
-    }
 
     public void editNickName(String nickname) {
         this.nickname = nickname;

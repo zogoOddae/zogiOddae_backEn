@@ -1,21 +1,27 @@
 package com.zerobase.user.member.service;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.transaction.Transactional;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import com.zerobase.common.auth.JWTTokenProvider;
-import com.zerobase.common.auth.MemberDetails;
 import com.zerobase.common.type.MemberPlatform;
 import com.zerobase.common.type.MemberRole;
 import com.zerobase.common.type.MemberStatus;
 import com.zerobase.user.exception.CustomException;
 import com.zerobase.user.exception.ErrorCode;
+import com.zerobase.user.member.dto.KakaoLoginRequestDto;
 import com.zerobase.user.member.dto.LoginRequestDto;
 import com.zerobase.user.member.dto.LoginResponseDto;
 import com.zerobase.user.member.dto.RefreshTokenRequestDto;
@@ -24,6 +30,7 @@ import com.zerobase.user.member.dto.SignUpRequestDto;
 import com.zerobase.user.member.dto.SignUpRequestVerifyDto;
 import com.zerobase.user.member.entity.Member;
 import com.zerobase.user.member.repository.MemberRepository;
+import com.zerobase.user.model.KakaoUserInfo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -106,9 +113,10 @@ public class AuthService {
             .platform(request.getPlatform())
             .email(request.getEmail())
             .username(request.getUsername())            
+            .nickname(request.getUsername())
             .password(passwordEncoder.encode(request.getPassword()))
             .status(MemberStatus.ACTIVE)
-            .role(request.getRole())            
+            .role(request.getRole())
             .build();
         memberRepository.save(newMember);
 
@@ -152,31 +160,74 @@ public class AuthService {
                 .build();
     }
 
-    public LoginResponseDto login(MemberDetails memberDetails) {        
+    public LoginResponseDto login(KakaoLoginRequestDto request) {
+        String kakaoAccessToken = request.getAccessToken();
+        if(!StringUtils.hasText(kakaoAccessToken)) {
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
+        }        
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", String.format("Bearer %s", kakaoAccessToken));
+        
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+         
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<KakaoUserInfo> response = restTemplate.exchange("https://kapi.kakao.com/v2/user/me", HttpMethod.GET, entity, KakaoUserInfo.class); 
+        if(response.getStatusCodeValue() != 200) {
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
+        }
+
+        KakaoUserInfo kakaoUserInfo = response.getBody();
+        Optional<Member> memberOptional = memberRepository.findByPlatformAndPlatformId(MemberPlatform.KAKAO, kakaoUserInfo.getId().toString());
+
+        Member loginMember = null;
+        if(memberOptional.isPresent()) {
+            loginMember = memberOptional.get();
+            loginMember.setEmail(kakaoUserInfo.getKakao_account().getEmail());
+            loginMember.setUsername(kakaoUserInfo.getProperties().getNickname());
+            memberRepository.save(loginMember);
+        } else {
+            loginMember = Member.builder()
+                            .platform(MemberPlatform.KAKAO)
+                            .platformId(kakaoUserInfo.getId().toString())
+                            .email(kakaoUserInfo.getKakao_account().getEmail())
+                            .username(kakaoUserInfo.getProperties().getNickname())            
+                            .nickname(kakaoUserInfo.getProperties().getNickname())            
+                            .status(MemberStatus.ACTIVE)
+                            .role(MemberRole.ROLE_USER)
+                            .build();
+            System.out.println(loginMember.getPlatform());
+            System.out.println(loginMember.getPlatformId());
+            System.out.println(loginMember.getEmail());
+            System.out.println(loginMember.getUsername());
+            System.out.println(loginMember.getStatus());
+            System.out.println(loginMember.getRole());
+            memberRepository.save(loginMember);
+        }
 
         String accessToken = tokenProvider.generateToken(
-            memberDetails.getId(),
-            memberDetails.getUsername(),
-            memberDetails.getEmail(),
-            memberDetails.getRole(),
+            loginMember.getId(),
+            loginMember.getUsername(),
+            loginMember.getEmail(),
+            loginMember.getRole(),
             ACCESS_TOKEN_EXPIRE_TIME );
 
         String refreshToken = tokenProvider.generateToken(
-            memberDetails.getId(),
-            memberDetails.getUsername(),
-            memberDetails.getEmail(),
-            memberDetails.getRole(),
+            loginMember.getId(),
+            loginMember.getUsername(),
+            loginMember.getEmail(),
+            loginMember.getRole(),
             REFRESH_TOKEN_EXPIRE_TIME );
 
-        String refreshTokenKey = this.getRefreshTokenKey(memberDetails.getId());
+        String refreshTokenKey = this.getRefreshTokenKey(loginMember.getId());
         if(redisService.hasKey(refreshTokenKey)) {
             redisService.delRedis(refreshTokenKey);
         }
         redisService.putRedis(refreshTokenKey, refreshToken, TimeUnit.MILLISECONDS, REFRESH_TOKEN_EXPIRE_TIME);
         
         return LoginResponseDto.builder()
-                .id(memberDetails.getId())
-                .username(memberDetails.getUsername())
+                .id(loginMember.getId())
+                .username(loginMember.getUsername())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -235,5 +286,5 @@ public class AuthService {
         // todo token방식에서 logout에 필요한 기능은.?
         String refreshTokenKey = this.getRefreshTokenKey(userId);
         redisService.delRedis(refreshTokenKey);
-    }    
+    }
 }

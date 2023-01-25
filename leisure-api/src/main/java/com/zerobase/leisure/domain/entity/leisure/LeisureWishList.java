@@ -27,6 +27,6 @@ public class LeisureWishList extends BaseEntity {
 	private Long id;
 
 	private Long memberId;
-	@ElementCollection
-	private List<Long> leisureId;
+
+	private Long leisureId;
 }
