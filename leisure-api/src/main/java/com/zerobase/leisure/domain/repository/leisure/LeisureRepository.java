@@ -1,6 +1,7 @@
 package com.zerobase.leisure.domain.repository.leisure;
 
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
+import com.zerobase.leisure.domain.type.Category;
 import io.lettuce.core.dynamic.annotation.Param;
 import java.util.List;
 import java.util.Optional;
@@ -23,5 +24,5 @@ public interface LeisureRepository extends JpaRepository<Leisure, Long> {
 
 	Optional<Page<Leisure>> findAllByAddrContaining(String s_addr, Pageable limit);
 
-	Optional<Page<Leisure>> findAllByCategoryContaining(String category, Pageable limit);
+	Optional<Page<Leisure>> findAllByCategory(Category category, Pageable limit);
 }

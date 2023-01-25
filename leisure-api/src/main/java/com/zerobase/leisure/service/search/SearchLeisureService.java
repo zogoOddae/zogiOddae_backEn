@@ -3,10 +3,13 @@ package com.zerobase.leisure.service.search;
 import com.zerobase.leisure.domain.dto.leisure.LeisureListDto;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.form.SearchLeisureForm;
+import com.zerobase.leisure.domain.model.LeisureIds;
 import com.zerobase.leisure.domain.repository.leisure.LeisureRepository;
 import com.zerobase.leisure.domain.repository.leisure.LeisureReservationDayRepository;
+import com.zerobase.leisure.domain.type.Category;
 import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.exception.LeisureException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +30,17 @@ public class SearchLeisureService {
 		PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), 15);
 
 		//예약일 정보가 있는 id들만 가져오기
+		String[] stList = form.getStartAt().toString().split("-");
+		String[] endList = form.getEndAt().toString().split("-");
 		List<Long> leisureIds
-			= leisureReservationDayRepository.findAllLeisureId(form.getStartAt(),
-			form.getEndAt());
+			= LeisureIds.leisureIds(leisureReservationDayRepository.findAllLeisureId(
+			LocalDateTime.of(Integer.parseInt(stList[0]),Integer.parseInt(stList[1]),Integer.parseInt(stList[2]),0,0),
+			LocalDateTime.of(Integer.parseInt(endList[0]),Integer.parseInt(endList[1]),Integer.parseInt(endList[2]),0,0)) );
 		List<Leisure> list;
 
 		String adrr = "%"+form.getAddr()+"%";
 
-		if (leisureIds.size() > 0) {
+		if (leisureIds.isEmpty()) {
 			list = new ArrayList<>();
 			//예약일 정보가 없고, 주소 값에 들어가는 숙박 정보들만 가져오기
 			list.add(
@@ -63,8 +69,6 @@ public class SearchLeisureService {
 	public Page<LeisureListDto> getAllSearchAddr(String addr, Pageable pageable) {
 		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15);
 
-		String s_addr = "%"+addr+"%";
-
 		Page<Leisure> accommodationList = leisureRepository.findAllByAddrContaining(addr, limit)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
 
@@ -79,7 +83,8 @@ public class SearchLeisureService {
 	public Page<LeisureListDto> getAllSearchCategory(String category, Pageable pageable) {
 		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15);
 
-		Page<Leisure> accommodationList = leisureRepository.findAllByCategoryContaining(category, limit)
+		Page<Leisure> accommodationList = leisureRepository.findAllByCategory(
+				Category.valueOf(category), limit)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
 
 		List<LeisureListDto> dtoList = new ArrayList<>();

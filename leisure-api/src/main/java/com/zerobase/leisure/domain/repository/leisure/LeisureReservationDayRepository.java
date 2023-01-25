@@ -1,6 +1,7 @@
 package com.zerobase.leisure.domain.repository.leisure;
 
 import com.zerobase.leisure.domain.entity.leisure.LeisureReservationDay;
+import com.zerobase.leisure.domain.model.LeisureIds;
 import io.lettuce.core.dynamic.annotation.Param;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,5 +18,5 @@ public interface LeisureReservationDayRepository extends JpaRepository<LeisureRe
 
 	@Query("SELECT distinct leisureId From LeisureReservationDay "
 		+ "Where startAt between :startAt and :endAt or endAt between :startAt and :endAt")
-	List<Long> findAllLeisureId(@Param("startAt") LocalDate startAt,@Param("endAt") LocalDate endAt);
+	List<LeisureIds> findAllLeisureId(@Param("startAt") LocalDateTime startAt,@Param("endAt") LocalDateTime endAt);
 }

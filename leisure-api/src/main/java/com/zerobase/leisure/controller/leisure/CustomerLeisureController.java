@@ -2,10 +2,10 @@ package com.zerobase.leisure.controller.leisure;
 
 
 import com.zerobase.leisure.domain.dto.leisure.CustomerLeisureDto;
-import com.zerobase.leisure.domain.dto.leisure.LeisureDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureListDto;
 import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.service.leisure.CustomerLeisureService;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,8 +30,13 @@ public class CustomerLeisureController {
 	}
 
 	@GetMapping("/detail")
-	public @ResponseBody WebResponseData<CustomerLeisureDto> getDetailLeisure(@RequestParam Long leisureId) {
+	public @ResponseBody WebResponseData<CustomerLeisureDto> getDetailLeisure(@RequestParam Long leisureId, String startAt, String endAt) {
+		if (startAt == null) {
+			startAt = LocalDate.now().toString();
+			endAt = LocalDate.now().plusDays(1).toString();
+		}
+
 		return WebResponseData.ok(
-			CustomerLeisureDto.from(customerLeisureService.getDetailLeisure(leisureId)));
+			CustomerLeisureDto.from(customerLeisureService.getDetailLeisure(leisureId), startAt, endAt));
 	}
 }

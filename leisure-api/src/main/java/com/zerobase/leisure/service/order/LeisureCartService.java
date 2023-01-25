@@ -178,6 +178,10 @@ public class LeisureCartService {
 		LeisureOrderItem leisureOrderItem = leisureOrderItemRepository.findById(leisureOrderItemId)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_ORDER_ITEM));
 
+		if (leisureOrderItem.getCouponId() != null) {
+			throw new LeisureException(ErrorCode.CAN_ONLY_ONE_COUPON);
+		}
+
 		leisureOrderItem.setCouponId(leisureCoupon.getId());
 		leisureOrderItem.setSalePrice(leisureCouponGroup.getSalePrice());
 		leisureOrderItem.setPrice(leisureOrderItem.getPrice()-leisureOrderItem.getSalePrice());
@@ -193,11 +197,12 @@ public class LeisureCartService {
 		LeisureOrderItem leisureOrderItem = leisureOrderItemRepository.findById(leisureOrderItemId)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_ORDER_ITEM));
 
+		LeisureCoupon leisureCoupon = leisureCouponRepository.findById(leisureOrderItem.getCouponId()).get();
+
 		leisureOrderItem.setCouponId(null);
 		leisureOrderItem.setPrice(leisureOrderItem.getPrice()+leisureOrderItem.getSalePrice());
 		leisureOrderItem.setSalePrice(0);
 
-		LeisureCoupon leisureCoupon = leisureCouponRepository.findById(leisureOrderItem.getCouponId()).get();
 		leisureCoupon.setUsedYN(false);
 
 		leisureCouponRepository.save(leisureCoupon);

@@ -51,17 +51,18 @@ public class LeisurePaymentService {
 	}
 
 	@Transactional
-	public LeisurePaymentDto getPaymentReady(Long customerId,LeisurePaymentForm form) {
+	public LeisurePaymentDto getPaymentReady(LeisurePaymentForm form) {
 		//결제 준비
 		RestTemplate restTemplate = new RestTemplate();
 		String url = "https://kapi.kakao.com/v1/payment/ready"; //카카오 APi URL
 
-		LeisureCart leisureCart = leisureCartRepository.findByCustomerId(customerId)
+		//카트에서 정보 가져오기
+		LeisureCart leisureCart = leisureCartRepository.findByCustomerId(form.getCustomerId())
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_CART));
 
 		LeisurePayment leisurePayment = LeisurePayment.builder()
 			.price(form.getPrice())
-			.customerId(customerId)
+			.customerId(form.getCustomerId())
 			.leisureOrderItemId(form.getOrderItemId())
 			.leisureId(form.getProductId())
 			.status(PaymentStatus.PAYMENT_WAIT)
@@ -69,33 +70,27 @@ public class LeisurePaymentService {
 
 		leisurePaymentRepository.save(leisurePayment);
 
-		int vat_amount = form.getPrice() / 10;
+		int vat_amount = form.getPrice()/10;
 
 		String parameter = "cid=TC0ONETIME" // 가맹점 코드 - 테스트용으로 고정
 			+ "&partner_order_id=" + form.getOrderItemId()// 가맹점 주문번호를 상품주문 ID로 사용
-			+ "&partner_user_id=" + customerId // 가맹점 회원 id
-			+ "&item_name=상품명" //leisureRepository.findById(leisureOrderItem.getLeisureId())
-			//.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE)).getLeisureName()// 상품명
+			+ "&partner_user_id=" + form.getCustomerId() // 가맹점 회원 id
+			+ "&item_name=" + form.getName() // 상품명
 			+ "&quantity=1" // 상품 수량
 			+ "&total_amount=" + form.getPrice().toString() // 총 금액
 			+ "&vat_amount=" + vat_amount  //부가세
-			+ "&tax_free_amount=0" // 상품 비과세 금액
-			+ "&approval_url=http://localhost:8081/customer/leisure/payment/kakaopay/approve?leisurePaymentId="
-			+ leisurePayment.getId() // 결제 성공 시
-			+ "&fail_url=http://localhost:8081/customer/leisure/payment/kakaopay/fail" // 결제 실패 시
-			+ "&cancel_url=http://localhost:8081/customer/leisure/payment/kakaopay/cancel"; // 결제 취소 시
+			+ "&tax_free_amount=0"// 상품 비과세 금액
+			+ "&approval_url=http://localhost:8080/customer/leisure/payment/kakaopay/approve?leisurePaymentId=" +leisurePayment.getId() // 결제 성공 시
+			+ "&fail_url=http://localhost:8080/customer/leisure/payment/kakaopay/fail" // 결제 실패 시
+			+ "&cancel_url=http://localhost:8080/customer/leisure/payment/kakaopay/cancel"; // 결제 취소 시
 
-		Map<String, String> map = restTemplate.postForObject(url,
-			new HttpEntity<>(parameter, getHeaders()), Map.class);
+		Map<String, String> map = restTemplate.postForObject(url, new HttpEntity<>(parameter, getHeaders()), Map.class);
 
-		leisurePayment.setTid(Objects.requireNonNull(map).get("tid"));
+		leisurePayment.setTid(map.get("tid"));
 		leisurePaymentRepository.save(leisurePayment);
 
-		String approval_url =
-			"http://localhost:8081/leisure/payment/kakaopay/approve?leisurePaymentId="
-				+ leisurePayment.getId();
-		return LeisurePaymentDto.from(leisurePayment, map.get("next_redirect_pc_url"),
-			approval_url);
+		String approval_url = "http://localhost:8081/customer/leisure/payment/kakaopay/approve?leisurePaymentId=" +leisurePayment.getId();
+		return LeisurePaymentDto.from(leisurePayment, map.get("next_redirect_pc_url"),approval_url);
 	}
 
 	public LeisurePayment paymentSuccess(String pgtoken, Long leisurePaymentId) {
@@ -158,11 +153,20 @@ public class LeisurePaymentService {
 			= leisurePaymentRepository.findAllByCustomerIdAndStatus(customerId,PaymentStatus.PAID,limit);
 
 		List<LeisurePaymentDto> leisurePaymentDtos = new ArrayList<>();
-
 		for(LeisurePayment leisurePayment : leisurePaymentPage){
 			leisurePaymentDtos.add(LeisurePaymentDto.from(leisurePayment));
 		}
 
 		return new PageImpl<>(leisurePaymentDtos, limit, leisurePaymentPage.getTotalElements());
+	}
+
+	public void addPayment(Long customerId, Integer price) {
+		leisurePaymentRepository.save(LeisurePayment.builder()
+			.leisureId(1L)
+			.customerId(customerId)
+			.price(price)
+			.status(PaymentStatus.PAID)
+			.leisureOrderItemId(1L)
+			.build());
 	}
 }
