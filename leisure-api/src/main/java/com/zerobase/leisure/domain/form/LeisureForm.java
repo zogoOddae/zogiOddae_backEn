@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeisureForm {
-	private String leisureName;
+	private String name;
 	private String addr;
 	private Integer price;
 	private String pictureUrl;

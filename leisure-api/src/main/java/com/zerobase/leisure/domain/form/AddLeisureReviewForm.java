@@ -6,7 +6,7 @@ import lombok.Getter;
 public class AddLeisureReviewForm {
 	private Long customerId;
 	private Long sellerId;
-	private Long leisureId;
+	private Long productId;
 
 	private double rating;
 	private String description;

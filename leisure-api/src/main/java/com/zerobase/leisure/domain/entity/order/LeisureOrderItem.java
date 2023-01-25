@@ -50,7 +50,7 @@ public class LeisureOrderItem extends BaseEntity {
 	public static LeisureOrderItem of(Long sellerId, Integer price, LeisureCart leisureCart, AddLeisureCartForm form) {
 		return LeisureOrderItem.builder()
 			.sellerId(sellerId)
-			.leisureId(form.getLeisureId())
+			.leisureId(form.getProductId())
 			.leisureCart(leisureCart)
 			.persons(form.getPersons())
 			.startAt(form.getStartAt())

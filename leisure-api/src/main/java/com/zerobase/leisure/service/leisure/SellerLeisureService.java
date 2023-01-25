@@ -52,7 +52,7 @@ public class SellerLeisureService {
 		Leisure leisure = leisureRepository.findById(leisureId)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
 
-		leisure.setLeisureName(form.getLeisureName());
+		leisure.setLeisureName(form.getName());
 		leisure.setAddr(form.getAddr());
 		leisure.setDescription(form.getDescription());
 		leisure.setPrice(form.getPrice());

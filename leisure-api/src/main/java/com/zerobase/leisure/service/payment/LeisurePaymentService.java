@@ -1,10 +1,15 @@
 package com.zerobase.leisure.service.payment;
 
 import com.zerobase.leisure.domain.dto.payment.LeisurePaymentDto;
+import com.zerobase.leisure.domain.entity.order.LeisureCart;
+import com.zerobase.leisure.domain.entity.order.LeisureOrder;
 import com.zerobase.leisure.domain.entity.order.LeisurePayment;
 import com.zerobase.leisure.domain.form.payment.LeisurePaymentForm;
+import com.zerobase.leisure.domain.repository.order.LeisureCartRepository;
+import com.zerobase.leisure.domain.repository.order.LeisureOrderRepository;
 import com.zerobase.leisure.domain.repository.order.LeisurePaymentRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
+import com.zerobase.leisure.domain.type.OrderStatus;
 import com.zerobase.leisure.domain.type.PaymentStatus;
 import com.zerobase.leisure.exception.LeisureException;
 import java.util.ArrayList;
@@ -31,6 +36,8 @@ import org.springframework.web.client.RestTemplate;
 public class LeisurePaymentService {
 
 	private final LeisurePaymentRepository leisurePaymentRepository;
+	private final LeisureCartRepository leisureCartRepository;
+	private final LeisureOrderRepository leisureOrderRepository;
 
 	private static final String AUTHORIZATION = "KakaoAK 5d569ea19c6b8b53c9342d4d65a394e6"; //카카오페이 api 키
 	private static final String CONTENTTYPE = "application/x-www-form-urlencoded;charset=utf-8";
@@ -49,14 +56,14 @@ public class LeisurePaymentService {
 		RestTemplate restTemplate = new RestTemplate();
 		String url = "https://kapi.kakao.com/v1/payment/ready"; //카카오 APi URL
 
-		//상품 주문에서 상품 주문관련 데이터 가져오기
-//        LeisureOrderItem leisureOrderItem = leisureOrderItemRepository.findById(form.getLeisureOrderItemId())
-//            .orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_ORDER_ITEM));
+		LeisureCart leisureCart = leisureCartRepository.findByCustomerId(customerId)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_CART));
+
 		LeisurePayment leisurePayment = LeisurePayment.builder()
 			.price(form.getPrice())
 			.customerId(customerId)
-			.leisureOrderItemId(form.getLeisureOrderItemId())
-			.leisureId(form.getLeisureId())
+			.leisureOrderItemId(form.getOrderItemId())
+			.leisureId(form.getProductId())
 			.status(PaymentStatus.PAYMENT_WAIT)
 			.build();
 
@@ -65,7 +72,7 @@ public class LeisurePaymentService {
 		int vat_amount = form.getPrice() / 10;
 
 		String parameter = "cid=TC0ONETIME" // 가맹점 코드 - 테스트용으로 고정
-			+ "&partner_order_id=" + form.getLeisureOrderItemId()// 가맹점 주문번호를 상품주문 ID로 사용
+			+ "&partner_order_id=" + form.getOrderItemId()// 가맹점 주문번호를 상품주문 ID로 사용
 			+ "&partner_user_id=" + customerId // 가맹점 회원 id
 			+ "&item_name=상품명" //leisureRepository.findById(leisureOrderItem.getLeisureId())
 			//.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE)).getLeisureName()// 상품명
@@ -134,6 +141,12 @@ public class LeisurePaymentService {
 		log.info(map.toString());
 
 		leisurePayment.setStatus(PaymentStatus.CANCELED);
+
+		LeisureOrder leisureOrder = leisureOrderRepository.findByLeisurePaymentId(leisurePaymentId)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_ORDER));
+
+		leisureOrder.setOrderStatus(OrderStatus.CANCEL);
+		leisureOrderRepository.save(leisureOrder);
 
 		return leisurePaymentRepository.save(leisurePayment);
 	}

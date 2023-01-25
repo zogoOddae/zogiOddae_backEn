@@ -29,13 +29,13 @@ public class LeisureBlackListService {
     public LeisureBlackList addLeisureBlackList(AddLeisureBlackListForm form) {
         Optional<LeisureBlackList> leisureBlackListOptional =
             leisureBlackListRepository.findByCustomerIdAndLeisureId(form.getCustomerId(),
-                form.getLeisureId());
+                form.getProductId());
         if (leisureBlackListOptional.isPresent()) {
             throw new LeisureException(ErrorCode.ALREADY_DENIED_USER);
         }
 
         LeisureBlackList leisureBlackList = LeisureBlackList.builder()
-            .leisureId(form.getLeisureId())
+            .leisureId(form.getProductId())
             .customerId(form.getCustomerId())
             .description(form.getDescription())
             .build();

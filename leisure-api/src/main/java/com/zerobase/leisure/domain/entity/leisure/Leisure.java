@@ -2,6 +2,7 @@ package com.zerobase.leisure.domain.entity.leisure;
 
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
 import com.zerobase.leisure.domain.form.LeisureForm;
+import com.zerobase.leisure.domain.type.Category;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,6 +29,8 @@ public class Leisure extends BaseEntity {
 
 	private Long sellerId;
 
+	private Category category;
+
 	private String leisureName;
 	private String addr;
 	private Integer price;
@@ -44,7 +47,7 @@ public class Leisure extends BaseEntity {
 	public static Leisure of(Long sellerId, LeisureForm form) {
 		return Leisure.builder()
 			.sellerId(sellerId)
-			.leisureName(form.getLeisureName())
+			.leisureName(form.getName())
 			.addr(form.getAddr())
 			.price(form.getPrice())
 			.description(form.getDescription())
