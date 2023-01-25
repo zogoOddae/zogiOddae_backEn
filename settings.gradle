@@ -1,5 +1,5 @@
 rootProject.name = 'zogi_o_ddae'
 include 'leisure-api', 'accomodation-api'
 include 'user-api'
+include 'member-api'
 include 'common-lib'
-
