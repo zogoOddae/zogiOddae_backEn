@@ -76,5 +76,8 @@ public class MailService {
         } catch (IOException ex) {
             throw new CustomException(ErrorCode.CANNOT_FIND_MAIL_TEMPLATE);
         }
+
+
+
     }
 }
