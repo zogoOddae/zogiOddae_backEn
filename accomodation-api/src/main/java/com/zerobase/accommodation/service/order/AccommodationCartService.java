@@ -1,8 +1,8 @@
 package com.zerobase.accommodation.service.order;
 
 import com.zerobase.accommodation.application.AccommodationCartCheck;
-import com.zerobase.accommodation.domain.dto.accommodation.AccommodationCartDto;
-import com.zerobase.accommodation.domain.dto.accommodation.AccommodationOrderItemDto;
+import com.zerobase.accommodation.domain.dto.order.AccommodationCartDto;
+import com.zerobase.accommodation.domain.dto.order.AccommodationOrderItemDto;
 import com.zerobase.accommodation.domain.dto.payment.AccommodationCartPaymentDto;
 import com.zerobase.accommodation.domain.entity.accommodation.Accommodation;
 import com.zerobase.accommodation.domain.entity.coupon.AccommodationCoupon;
@@ -36,12 +36,12 @@ public class AccommodationCartService {
     private final AccommodationCouponGroupRepository accommodationCouponGroupRepository;
     private final AccommodationCouponRepository accommodationCouponRepository;
 
-    public void addaccommodationCart(Long customerId, AddAccommodationCartForm form) {
+    public void addAccommodationCart(Long customerId, AddAccommodationCartForm form) {
         if (accommodationOrderItemRepository.findByAccommodationCart_CustomerIdAndAccommodationId(customerId,
-            form.getAccommodationId()).isPresent()) {
+            form.getProductId()).isPresent()) {
             throw new AccommodationException(ErrorCode.ALREADY_IN_CART);
         }
-        Accommodation accommodation = accommodationRepository.findById(form.getAccommodationId())
+        Accommodation accommodation = accommodationRepository.findById(form.getProductId())
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         if (accommodation.getMinPerson() > form.getPersons()
@@ -104,7 +104,7 @@ public class AccommodationCartService {
 
         return AccommodationCartDto.builder()
             .cartId(accommodationCart.getId())
-            .accommodationOrderItemList(list)
+            .orderItemList(list)
             .totalPrice(accommodationCart.getTotalPrice())
             .build();
     }
@@ -142,13 +142,18 @@ public class AccommodationCartService {
         accommodationOrderItemRepository.save(accommodationOrderItem);
     }
 
-    public void deleteCoupon(Long acccommodationOrderItemId) {
-        AccommodationOrderItem accommodationOrderItem = accommodationOrderItemRepository.findById(acccommodationOrderItemId)
+    public void deleteCoupon(Long accommodationOrderItemId) {
+        AccommodationOrderItem accommodationOrderItem = accommodationOrderItemRepository.findById(accommodationOrderItemId)
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ORDER_ITEM));
 
         accommodationOrderItem.setCouponId(null);
         accommodationOrderItem.setPrice(accommodationOrderItem.getPrice()+accommodationOrderItem.getSalePrice());
         accommodationOrderItem.setSalePrice(0);
+
+        AccommodationCoupon accommodationCoupon = accommodationCouponRepository.findById(accommodationOrderItem.getCouponId()).get();
+        accommodationCoupon.setUsedYN(false);
+
+        accommodationCouponRepository.save(accommodationCoupon);
 
         accommodationOrderItemRepository.save(accommodationOrderItem);
     }

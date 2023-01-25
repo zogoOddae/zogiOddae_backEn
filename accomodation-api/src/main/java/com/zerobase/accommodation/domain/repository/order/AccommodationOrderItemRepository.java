@@ -20,4 +20,8 @@ public interface AccommodationOrderItemRepository extends JpaRepository<Accommod
     Optional<Object> findByCouponId(Long id);
 
     Page<AccommodationOrderItem> findAllByAccommodationOrderIdIn(List<Long> ids, Pageable limit);
+
+    Optional<List<AccommodationOrderItem>> findByAccommodationOrderId(Long id);
+
+    List<AccommodationOrderItem> findAllByAccommodationOrderId(Long orderId);
 }

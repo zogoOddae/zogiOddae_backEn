@@ -1,8 +1,6 @@
-package com.zerobase.accommodation.domain.dto.accommodation;
-
+package com.zerobase.accommodation.domain.dto.order;
 import com.zerobase.accommodation.domain.entity.accommodation.Accommodation;
 import com.zerobase.accommodation.domain.entity.order.AccommodationOrderItem;
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,15 +10,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccommodationOrderItemDto {
+public class AccommodationOrderItemListDto {
     private Long orderItemId;
     private Long sellerId;
 
-    private Long couponId;
-    private Integer salePrice;
-
     private String name;
-    private Integer price;
 
     private String pictureUrl;
 
@@ -29,15 +23,12 @@ public class AccommodationOrderItemDto {
     private String startAt;
     private String endAt;
 
-    public static AccommodationOrderItemDto from(AccommodationOrderItem accommodationOrderItem, Accommodation accommodation) {
-        return AccommodationOrderItemDto.builder()
+    public static AccommodationOrderItemListDto from(AccommodationOrderItem accommodationOrderItem, Accommodation accommodation) {
+        return AccommodationOrderItemListDto.builder()
             .orderItemId(accommodationOrderItem.getId())
             .sellerId(accommodation.getSellerId())
-            .couponId(accommodationOrderItem.getCouponId())
-            .salePrice(accommodationOrderItem.getSalePrice())
+            .pictureUrl(accommodation.getPictureUrl())
             .name(accommodation.getAccommodationName())
-            .price(accommodation.getPrice())
-            .price(accommodationOrderItem.getPrice())
             .persons(accommodationOrderItem.getPersons())
             .startAt(accommodationOrderItem.getStartAt().toString())
             .endAt(accommodationOrderItem.getEndAt().toString())

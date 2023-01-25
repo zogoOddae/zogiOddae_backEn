@@ -28,7 +28,7 @@ public class AccommodationOrder extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	private String reservationId;
 	private Long customerId;
 
 	private Long accommodationPaymentId;

@@ -53,7 +53,7 @@ public class Accommodation extends BaseEntity {
 
 	public static Accommodation of(Long sellerId, AccommodationForm form) {
 		return Accommodation.builder()
-			.accommodationName(form.getAccommodationName())
+			.accommodationName(form.getName())
 			.sellerId(sellerId)
 			.addr(form.getAddr())
 			.price(form.getPrice())

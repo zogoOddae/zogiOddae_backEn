@@ -9,7 +9,6 @@ import com.zerobase.accommodation.domain.type.ErrorCode;
 import com.zerobase.accommodation.exception.AccommodationException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,13 +27,19 @@ public class AccommodationWishService {
     public AccommodationWishList addAccommodationWish(Long memberId, Long accommodationId) {
        accommodationRepository.findById(accommodationId).orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
+        if (accommodationWishListRepository.findByMemberIdAndAccommodationId(memberId, accommodationId)
+            .isPresent()) {
+            throw new AccommodationException(ErrorCode.ALREADY_WISHED_ACCOMMODATION);
+        }
+
         return accommodationWishListRepository.save(AccommodationWishList.builder().memberId(memberId)
             .accommodationId(accommodationId)
             .build());
     }
 
     public void deleteAccommodationWish(Long memberId, Long accommodationId) {
-        accommodationWishListRepository.deleteByMemberIdAndAccommodationId(memberId, accommodationId);
+        accommodationWishListRepository.delete(accommodationWishListRepository.findByMemberIdAndAccommodationId(memberId, accommodationId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_WISHED_ACCOMMODATION)));
     }
 
 

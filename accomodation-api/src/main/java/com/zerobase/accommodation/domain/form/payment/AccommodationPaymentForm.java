@@ -7,11 +7,11 @@ import lombok.Getter;
 @Getter
 public class AccommodationPaymentForm {
     private Long customerId;
-    private Long accommodationOrderItemId; // 주문 상품 아이디
+    private Long orderItemId; // 주문 상품 아이디
 
-    private String accommodationName;
+    private String name;
 
-    private Long accommodationId;
+    private Long productId;
 
     private Integer price;
 

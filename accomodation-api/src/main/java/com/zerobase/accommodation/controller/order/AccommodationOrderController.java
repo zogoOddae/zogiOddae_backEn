@@ -1,6 +1,8 @@
 package com.zerobase.accommodation.controller.order;
 
-import com.zerobase.accommodation.domain.dto.accommodation.AccommodationOrderItemDto;
+import com.zerobase.accommodation.domain.dto.order.AccommodationOrderCompleteDto;
+import com.zerobase.accommodation.domain.dto.order.AccommodationOrderDto;
+import com.zerobase.accommodation.domain.dto.order.AccommodationOrderListDto;
 import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.order.AccommodationOrderService;
 import lombok.RequiredArgsConstructor;
@@ -21,20 +23,27 @@ public class AccommodationOrderController {
     private final AccommodationOrderService accommodationOrderService;
 
     @PostMapping
-    public @ResponseBody WebResponseData<String> accommodationOrder(@RequestParam Long accommodationPaymentId, Long customerId) {
+    public @ResponseBody WebResponseData<AccommodationOrderCompleteDto> accommodationOrder(@RequestParam Long accommodationPaymentId, Long customerId) {
 //		if (memberDetails==null) {
 //			throw new AccommodationException(ErrorCode.NOT_AUTHORIZED);
 //		}
-        accommodationOrderService.accommodationOrder(customerId, accommodationPaymentId);
-        return WebResponseData.ok("예약에 성공하였습니다.");
+        return WebResponseData.ok( accommodationOrderService.accommodationOrder(customerId, accommodationPaymentId));
     }
 
     @GetMapping
-    public @ResponseBody WebResponseData<Page<AccommodationOrderItemDto>> getAccommodationOrder(@RequestParam Long customerId, final Pageable pageable) {
+    public @ResponseBody WebResponseData<Page<AccommodationOrderListDto>> getLeisureOrder(@RequestParam Long customerId,
+        final Pageable pageable) {
+//		if (memberDetails==null) {
+//			throw new LeisureException(ErrorCode.NOT_AUTHORIZED);
+//		}
+        return WebResponseData.ok(accommodationOrderService.getAccommodationOrder(customerId,pageable));
+    }
+    @GetMapping
+    public @ResponseBody WebResponseData<AccommodationOrderDto> getAccommodationOrder(@RequestParam Long orderId) {
 //		if (memberDetails==null) {
 //			throw new AccommodationException(ErrorCode.NOT_AUTHORIZED);
 //		}
-        return WebResponseData.ok(accommodationOrderService.getAccommodationOrder(customerId,pageable));
+        return WebResponseData.ok(accommodationOrderService.getAccommodationOrderDetail(orderId));
     }
 
 }

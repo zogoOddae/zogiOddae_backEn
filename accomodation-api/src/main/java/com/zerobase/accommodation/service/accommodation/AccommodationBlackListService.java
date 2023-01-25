@@ -28,16 +28,16 @@ public class AccommodationBlackListService {
     public AccommodationBlackList addAccommodationBlackList(AddAccommodationBlackListForm form) {
         Optional<AccommodationBlackList> accommodationBlackListOptional =
             accommodationBlackListRepository.findByCustomerIdAndAccommodationId(
-                form.getCustomerId(), form.getAccommodationId());
+                form.getCustomerId(), form.getProductId());
         if (accommodationBlackListOptional.isPresent()) {
             throw new AccommodationException(ErrorCode.ALREADY_REGISTERED_BLACKLIST);
         }
 
-        accommodationRepository.findById(form.getAccommodationId())
+        accommodationRepository.findById(form.getProductId())
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         AccommodationBlackList accommodationBlackList = AccommodationBlackList.builder()
-            .accommodationId(form.getAccommodationId())
+            .accommodationId(form.getProductId())
             .customerId(form.getCustomerId())
             .description(form.getDescription())
             .build();

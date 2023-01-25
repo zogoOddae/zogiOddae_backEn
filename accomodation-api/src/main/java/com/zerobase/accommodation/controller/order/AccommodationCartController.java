@@ -1,12 +1,10 @@
 package com.zerobase.accommodation.controller.order;
 
-import com.zerobase.accommodation.domain.dto.accommodation.AccommodationCartDto;
-import com.zerobase.accommodation.domain.dto.accommodation.AccommodationOrderItemDto;
+import com.zerobase.accommodation.domain.dto.order.AccommodationCartDto;
 import com.zerobase.accommodation.domain.dto.payment.AccommodationCartPaymentDto;
 import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationCartForm;
 import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.order.AccommodationCartService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +24,7 @@ public class AccommodationCartController {
 
 	@PostMapping
 	public @ResponseBody WebResponseData<String> addAccommodationCart(@RequestParam Long customerId, @RequestBody AddAccommodationCartForm form){
-		accommodationCartService.addaccommodationCart(customerId, form);
+		accommodationCartService.addAccommodationCart(customerId, form);
 		return WebResponseData.ok("장바구니에 담았습니다.");
 	}
 

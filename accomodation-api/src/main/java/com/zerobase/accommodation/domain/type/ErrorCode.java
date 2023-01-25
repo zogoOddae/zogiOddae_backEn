@@ -48,7 +48,10 @@ public enum ErrorCode {
 	NOT_PAYMENT_ORDER("결제가 되지않은 주문입니다."),
 	NOT_FOUNT_ORDER("찾을 수 없는 주문입니다."),
 
-	SERVER_INTERVAL_ERROR("서버 내부적 오류입니다.");
+	SERVER_INTERVAL_ERROR("서버 내부적 오류입니다."),
+	NOT_FOUND_ORDER("주문 정보를 찾을 수 없습니다."),
+	ALREADY_WISHED_ACCOMMODATION("이미 찜목록에 등록된 상품입니다."),
+	NOT_WISHED_ACCOMMODATION("찜하지 않은 상품입니다.");
 
 	private final String description;
 }

@@ -50,7 +50,7 @@ public class AccommodationOrderItem extends BaseEntity {
 	public static AccommodationOrderItem of(Long sellerId, Integer price, AccommodationCart accommodationCart, AddAccommodationCartForm form) {
 		return AccommodationOrderItem.builder()
 			.sellerId(sellerId)
-			.accommodationId(form.getAccommodationId())
+			.accommodationId(form.getProductId())
 			.accommodationCart(accommodationCart)
 			.persons(form.getPersons())
 			.startAt(form.getStartAt())

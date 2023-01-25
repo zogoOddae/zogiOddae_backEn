@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class AddAccommodationCartForm {
-	private Long accommodationId;
+	private Long productId;
 	private Integer persons;
 	private LocalDate startAt;
 	private LocalDate endAt;

@@ -62,8 +62,8 @@ public class AccommodationPaymentService {
         AccommodationPayment accommodationPayment = AccommodationPayment.builder()
             .price(form.getPrice())
             .customerId(form.getCustomerId())
-            .accommodationOrderItemId(form.getAccommodationOrderItemId())
-            .accommodationId(form.getAccommodationId())
+            .accommodationOrderItemId(form.getOrderItemId())
+            .accommodationId(form.getProductId())
             .status(PaymentStatus.PAYMENT_WAIT)
             .build();
 
@@ -72,9 +72,9 @@ public class AccommodationPaymentService {
         int vat_amount = form.getPrice()/10;
 
         String parameter = "cid=TC0ONETIME" // 가맹점 코드 - 테스트용으로 고정
-            + "&partner_order_id=" + form.getAccommodationOrderItemId()// 가맹점 주문번호를 상품주문 ID로 사용
+            + "&partner_order_id=" + form.getOrderItemId()// 가맹점 주문번호를 상품주문 ID로 사용
             + "&partner_user_id=" + form.getCustomerId() // 가맹점 회원 id
-            + "&item_name=" + form.getAccommodationName() // 상품명
+            + "&item_name=" + form.getName() // 상품명
             + "&quantity=1" // 상품 수량
             + "&total_amount=" + form.getPrice().toString() // 총 금액
             + "&vat_amount=" + vat_amount  //부가세
@@ -108,12 +108,6 @@ public class AccommodationPaymentService {
 
         log.info(map.toString());
 
-        AccommodationOrder accommodationOrder = accommodationOrderRepository.findByAccommodationPaymentId(accommodationPaymentId)
-            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUNT_ORDER));
-
-        accommodationOrder.setOrderStatus(OrderStatus.CANCEL);
-        accommodationOrderRepository.save(accommodationOrder);
-
         accommodationPayment.setStatus(PaymentStatus.PAID);
         accommodationPayment.setPaymentToken(pgtoken);
 
@@ -133,8 +127,11 @@ public class AccommodationPaymentService {
 
         Map<String, String> map = restTemplate.postForObject(url, new HttpEntity<>(parameter, getHeaders()), Map.class);
 
-        log.info(map.toString());
+        AccommodationOrder accommodationOrder = accommodationOrderRepository.findByAccommodationPaymentId(accommodationPaymentId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUNT_ORDER));
 
+        accommodationOrder.setOrderStatus(OrderStatus.CANCEL);
+        accommodationOrderRepository.save(accommodationOrder);
 
         accommodationPayment.setStatus(PaymentStatus.CANCELED);
 
