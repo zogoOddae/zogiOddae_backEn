@@ -30,6 +30,7 @@ public class SellerAccommodationController {
 
 	@PostMapping
 	public WebResponseData<String> addAccommodation(@RequestParam Long sellerId, @RequestBody AccommodationForm form) {
+		System.out.println(form.getCategory());
 		sellerAccommodationService.addAccommodation(sellerId, form);
 		return WebResponseData.ok("성공적으로 등록되었습니다.");
 	}

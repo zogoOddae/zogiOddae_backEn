@@ -5,6 +5,7 @@ import com.zerobase.accommodation.domain.entity.accommodation.Accommodation;
 import com.zerobase.accommodation.domain.form.search.SearchAccommodationForm;
 import com.zerobase.accommodation.domain.repository.accommodation.AccommodationRepository;
 import com.zerobase.accommodation.domain.repository.search.AccommodationReservationDayRepository;
+import com.zerobase.accommodation.domain.type.Category;
 import com.zerobase.accommodation.domain.type.ErrorCode;
 import com.zerobase.accommodation.exception.AccommodationException;
 import java.util.ArrayList;
@@ -63,8 +64,6 @@ public class SearchAccommodationService {
     public Page<AccommodationListDto> getAllSearchAddr(String addr, Pageable pageable) {
         Pageable limit = PageRequest.of(pageable.getPageNumber(), 15);
 
-        String s_addr = "%"+addr+"%";
-
         Page<Accommodation> accommodationList = accommodationRepository.findAllByAddrContaining(addr, limit).orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         List<AccommodationListDto> dtoList = new ArrayList<>();
@@ -76,9 +75,10 @@ public class SearchAccommodationService {
     }
 
     public Page<AccommodationListDto> getAllSearchCategory(String category, Pageable pageable) {
+        System.out.println(category);
         Pageable limit = PageRequest.of(pageable.getPageNumber(), 15);
 
-        Page<Accommodation> accommodationList = accommodationRepository.findAllByCategoryContaining(category, limit).orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
+        Page<Accommodation> accommodationList = accommodationRepository.findAllByCategory(Category.from(category), limit).orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         List<AccommodationListDto> dtoList = new ArrayList<>();
 

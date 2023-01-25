@@ -4,6 +4,8 @@ import com.zerobase.accommodation.domain.entity.common.BaseEntity;
 import com.zerobase.accommodation.domain.form.accommodation.AccommodationForm;
 import com.zerobase.accommodation.domain.type.Category;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,14 +46,17 @@ public class Accommodation extends BaseEntity {
 	private String checkIn;
 	private String checkOut;
 
+	@Enumerated(value = EnumType.STRING)
 	private Category category;
-
 
 	private double lat;
 	private double lon;
 
 
 	public static Accommodation of(Long sellerId, AccommodationForm form) {
+		System.out.println(form.getCategory());
+		Category category1 = Category.from(form.getCategory());
+		System.out.println(category1.toString());
 		return Accommodation.builder()
 			.accommodationName(form.getName())
 			.sellerId(sellerId)
@@ -62,7 +67,7 @@ public class Accommodation extends BaseEntity {
 			.maxPerson(form.getMaxPerson())
 			.checkIn(form.getCheckIn())
 			.checkOut(form.getCheckOut())
-			.category(form.getCategory())
+			.category(category1)
 			.lat(form.getLat())
 			.lon(form.getLon())
 			.build();

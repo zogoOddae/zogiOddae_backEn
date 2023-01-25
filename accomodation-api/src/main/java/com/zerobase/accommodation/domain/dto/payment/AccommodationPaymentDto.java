@@ -2,7 +2,6 @@ package com.zerobase.accommodation.domain.dto.payment;
 
 import com.zerobase.accommodation.domain.entity.payment.AccommodationPayment;
 import com.zerobase.accommodation.domain.type.PaymentStatus;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,7 +41,7 @@ public class AccommodationPaymentDto {
             .tid(accommodationPayment.getTid())
             .paymentToken(accommodationPayment.getPaymentToken())
             .status(accommodationPayment.getStatus())
-            .canceledAt(accommodationPayment.getCanceledAt().toString())
+            //.canceledAt(accommodationPayment.getCanceledAt().toString())
             .nextRedirectURL(nextRedirectURL)
             .approveURL(approveURL)
             .build();

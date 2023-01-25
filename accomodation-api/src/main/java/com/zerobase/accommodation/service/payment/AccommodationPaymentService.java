@@ -1,7 +1,6 @@
 package com.zerobase.accommodation.service.payment;
 
 import com.zerobase.accommodation.domain.dto.payment.AccommodationPaymentDto;
-import com.zerobase.accommodation.domain.entity.order.AccommodationCart;
 import com.zerobase.accommodation.domain.entity.order.AccommodationOrder;
 import com.zerobase.accommodation.domain.entity.payment.AccommodationPayment;
 import com.zerobase.accommodation.domain.form.payment.AccommodationPaymentForm;
@@ -56,7 +55,7 @@ public class AccommodationPaymentService {
         String url = "https://kapi.kakao.com/v1/payment/ready"; //카카오 APi URL
 
         //카트에서 정보 가져오기
-        AccommodationCart accommodationCart = accommodationCartRepository.findByCustomerId(form.getCustomerId())
+        accommodationCartRepository.findByCustomerId(form.getCustomerId())
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_CART));
 
         AccommodationPayment accommodationPayment = AccommodationPayment.builder()
@@ -79,16 +78,17 @@ public class AccommodationPaymentService {
             + "&total_amount=" + form.getPrice().toString() // 총 금액
             + "&vat_amount=" + vat_amount  //부가세
             + "&tax_free_amount=0"// 상품 비과세 금액
-            + "&approval_url=http://localhost:8080/accommodation/payment/kakaopay/approve?accommodationPaymentId=" +accommodationPayment.getId() // 결제 성공 시
-            + "&fail_url=http://localhost:8080/accommodation/payment/kakaopay/fail" // 결제 실패 시
-            + "&cancel_url=http://localhost:8080/accommodation/payment/kakaopay/cancel"; // 결제 취소 시
+            + "&approval_url=http://localhost:8080/customer/accommodation/payment/kakaopay/approve?accommodationPaymentId=" +accommodationPayment.getId() // 결제 성공 시
+            + "&fail_url=http://localhost:8080/customer/accommodation/payment/kakaopay/fail" // 결제 실패 시
+            + "&cancel_url=http://localhost:8080/customer/accommodation/payment/kakaopay/cancel"; // 결제 취소 시
 
         Map<String, String> map = restTemplate.postForObject(url, new HttpEntity<>(parameter, getHeaders()), Map.class);
 
         accommodationPayment.setTid(map.get("tid"));
         accommodationPaymentRepository.save(accommodationPayment);
 
-        String approval_url = "http://localhost:8080/accommodation/payment/kakaopay/approve?accommodationPaymentId=" +accommodationPayment.getId();
+        String approval_url = "http://localhost:8080/customer/accommodation/payment/kakaopay/approve?accommodationPaymentId=" +accommodationPayment.getId();
+        System.out.println(approval_url);
         return AccommodationPaymentDto.from(accommodationPayment, map.get("next_redirect_pc_url"),approval_url);
     }
 
