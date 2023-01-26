@@ -62,7 +62,7 @@ public class LeisureWishServiceTest {
 	    //given
 		Leisure leisure = sellerLeisureService.AddLeisure(1L,LeisureForm.builder()
 																	.addr("허리도 가늘군 만지면 부러지리")
-																	.leisureName("산 레저")
+																	.name("산 레저")
 																	.price(18000)
 																	.pictureUrl("A://test/test.jpg")
 																	.description("재밌는 곳입니다.")
@@ -73,7 +73,7 @@ public class LeisureWishServiceTest {
 																	.build());
 		Leisure leisure1 = sellerLeisureService.AddLeisure(1L,LeisureForm.builder()
 																	.addr("허리도 가늘군 만지면")
-																	.leisureName("바다 레저")
+																	.name("바다 레저")
 																	.price(20000)
 																	.pictureUrl("B://test/test.jpg")
 																	.description("재미없는 곳입니다.")
@@ -84,7 +84,7 @@ public class LeisureWishServiceTest {
 																	.build());
 		Leisure leisure2 = sellerLeisureService.AddLeisure(1L,LeisureForm.builder()
 																	.addr("허리도 가늘군")
-																	.leisureName("산바다 레저")
+																	.name("산바다 레저")
 																	.price(30000)
 																	.pictureUrl("C://test/test.jpg")
 																	.description("재미 있는? 곳입니다.")
@@ -116,7 +116,7 @@ public class LeisureWishServiceTest {
 	private Leisure addLeisure() {
 		LeisureForm form = LeisureForm.builder()
 			.addr("허리도 가늘군 만지면 부러지리")
-			.leisureName("바다 레저")
+			.name("바다 레저")
 			.price(18000)
 			.pictureUrl("D://test/test.jpg")
 			.description("재밌는 곳입니다.")

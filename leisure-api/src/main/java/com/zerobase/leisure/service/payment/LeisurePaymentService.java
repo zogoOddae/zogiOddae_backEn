@@ -57,7 +57,7 @@ public class LeisurePaymentService {
 		String url = "https://kapi.kakao.com/v1/payment/ready"; //카카오 APi URL
 
 		//카트에서 정보 가져오기
-		LeisureCart leisureCart = leisureCartRepository.findByCustomerId(form.getCustomerId())
+		leisureCartRepository.findByCustomerId(form.getCustomerId())
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_CART));
 
 		LeisurePayment leisurePayment = LeisurePayment.builder()
@@ -80,16 +80,16 @@ public class LeisurePaymentService {
 			+ "&total_amount=" + form.getPrice().toString() // 총 금액
 			+ "&vat_amount=" + vat_amount  //부가세
 			+ "&tax_free_amount=0"// 상품 비과세 금액
-			+ "&approval_url=http://localhost:8080/customer/leisure/payment/kakaopay/approve?leisurePaymentId=" +leisurePayment.getId() // 결제 성공 시
-			+ "&fail_url=http://localhost:8080/customer/leisure/payment/kakaopay/fail" // 결제 실패 시
-			+ "&cancel_url=http://localhost:8080/customer/leisure/payment/kakaopay/cancel"; // 결제 취소 시
+			+ "&approval_url=http://zogioddae.us-east-1.elasticbeanstalk.com/customer/leisure/payment/kakaopay/approve?leisurePaymentId=" +leisurePayment.getId() // 결제 성공 시
+			+ "&fail_url=http://zogioddae.us-east-1.elasticbeanstalk.com/customer/leisure/payment/kakaopay/fail" // 결제 실패 시
+			+ "&cancel_url=http://zogioddae.us-east-1.elasticbeanstalk.com/customer/leisure/payment/kakaopay/cancel"; // 결제 취소 시
 
 		Map<String, String> map = restTemplate.postForObject(url, new HttpEntity<>(parameter, getHeaders()), Map.class);
 
 		leisurePayment.setTid(map.get("tid"));
 		leisurePaymentRepository.save(leisurePayment);
 
-		String approval_url = "http://localhost:8081/customer/leisure/payment/kakaopay/approve?leisurePaymentId=" +leisurePayment.getId();
+		String approval_url = "http://zogioddae.us-east-1.elasticbeanstalk.com/customer/leisure/payment/kakaopay/approve?leisurePaymentId=" +leisurePayment.getId();
 		return LeisurePaymentDto.from(leisurePayment, map.get("next_redirect_pc_url"),approval_url);
 	}
 

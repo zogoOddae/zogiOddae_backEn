@@ -83,15 +83,14 @@ public class SearchLeisureService {
 	public Page<LeisureListDto> getAllSearchCategory(String category, Pageable pageable) {
 		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15);
 
-		Page<Leisure> accommodationList = leisureRepository.findAllByCategory(
-				Category.valueOf(category), limit)
-			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
+		Page<Leisure> leisureList = leisureRepository.findAllByCategory(
+			Category.valueOf(category), limit).orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
 
 		List<LeisureListDto> dtoList = new ArrayList<>();
 
-		for (Leisure leisure : accommodationList) {
+		for (Leisure leisure : leisureList) {
 			dtoList.add(LeisureListDto.from(leisure));
 		}
-		return new PageImpl<>(dtoList, limit, accommodationList.getTotalElements());
+		return new PageImpl<>(dtoList, limit, leisureList.getTotalElements());
 	}
 }
