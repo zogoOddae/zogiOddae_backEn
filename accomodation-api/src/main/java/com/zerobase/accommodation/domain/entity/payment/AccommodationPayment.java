@@ -29,7 +29,7 @@ public class AccommodationPayment extends BaseEntity {
 	private Long id;
 
 	private Long customerId;
-	private Long accommodationOrderItemId; // 주문 상품 아이디
+	private Long cartId; // 카트 아이디
 
 	private Long accommodationId;
 

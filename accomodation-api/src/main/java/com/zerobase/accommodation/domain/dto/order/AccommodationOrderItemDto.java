@@ -15,6 +15,8 @@ public class AccommodationOrderItemDto {
     private Long orderItemId;
     private Long sellerId;
 
+    private Long productId;
+
     private Long couponId;
     private Integer salePrice;
 
@@ -32,6 +34,7 @@ public class AccommodationOrderItemDto {
         return AccommodationOrderItemDto.builder()
             .orderItemId(accommodationOrderItem.getId())
             .sellerId(accommodation.getSellerId())
+            .productId(accommodation.getId())
             .couponId(accommodationOrderItem.getCouponId())
             .salePrice(accommodationOrderItem.getSalePrice())
             .name(accommodation.getAccommodationName())

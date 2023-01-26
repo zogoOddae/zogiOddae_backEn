@@ -55,13 +55,13 @@ public class AccommodationPaymentService {
         String url = "https://kapi.kakao.com/v1/payment/ready"; //카카오 APi URL
 
         //카트에서 정보 가져오기
-        accommodationCartRepository.findByCustomerId(form.getCustomerId())
+        accommodationCartRepository.findById(form.getCartId())
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_CART));
 
         AccommodationPayment accommodationPayment = AccommodationPayment.builder()
             .price(form.getPrice())
             .customerId(form.getCustomerId())
-            .accommodationOrderItemId(form.getOrderItemId())
+            .cartId(form.getCartId())
             .accommodationId(form.getProductId())
             .status(PaymentStatus.PAYMENT_WAIT)
             .build();
@@ -71,7 +71,7 @@ public class AccommodationPaymentService {
         int vat_amount = form.getPrice()/10;
 
         String parameter = "cid=TC0ONETIME" // 가맹점 코드 - 테스트용으로 고정
-            + "&partner_order_id=" + form.getOrderItemId()// 가맹점 주문번호를 상품주문 ID로 사용
+            + "&partner_order_id=" + form.getCartId().toString() + form.getCustomerId().toString() // 가맹점 주문번호를 상품주문 ID로 사용
             + "&partner_user_id=" + form.getCustomerId() // 가맹점 회원 id
             + "&item_name=" + form.getName() // 상품명
             + "&quantity=1" // 상품 수량
@@ -100,7 +100,7 @@ public class AccommodationPaymentService {
 
         String parameter = "cid=TC0ONETIME"
             + "&tid=" + accommodationPayment.getTid()
-            + "&partner_order_id=" + accommodationPayment.getAccommodationOrderItemId()
+            + "&partner_order_id=" + accommodationPayment.getCartId().toString() + accommodationPayment.getCustomerId().toString()
             + "&partner_user_id=" + accommodationPayment.getCustomerId()
             + "&pg_token=" + pgtoken;
 
