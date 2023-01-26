@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class AccommodationPaymentForm {
     private Long customerId;
-    private Long orderItemId; // 주문 상품 아이디
+    private Long cartId; // 주문 상품 아이디
 
     private String name;
 

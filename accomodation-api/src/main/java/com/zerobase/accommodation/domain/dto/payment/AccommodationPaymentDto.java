@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class AccommodationPaymentDto {
     private Long paymentId;
     private Long customerId;
-    private Long orderItemId; // 주문 상품 아이디
+    private Long cartId; // 주문 상품 아이디
 
     private Long id;
 
@@ -35,7 +35,7 @@ public class AccommodationPaymentDto {
         return AccommodationPaymentDto.builder()
             .paymentId(accommodationPayment.getId())
             .customerId(accommodationPayment.getCustomerId())
-            .orderItemId(accommodationPayment.getAccommodationOrderItemId())
+            .cartId(accommodationPayment.getCartId())
             .id(accommodationPayment.getAccommodationId())
             .price(accommodationPayment.getPrice())
             .tid(accommodationPayment.getTid())
@@ -51,7 +51,7 @@ public class AccommodationPaymentDto {
         return AccommodationPaymentDto.builder()
             .paymentId(accommodationPayment.getId())
             .customerId(accommodationPayment.getCustomerId())
-            .orderItemId(accommodationPayment.getAccommodationOrderItemId())
+            .cartId(accommodationPayment.getCartId())
             .id(accommodationPayment.getAccommodationId())
             .price(accommodationPayment.getPrice())
             .tid(accommodationPayment.getTid())
