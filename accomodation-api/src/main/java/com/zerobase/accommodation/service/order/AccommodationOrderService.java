@@ -19,6 +19,7 @@ import com.zerobase.accommodation.domain.repository.payment.AccommodationPayment
 import com.zerobase.accommodation.domain.repository.search.AccommodationReservationDayRepository;
 import com.zerobase.accommodation.domain.type.ErrorCode;
 import com.zerobase.accommodation.domain.type.OrderStatus;
+import com.zerobase.accommodation.domain.type.PaymentStatus;
 import com.zerobase.accommodation.exception.AccommodationException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -55,11 +56,13 @@ public class AccommodationOrderService {
             .isPresent()) {
             throw new AccommodationException(ErrorCode.ALREADY_ORDERED_PAYMENT);
         }
-//		if (leisurePaymentRepository.findById(leisurePaymentId)
-//			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_PAYMENT))
-//			.getStatus() != PaymentStatus.PAID) {
-//			throw new LeisureException(ErrorCode.NOT_PAYMENT_ORDER);
-//		}
+
+        if (accommodationPaymentRepository.findById(accommodationPaymentId)
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_PAYMENT))
+            .getStatus() != PaymentStatus.PAID) {
+            throw new AccommodationException(ErrorCode.NOT_PAYMENT_ORDER);
+        }
+
         AccommodationOrder accommodationOrder = accommodationOrderRepository.save(
             AccommodationOrder.builder()
                 .customerId(customerId)

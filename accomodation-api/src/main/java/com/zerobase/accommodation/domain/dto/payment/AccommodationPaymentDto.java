@@ -41,8 +41,8 @@ public class AccommodationPaymentDto {
             .tid(accommodationPayment.getTid())
             .paymentToken(accommodationPayment.getPaymentToken())
             .status(accommodationPayment.getStatus())
-            //.canceledAt(accommodationPayment.getCanceledAt().toString())
             .nextRedirectURL(nextRedirectURL)
+            .canceledAt(accommodationPayment.getModifiedAt().toString())
             .approveURL(approveURL)
             .build();
     }
@@ -57,7 +57,7 @@ public class AccommodationPaymentDto {
             .tid(accommodationPayment.getTid())
             .paymentToken(accommodationPayment.getPaymentToken())
             .status(accommodationPayment.getStatus())
-            .canceledAt(accommodationPayment.getCanceledAt().toString())
+            .canceledAt(accommodationPayment.getModifiedAt().toString())
             .build();
     }
 }

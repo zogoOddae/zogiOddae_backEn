@@ -110,7 +110,6 @@ public class AccommodationPaymentService {
 
         accommodationPayment.setStatus(PaymentStatus.PAID);
         accommodationPayment.setPaymentToken(pgtoken);
-
         return accommodationPaymentRepository.save(accommodationPayment);
     }
 

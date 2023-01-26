@@ -4,6 +4,7 @@ import com.zerobase.accommodation.domain.dto.accommodation.AccommodationListDto;
 import com.zerobase.accommodation.domain.dto.accommodation.CustomerAccommodationDto;
 import com.zerobase.accommodation.domain.model.WebResponseData;
 import com.zerobase.accommodation.service.accommodation.CustomerAccommodationService;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,8 +28,13 @@ public class CustomerAccommodationController {
     }
 
     @GetMapping("/detail")
-    public @ResponseBody WebResponseData<CustomerAccommodationDto> getDetailAccommodation(@RequestParam Long accommodationId) {
+    public @ResponseBody WebResponseData<CustomerAccommodationDto> getDetailAccommodation(@RequestParam Long accommodationId, String startAt, String endAt) {
+        if (startAt == null) {
+            startAt = LocalDate.now().toString();
+            endAt = LocalDate.now().plusDays(1).toString();
+        }
+
         return WebResponseData.ok(
-            CustomerAccommodationDto.from(customerAccommodationService.getDetailAccommodation(accommodationId)));
+            CustomerAccommodationDto.from(customerAccommodationService.getDetailAccommodation(accommodationId), startAt, endAt));
     }
 }

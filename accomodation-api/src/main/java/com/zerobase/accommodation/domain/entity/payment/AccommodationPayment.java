@@ -2,7 +2,6 @@ package com.zerobase.accommodation.domain.entity.payment;
 
 import com.zerobase.accommodation.domain.entity.common.BaseEntity;
 import com.zerobase.accommodation.domain.type.PaymentStatus;
-import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -40,6 +39,4 @@ public class AccommodationPayment extends BaseEntity {
 
 	@Enumerated(value = EnumType.STRING)
 	private PaymentStatus status;
-
-	private LocalDateTime canceledAt;
 }
