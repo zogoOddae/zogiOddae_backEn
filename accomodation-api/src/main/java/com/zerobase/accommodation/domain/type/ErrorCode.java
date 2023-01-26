@@ -51,7 +51,8 @@ public enum ErrorCode {
 	SERVER_INTERVAL_ERROR("서버 내부적 오류입니다."),
 	NOT_FOUND_ORDER("주문 정보를 찾을 수 없습니다."),
 	ALREADY_WISHED_ACCOMMODATION("이미 찜목록에 등록된 상품입니다."),
-	NOT_WISHED_ACCOMMODATION("찜하지 않은 상품입니다.");
+	NOT_WISHED_ACCOMMODATION("찜하지 않은 상품입니다."),
+	NOT_FOUND_CATEGORY("없는 카테고리입니다.");
 
 	private final String description;
 }

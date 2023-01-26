@@ -1,9 +1,9 @@
 package com.zerobase.accommodation.domain.repository.accommodation;
 
 import com.zerobase.accommodation.domain.entity.accommodation.Accommodation;
+import com.zerobase.accommodation.domain.type.Category;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.criteria.CriteriaBuilder.In;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,6 +25,5 @@ public interface AccommodationRepository extends JpaRepository<Accommodation, Lo
 
     Optional<Page<Accommodation>> findAllByAddrContaining(String s_addr, Pageable limit);
 
-    Optional<Page<Accommodation>> findAllByCategoryContaining(String category, Pageable limit);
-
+    Optional<Page<Accommodation>> findAllByCategory(Category from, Pageable limit);
 }

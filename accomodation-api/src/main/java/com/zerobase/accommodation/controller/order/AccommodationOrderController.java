@@ -30,8 +30,8 @@ public class AccommodationOrderController {
         return WebResponseData.ok( accommodationOrderService.accommodationOrder(customerId, accommodationPaymentId));
     }
 
-    @GetMapping
-    public @ResponseBody WebResponseData<Page<AccommodationOrderListDto>> getLeisureOrder(@RequestParam Long customerId,
+    @GetMapping("/detail")
+    public @ResponseBody WebResponseData<Page<AccommodationOrderListDto>> getAccommodationOrder(@RequestParam Long customerId,
         final Pageable pageable) {
 //		if (memberDetails==null) {
 //			throw new LeisureException(ErrorCode.NOT_AUTHORIZED);

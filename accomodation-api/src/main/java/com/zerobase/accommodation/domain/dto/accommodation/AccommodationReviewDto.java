@@ -15,7 +15,7 @@ public class AccommodationReviewDto {
 
 	private Long customerId;
 	private Long sellerId;
-	private Long accommodationId;
+	private Long productId;
 
 	private double rating;
 	private String description;
@@ -27,7 +27,7 @@ public class AccommodationReviewDto {
 			.reviewId(accommodationReview.getId())
 			.sellerId(accommodationReview.getSellerId())
 			.customerId(accommodationReview.getCustomerId())
-			.accommodationId(accommodationReview.getAccommodationId())
+			.productId(accommodationReview.getAccommodationId())
 			.rating(accommodationReview.getRating())
 			.description(accommodationReview.getDescription())
 			.reply(accommodationReview.getReply())

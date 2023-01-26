@@ -23,13 +23,13 @@ public class AccommodationReviewService {
 
     public AccommodationReview addAccommodationReview(AddAccommodationReviewForm form) {
         if(accommodationReviewRepository
-            .existsByCustomerIdAndAccommodationId(form.getCustomerId(),form.getAccommodationId())){
+            .existsByCustomerIdAndAccommodationId(form.getCustomerId(),form.getProductId())){
             throw new AccommodationException(ErrorCode.ALREADY_REGISTERED_REVIEW);
         }
 
         return accommodationReviewRepository.save(AccommodationReview.builder()
             .customerId(form.getCustomerId())
-            .accommodationId(form.getAccommodationId())
+            .accommodationId(form.getProductId())
             .rating(form.getRating())
             .description(form.getDescription())
             .build());
@@ -44,7 +44,7 @@ public class AccommodationReviewService {
             throw new AccommodationException(ErrorCode.NOT_MY_REVIEW);
         }
 
-        accommodationReview.setAccommodationId(form.getAccommodationId());
+        accommodationReview.setAccommodationId(form.getProductId());
         accommodationReview.setCustomerId(form.getCustomerId());
         accommodationReview.setDescription(form.getDescription());
         accommodationReview.setRating(form.getRating());

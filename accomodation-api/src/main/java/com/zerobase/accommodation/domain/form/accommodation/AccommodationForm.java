@@ -1,12 +1,15 @@
 package com.zerobase.accommodation.domain.form.accommodation;
 
-import com.zerobase.accommodation.domain.type.Category;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AccommodationForm {
 	private String name;
 	private String addr;
@@ -26,5 +29,5 @@ public class AccommodationForm {
 	private LocalDate dayOffStartDate;
 	private LocalDate dayOffEndDate;
 
-	private Category category;
+	private String category;
 }
