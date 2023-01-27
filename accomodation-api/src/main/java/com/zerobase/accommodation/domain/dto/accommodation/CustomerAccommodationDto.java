@@ -2,8 +2,6 @@ package com.zerobase.accommodation.domain.dto.accommodation;
 
 import com.zerobase.accommodation.domain.entity.accommodation.Accommodation;
 import com.zerobase.accommodation.domain.type.Category;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +33,7 @@ public class CustomerAccommodationDto {
     private double lat;
     private double lon;
 
-    public static CustomerAccommodationDto from(Accommodation accommodation) {
+    public static CustomerAccommodationDto from(Accommodation accommodation, String startAt, String endAt) {
         return CustomerAccommodationDto.builder()
             .id(accommodation.getId())
             .sellerId(accommodation.getSellerId())
@@ -46,16 +44,11 @@ public class CustomerAccommodationDto {
             .maxPerson(accommodation.getMaxPerson())
             .minPerson(accommodation.getMinPerson())
             .description(accommodation.getDescription())
-            .checkIn(accommodation.getCheckIn())
-            .checkOut(accommodation.getCheckOut())
+            .checkIn(startAt)
+            .checkOut(endAt)
             .lat(accommodation.getLat())
             .lon(accommodation.getLon())
             .build();
     }
 
-    public static List<CustomerAccommodationDto> fromList(List<Accommodation> accommodationListList) {
-        return accommodationListList.stream()
-            .map(CustomerAccommodationDto::from)
-            .collect(Collectors.toList());
-    }
 }

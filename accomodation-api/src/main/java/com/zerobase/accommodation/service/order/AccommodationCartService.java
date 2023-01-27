@@ -131,8 +131,8 @@ public class AccommodationCartService {
         AccommodationOrderItem accommodationOrderItem = accommodationOrderItemRepository.findById(accommodationOrderItemId)
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ORDER_ITEM));
 
-        if (accommodationOrderItemRepository.findByCouponId(accommodationCoupon.getId()).isPresent()){
-            throw new AccommodationException(ErrorCode.ALREADY_USED_COUPON);
+        if (accommodationOrderItem.getCouponId() != null) {
+            throw new AccommodationException(ErrorCode.CAN_ONLY_ONE_COUPON);
         }
 
         accommodationOrderItem.setCouponId(accommodationCoupon.getId());
@@ -140,17 +140,20 @@ public class AccommodationCartService {
         accommodationOrderItem.setPrice(accommodationOrderItem.getPrice()-accommodationOrderItem.getSalePrice());
 
         accommodationOrderItemRepository.save(accommodationOrderItem);
+        accommodationCouponRepository.save(accommodationCoupon);
+        accommodationOrderItemRepository.save(accommodationOrderItem);
     }
 
     public void deleteCoupon(Long accommodationOrderItemId) {
         AccommodationOrderItem accommodationOrderItem = accommodationOrderItemRepository.findById(accommodationOrderItemId)
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ORDER_ITEM));
 
+        AccommodationCoupon accommodationCoupon = accommodationCouponRepository.findById(accommodationOrderItem.getCouponId()).get();
+
         accommodationOrderItem.setCouponId(null);
         accommodationOrderItem.setPrice(accommodationOrderItem.getPrice()+accommodationOrderItem.getSalePrice());
         accommodationOrderItem.setSalePrice(0);
 
-        AccommodationCoupon accommodationCoupon = accommodationCouponRepository.findById(accommodationOrderItem.getCouponId()).get();
         accommodationCoupon.setUsedYN(false);
 
         accommodationCouponRepository.save(accommodationCoupon);
