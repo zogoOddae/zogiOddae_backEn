@@ -1,9 +1,7 @@
 package com.zerobase.leisure.domain.dto.payment;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zerobase.leisure.domain.entity.order.LeisurePayment;
 import com.zerobase.leisure.domain.type.PaymentStatus;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +25,7 @@ public class LeisurePaymentDto {
 
     private PaymentStatus status;
 
-    private String canceledAt;
+    private String modifiedAt;
     private String nextRedirectURL;
 
     private String approveURL;
@@ -42,7 +40,7 @@ public class LeisurePaymentDto {
             .tid(leisurePayment.getTid())
             .paymentToken(leisurePayment.getPaymentToken())
             .status(leisurePayment.getStatus())
-            //.canceledAt(leisurePayment.getCanceledAt().toString())
+            .modifiedAt(leisurePayment.getModifiedAt().toString())
             .nextRedirectURL(nextRedirectURL)
             .approveURL(approveURL)
             .build();
@@ -58,7 +56,7 @@ public class LeisurePaymentDto {
             .tid(leisurePayment.getTid())
             .paymentToken(leisurePayment.getPaymentToken())
             .status(leisurePayment.getStatus())
-            //canceledAt(leisurePayment.getCanceledAt() == null ? null : leisurePayment.getCanceledAt().toString())
+            .modifiedAt(leisurePayment.getModifiedAt().toString())
             .build();
     }
 }

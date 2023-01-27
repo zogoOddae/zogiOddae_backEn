@@ -40,6 +40,4 @@ public class LeisurePayment extends BaseEntity {
 
 	@Enumerated(value = EnumType.STRING)
 	private PaymentStatus status;
-
-	private LocalDateTime canceledAt;
 }
