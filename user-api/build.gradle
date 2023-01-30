@@ -31,6 +31,10 @@ dependencies {
     implementation project(path: ':')
     implementation project(path: ':')
 
+    // RestTemplate
+    implementation 'org.apache.httpcomponents:httpcore:4.4.15'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
     compileOnly 'org.projectlombok:lombok'
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
     

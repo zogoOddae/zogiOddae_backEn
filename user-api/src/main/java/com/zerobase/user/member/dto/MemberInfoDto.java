@@ -1,8 +1,10 @@
 package com.zerobase.user.member.dto;
 
 
-import com.zerobase.type.MemberRole;
 import java.time.LocalDateTime;
+
+import com.zerobase.common.type.MemberRole;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
