@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.zerobase'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = "11"
 
 configurations {
     compileOnly {
@@ -28,6 +28,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.boot:spring-boot-devtools'
+    implementation project(path: ':')
+    implementation project(path: ':')
 
     // RestTemplate
     implementation 'org.apache.httpcomponents:httpcore:4.4.15'
@@ -51,3 +53,4 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+targetCompatibility = JavaVersion.VERSION_11

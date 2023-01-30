@@ -1,11 +1,10 @@
-package com.zerobase.user.member.service;
+package com.zerobase.notice.service;
 
-import com.zerobase.user.member.entity.Category;
-import com.zerobase.user.member.entity.Comment;
 import com.zerobase.user.member.entity.Member;
 import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
+import org.hibernate.annotations.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentService extends JpaRepository<Comment, Long> {

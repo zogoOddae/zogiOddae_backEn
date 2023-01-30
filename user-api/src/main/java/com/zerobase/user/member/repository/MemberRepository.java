@@ -1,6 +1,7 @@
 package com.zerobase.user.member.repository;
 
 import com.zerobase.common.type.MemberPlatform;
+import com.zerobase.common.type.MemberRole;
 import com.zerobase.user.member.entity.Member;
 import java.util.List;
 import java.util.Optional;

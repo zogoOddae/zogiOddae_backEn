@@ -2,8 +2,7 @@ package com.zerobase.user.member.repository;
 
 import com.zerobase.user.member.entity.Category;
 import com.zerobase.user.member.entity.Member;
-import com.zerobase.user.member.entity.Notice;
-import java.awt.print.Pageable;
+import com.zerobase.notice.entity.Notice;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
